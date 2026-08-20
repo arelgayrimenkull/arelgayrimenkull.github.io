@@ -1,924 +1,647 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AREL GAYRİMENKUL | Canlı Borsa & VIP Hizmetler</title>
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AREL GAYRİMENKUL | Canlı Borsa & VIP Hizmetler</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-  <style>
-    :root {
-      --bg-dark: #0d0f12;
-      --card-bg: rgba(18, 22, 28, 0.94);
-      --neon-gold: #f5c518;
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
-      --border-color: rgba(245, 197, 24, 0.3);
-      --cyan-btn: #00e5ff;
-      --up-green: #10b981;
-      --down-red: #ef4444;
-    }
+  <style>
+    :root {
+      --bg-dark: #0d0f12;
+      --card-bg: rgba(18, 22, 28, 0.94);
+      --neon-gold: #f5c518;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-color: rgba(245, 197, 24, 0.3);
+      --cyan-btn: #00e5ff;
+      --up-green: #10b981;
+      --down-red: #ef4444;
+    }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
 
-    body {
-      min-height: 100vh;
-      background-color: #0d0f12 !important;
-      background-image: linear-gradient(180deg, rgba(10, 12, 16, 0.88) 0%, rgba(10, 12, 16, 0.96) 100%), 
-                        url('https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1920&auto=format&fit=crop') !important;
-      background-size: cover !important;
-      background-position: center !important;
-      background-attachment: fixed !important;
-      color: var(--text-main);
-      padding-bottom: 90px;
-    }
+    body {
+      min-height: 100vh;
+      background-color: #0d0f12 !important;
+      background-image: linear-gradient(180deg, rgba(10, 12, 16, 0.88) 0%, rgba(10, 12, 16, 0.96) 100%), 
+                        url('https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1920&auto=format&fit=crop') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      background-attachment: fixed !important;
+      color: var(--text-main);
+      padding-bottom: 90px;
+    }
 
-    .ticker-bar {
-      background: #06080a;
-      border-bottom: 1px solid var(--border-color);
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 10px 0;
-      position: sticky;
-      top: 0;
-      z-index: 101;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
+    .ticker-bar {
+      background: #06080a;
+      border-bottom: 1px solid var(--border-color);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 10px 0;
+      position: sticky;
+      top: 0;
+      z-index: 101;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
 
-    .ticker-track {
-      display: inline-block;
-      animation: marquee 35s linear infinite;
-    }
+    .ticker-track {
+      display: inline-block;
+      animation: marquee 35s linear infinite;
+    }
 
-    .ticker-track:hover { animation-play-state: paused; }
+    .ticker-track:hover { animation-play-state: paused; }
 
-    .ticker-card {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0 20px;
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 0.85rem;
-    }
+    .ticker-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 20px;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+    }
 
-    .ticker-title { font-weight: 800; color: #fff; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.5px; }
-    .ticker-val { font-weight: 800; font-size: 0.95rem; }
-    .ticker-change { font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 2px; }
+    .ticker-title { font-weight: 800; color: #fff; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.5px; }
+    .ticker-val { font-weight: 800; font-size: 0.95rem; }
+    .ticker-change { font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 2px; }
 
-    .up { color: var(--up-green); }
-    .down { color: var(--down-red); }
+    .up { color: var(--up-green); }
+    .down { color: var(--down-red); }
 
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
 
-    header {
-      background: rgba(15, 18, 22, 0.96);
-      border-bottom: 1px solid var(--border-color);
-      backdrop-filter: blur(12px);
-      padding: 12px 5%;
-    }
+    header {
+      background: rgba(15, 18, 22, 0.96);
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(12px);
+      padding: 12px 5%;
+    }
 
-    .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
-    .brand-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-    .brand-icon {
-      background: var(--neon-gold); color: #000; width: 40px; height: 40px;
-      border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
-    }
-    .brand-title { font-size: 1.25rem; font-weight: 800; color: var(--neon-gold); }
+    .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+    .brand-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .brand-icon {
+      background: var(--neon-gold); color: #000; width: 40px; height: 40px;
+      border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+    }
+    .brand-title { font-size: 1.25rem; font-weight: 800; color: var(--neon-gold); }
 
-    .drawer-toggle-btn {
-      background: rgba(245, 197, 24, 0.15); border: 1px solid var(--neon-gold);
-      color: var(--neon-gold); padding: 8px 16px; border-radius: 10px; font-weight: 700; cursor: pointer;
-      display: flex; align-items: center; gap: 8px;
-    }
+    .drawer-toggle-btn {
+      background: rgba(245, 197, 24, 0.15); border: 1px solid var(--neon-gold);
+      color: var(--neon-gold); padding: 8px 16px; border-radius: 10px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+    }
 
-    .drawer-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7); z-index: 999; display: none; opacity: 0; transition: 0.3s;
-    }
-    .drawer-overlay.active { display: block; opacity: 1; }
+    .drawer-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7); z-index: 999; display: none; opacity: 0; transition: 0.3s;
+    }
+    .drawer-overlay.active { display: block; opacity: 1; }
 
-    .drawer {
-      position: fixed; top: 0; right: -380px; width: 340px; height: 100%;
-      background: #10141d; border-left: 2px solid var(--neon-gold);
-      z-index: 1000; transition: 0.3s ease; padding: 25px; display: flex; flex-direction: column; gap: 20px;
-    }
-    .drawer.active { right: 0; }
-    .drawer-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+    .drawer {
+      position: fixed; top: 0; right: -380px; width: 340px; height: 100%;
+      background: #10141d; border-left: 2px solid var(--neon-gold);
+      z-index: 1000; transition: 0.3s ease; padding: 25px; display: flex; flex-direction: column; gap: 20px;
+    }
+    .drawer.active { right: 0; }
+    .drawer-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
 
-    .container { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
-    .search-row { display: flex; gap: 12px; margin-bottom: 20px; }
-    .search-input-box {
-      flex: 1; background: var(--card-bg); border: 1px solid var(--border-color);
-      border-radius: 12px; display: flex; align-items: center; padding: 0 15px;
-    }
-    .search-input-box input {
-      width: 100%; background: transparent; border: none; outline: none; color: #fff; padding: 14px 0; font-size: 0.95rem;
-    }
+    .container { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
+    .search-row { display: flex; gap: 12px; margin-bottom: 20px; }
+    .search-input-box {
+      flex: 1; background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: 12px; display: flex; align-items: center; padding: 0 15px;
+    }
+    .search-input-box input {
+      width: 100%; background: transparent; border: none; outline: none; color: #fff; padding: 14px 0; font-size: 0.95rem;
+    }
 
-    .action-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px;
-    }
+    .action-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px;
+    }
 
-    @media (max-width: 900px) { .action-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 900px) { .action-grid { grid-template-columns: repeat(2, 1fr); } }
 
-    .grid-btn {
-      background: var(--card-bg); border: 1px solid var(--border-color);
-      border-radius: 14px; padding: 16px 10px; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: 0.25s;
-    }
-    .grid-btn:hover { background: rgba(245, 197, 24, 0.15); border-color: var(--neon-gold); transform: translateY(-2px); }
-    .grid-btn i { font-size: 1.4rem; color: var(--neon-gold); }
-    .grid-btn span { font-size: 0.82rem; font-weight: 700; color: #fff; text-align: center; }
-    .grid-btn.highlight { background: rgba(245, 197, 24, 0.12); border-color: var(--neon-gold); }
+    .grid-btn {
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: 14px; padding: 16px 10px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: 0.25s;
+    }
+    .grid-btn:hover { background: rgba(245, 197, 24, 0.15); border-color: var(--neon-gold); transform: translateY(-2px); }
+    .grid-btn i { font-size: 1.4rem; color: var(--neon-gold); }
+    .grid-btn span { font-size: 0.82rem; font-weight: 700; color: #fff; text-align: center; }
+    .grid-btn.highlight { background: rgba(245, 197, 24, 0.12); border-color: var(--neon-gold); }
 
-    .listings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-    .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; position: relative; }
-    .card-img-wrapper { position: relative; height: 200px; cursor: pointer; }
-    .card-img { width: 100%; height: 100%; object-fit: cover; }
-    .fav-btn {
-      position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); border: 1px solid var(--neon-gold);
-      color: #fff; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: 0.2s;
-    }
-    .fav-btn.active { color: #ef4444; background: rgba(255,255,255,0.9); }
-    .card-body { padding: 15px; }
-    .card-price { font-size: 1.25rem; font-weight: 800; color: var(--neon-gold); margin-bottom: 4px; }
-    .card-title { font-size: 0.92rem; font-weight: 700; margin-bottom: 8px; cursor: pointer; color: #fff; }
-    .card-location { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; }
+    .listings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+    .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; position: relative; }
+    .card-img-wrapper { position: relative; height: 200px; cursor: pointer; }
+    .card-img { width: 100%; height: 100%; object-fit: cover; }
+    .fav-btn {
+      position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); border: 1px solid var(--neon-gold);
+      color: #fff; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: 0.2s;
+    }
+    .fav-btn.active { color: #ef4444; background: rgba(255,255,255,0.9); }
+    .card-body { padding: 15px; }
+    .card-price { font-size: 1.25rem; font-weight: 800; color: var(--neon-gold); margin-bottom: 4px; }
+    .card-title { font-size: 0.92rem; font-weight: 700; margin-bottom: 8px; cursor: pointer; color: #fff; }
+    .card-location { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; }
 
-    .card-actions { display: flex; gap: 8px; }
-    .card-actions button, .card-actions a {
-      flex: 1; padding: 10px 0; text-align: center; border-radius: 8px;
-      font-size: 0.8rem; font-weight: 700; cursor: pointer; text-decoration: none; border: none;
-    }
-    .btn-detail { background: rgba(0, 229, 255, 0.15); color: var(--cyan-btn); border: 1px solid var(--cyan-btn) !important; }
-    .btn-whatsapp { background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; gap: 5px; }
+    .card-actions { display: flex; gap: 8px; }
+    .card-actions button, .card-actions a {
+      flex: 1; padding: 10px 0; text-align: center; border-radius: 8px;
+      font-size: 0.8rem; font-weight: 700; cursor: pointer; text-decoration: none; border: none;
+    }
+    .btn-detail { background: rgba(0, 229, 255, 0.15); color: var(--cyan-btn); border: 1px solid var(--cyan-btn) !important; }
+    .btn-whatsapp { background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
-    /* MODAL STYLES (Z-INDEX KONTROLÜ İLE KESİN AÇILMA) */
-    .modal {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.88); z-index: 99999; align-items: center; justify-content: center; padding: 20px;
-    }
-    .modal.active { display: flex !important; }
-    .modal-card {
-      background: #12161f; border: 1px solid var(--neon-gold); width: 100%; max-width: 600px;
-      border-radius: 18px; padding: 22px; position: relative; max-height: 90vh; overflow-y: auto;
-    }
-    .modal-card.wide-modal { max-width: 950px; }
-    .modal-close { position: absolute; top: 15px; right: 15px; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; z-index: 10; }
+    .modal {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.88); z-index: 1000; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal.active { display: flex; }
+    .modal-card {
+      background: #12161f; border: 1px solid var(--neon-gold); width: 100%; max-width: 600px;
+      border-radius: 18px; padding: 22px; position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    .modal-card.wide-modal { max-width: 950px; }
+    .modal-close { position: absolute; top: 15px; right: 15px; color: var(--text-muted); font-size: 1.3rem; cursor: pointer; z-index: 10; }
 
-    .form-input {
-      width: 100%; padding: 10px; background: #000; border: 1px solid var(--border-color);
-      color: #fff; border-radius: 8px; margin-bottom: 12px; outline: none;
-    }
-    .form-label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
+    .form-input {
+      width: 100%; padding: 10px; background: #000; border: 1px solid var(--border-color);
+      color: #fff; border-radius: 8px; margin-bottom: 12px; outline: none;
+    }
+    .form-label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
 
-    .detail-container { display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; }
-    @media (max-width: 800px) { .detail-container { grid-template-columns: 1fr; } }
+    .detail-container {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 800px) { .detail-container { grid-template-columns: 1fr; } }
 
-    .main-img-box {
-      width: 100%; height: 320px; border-radius: 10px; overflow: hidden;
-      border: 1px solid var(--border-color); margin-bottom: 10px; background: #000;
-    }
-    .main-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    .main-img-box {
+      width: 100%; height: 320px; border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--border-color); margin-bottom: 10px; background: #000;
+    }
+    .main-img-box img { width: 100%; height: 100%; object-fit: cover; }
 
-    .property-specs-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
-    .property-specs-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-    .property-specs-table td { padding: 7px 4px; }
-    .property-specs-table td.label-col { color: #fff; font-weight: 700; width: 45%; }
-    .property-specs-table td.val-col { color: var(--text-muted); }
-    .property-specs-table td.val-highlight { color: #ef4444; font-weight: 800; }
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
+    }
+    .gallery-thumb {
+      height: 55px; border-radius: 6px; overflow: hidden; cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.2); opacity: 0.7; transition: 0.2s;
+    }
+    .gallery-thumb:hover, .gallery-thumb.active { opacity: 1; border-color: var(--neon-gold); }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-    .image-preview-wrapper { position: relative; margin-bottom: 10px; display: none; }
-    .image-preview-wrapper img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 12px; border: 1px solid var(--neon-gold); }
-    .remove-img-btn { position: absolute; top: 8px; right: 8px; background: rgba(239, 68, 68, 0.9); color: #fff; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-weight: bold; }
-    .ai-chat-box { background: #080a0d; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; min-height: 220px; max-height: 320px; overflow-y: auto; margin-bottom: 12px; display: flex; flex-direction: column; gap: 10px; }
-    .ai-msg { background: rgba(245, 197, 24, 0.1); border-left: 3px solid var(--neon-gold); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; color: #fff; }
-    .user-msg { background: rgba(0, 229, 255, 0.1); border-right: 3px solid var(--cyan-btn); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; text-align: right; color: #fff; }
+    .property-specs-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+    .property-specs-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .property-specs-table td { padding: 7px 4px; }
+    .property-specs-table td.label-col { color: #fff; font-weight: 700; width: 45%; }
+    .property-specs-table td.val-col { color: var(--text-muted); }
+    .property-specs-table td.val-highlight { color: #ef4444; font-weight: 800; }
 
-    .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #000; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 8px; }
-    .btn-delete { background: #ef4444; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .image-preview-wrapper { position: relative; margin-bottom: 10px; display: none; }
+    .image-preview-wrapper img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 12px; border: 1px solid var(--neon-gold); }
+    .remove-img-btn { position: absolute; top: 8px; right: 8px; background: rgba(239, 68, 68, 0.9); color: #fff; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-weight: bold; }
+    .ai-chat-box { background: #080a0d; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; min-height: 220px; max-height: 320px; overflow-y: auto; margin-bottom: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .ai-msg { background: rgba(245, 197, 24, 0.1); border-left: 3px solid var(--neon-gold); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; color: #fff; }
+    .user-msg { background: rgba(0, 229, 255, 0.1); border-right: 3px solid var(--cyan-btn); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; text-align: right; color: #fff; }
 
-    .bottom-bar {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: rgba(15, 18, 22, 0.98); border-top: 1px solid var(--border-color);
-      display: flex; justify-content: space-around; align-items: center; padding: 10px 0; z-index: 99;
-    }
-    .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; flex: 1; font-size: 0.8rem; }
-    .nav-tab.active { color: var(--neon-gold); font-weight: 700; }
+    .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #000; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 8px; }
+    .btn-delete { background: #ef4444; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
 
-    .loading-text { grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 1rem; }
-  </style>
+    .bottom-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(15, 18, 22, 0.98); border-top: 1px solid var(--border-color);
+      display: flex; justify-content: space-around; align-items: center; padding: 10px 0; z-index: 99;
+    }
+    .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; flex: 1; font-size: 0.8rem; }
+    .nav-tab.active { color: var(--neon-gold); font-weight: 700; }
+
+    .loading-text {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--text-muted);
+      padding: 40px 0;
+      font-size: 1rem;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- CANLI FİNANS BANDI -->
-  <div class="ticker-bar">
-    <div class="ticker-track" id="tickerTrack">
-      <div class="ticker-card"><span class="ticker-title">CANLI VERİLER YÜKLENİYOR...</span></div>
-    </div>
-  </div>
-
-  <!-- HEADER -->
-  <header>
-    <div class="navbar">
-      <div class="brand-logo" onclick="switchTab('home')">
-        <div class="brand-icon"><i class="fa-solid fa-city"></i></div>
-        <div class="brand-title">AREL GAYRİMENKUL</div>
-      </div>
-      
-      <button class="drawer-toggle-btn" onclick="toggleDrawer(true)">
-        <i class="fa-solid fa-bars-staggered"></i> Kurumsal & İletişim
-      </button>
-    </div>
-  </header>
-
-  <!-- ÇEKMECE MENU -->
-  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer(false)"></div>
-  <div class="drawer" id="drawerMenu">
-    <div class="drawer-header">
-      <h3 style="color:var(--neon-gold);"><i class="fa-solid fa-store"></i> Ofis & İletişim</h3>
-      <span class="drawer-close" style="cursor:pointer;" onclick="toggleDrawer(false)">&times;</span>
-    </div>
-
-    <div>
-      <h4 style="color:#fff;">Eren Özertaş</h4>
-      <p style="color:var(--neon-gold); font-weight:700; font-size:0.85rem;">AREL Gayrimenkul Danışmanlık</p>
-    </div>
-
-    <div style="background:#000; border:1px solid var(--border-color); padding:15px; border-radius:12px;">
-      <strong style="color:var(--neon-gold); display:block; margin-bottom:6px;"><i class="fa-solid fa-location-dot"></i> Ofis Adresi:</strong>
-      <p style="font-size:0.85rem; color:#fff; line-height:1.4;">
-        Fırat Mh. Abdulkadir Aksu Caddesi Karayıl Paradise Evleri Altı No: 35BC, Kayapınar / Diyarbakır
-      </p>
-    </div>
-
-    <div style="background:#000; border:1px solid var(--border-color); padding:15px; border-radius:12px;">
-      <strong style="color:var(--neon-gold); display:block; margin-bottom:6px;"><i class="fa-solid fa-phone"></i> İletişim Hattı:</strong>
-      <p style="font-size:0.95rem; color:#fff; font-weight:800;">+90 (506) 052 86 21</p>
-    </div>
-
-    <a href="https://wa.me/905060528621" target="_blank" style="background:#25D366; color:#fff; text-align:center; padding:12px; border-radius:10px; font-weight:800; text-decoration:none; margin-top:auto;">
-      <i class="fa-brands fa-whatsapp"></i> Doğrudan Mesaj Gönder
-    </a>
-  </div>
-
-  <div class="container">
-    <div class="search-row">
-      <div class="search-input-box">
-        <i class="fa-solid fa-magnifying-glass" style="color:var(--neon-gold); margin-right:10px;"></i>
-        <input type="text" id="searchInput" onkeyup="renderListings()" placeholder="Kayapınar, Diclekent, Mezopotamya 3+1 ara...">
-      </div>
-    </div>
-
-    <!-- HİZMETLER GRID (TÜM BUTONLAR MODALLARA DOĞRU BAĞLANDI) -->
-    <div class="action-grid">
-      <div class="grid-btn highlight" onclick="openModal('arelAiModal')">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <span>AREL AI Akıllı Danışman</span>
-      </div>
-
-      <div class="grid-btn" onclick="openModal('addPropertyModal')">
-        <i class="fa-solid fa-house-medical"></i>
-        <span>Mülkünü Sat / Kirala</span>
-      </div>
-
-      <div class="grid-btn" onclick="openModal('tapuModal')">
-        <i class="fa-solid fa-map-location-dot"></i>
-        <span>Tapu & TKGM Parsel</span>
-      </div>
-
-      <div class="grid-btn" onclick="openModal('rentCalcModal')">
-        <i class="fa-solid fa-calculator"></i>
-        <span>Kira & Amortisman</span>
-      </div>
-
-      <div class="grid-btn" onclick="openModal('appointModal')">
-        <i class="fa-solid fa-calendar-check"></i>
-        <span>VIP Ofis Randevusu</span>
-      </div>
-
-      <div class="grid-btn" onclick="openModal('creditModal')">
-        <i class="fa-solid fa-percent"></i>
-        <span>Konut Kredisi Analizi</span>
-      </div>
-
-      <div class="grid-btn" onclick="openModal('investModal')">
-        <i class="fa-solid fa-chart-line"></i>
-        <span>Yatırım Danışmanlığı</span>
-      </div>
-
-      <div class="grid-btn" onclick="openPrivateAdmin()">
-        <i class="fa-solid fa-user-gear"></i>
-        <span>Yönetici Paneli</span>
-      </div>
-    </div>
-
-    <!-- İLAN LİSTESİ -->
-    <h3 id="sectionTitle" style="color:var(--neon-gold); margin-bottom:15px;">Diyarbakır Güncel Portföyleri</h3>
-    <div class="listings-grid" id="listingList">
-      <div class="loading-text">İlanlar yükleniyor...</div>
-    </div>
-  </div>
-
-  <!-- --- MODALLAR --- -->
-
-  <!-- 1. İLAN DETAY MODALI -->
-  <div class="modal" id="propertyDetailModal">
-    <div class="modal-card wide-modal">
-      <span class="modal-close" onclick="closeModal('propertyDetailModal')">&times;</span>
-      
-      <div style="color: #00e5ff; font-weight: 700; font-size: 0.95rem; margin-bottom: 12px;" id="detHeaderLocation">
-        Diyarbakır / Kayapınar / Mezopotamya Mh.
-      </div>
-
-      <div class="detail-container">
-        <div>
-          <div class="main-img-box">
-            <img id="detMainImg" src="" alt="Daire Görseli">
-          </div>
-        </div>
-
-        <div>
-          <table class="property-specs-table">
-            <tr>
-              <td class="label-col">İlan No</td>
-              <td class="val-col val-highlight" id="detId">-</td>
-            </tr>
-            <tr>
-              <td class="label-col">İlan Tarihi</td>
-              <td class="val-col" id="detDate">-</td>
-            </tr>
-            <tr>
-              <td class="label-col">Emlak Tipi</td>
-              <td class="val-col">Satılık Daire</td>
-            </tr>
-            <tr>
-              <td class="label-col">m² (Brüt)</td>
-              <td class="val-col" id="detGross">-</td>
-            </tr>
-            <tr>
-              <td class="label-col">m² (Net)</td>
-              <td class="val-col" id="detNet">-</td>
-            </tr>
-            <tr>
-              <td class="label-col">Oda Sayısı</td>
-              <td class="val-col" id="detRooms">-</td>
-            </tr>
-            <tr>
-              <td class="label-col">Bina Yaşı</td>
-              <td class="val-col">0 (Oturuma Hazır)</td>
-            </tr>
-            <tr>
-              <td class="label-col">Isıtma</td>
-              <td class="val-col">Merkezi</td>
-            </tr>
-            <tr>
-              <td class="label-col">Krediye Uygun</td>
-              <td class="val-col">Evet</td>
-            </tr>
-          </table>
-
-          <div style="margin-top: 15px; display: flex; gap: 10px;">
-            <a id="detWaBtn" href="#" target="_blank" class="btn-whatsapp" style="padding: 12px; border-radius: 8px; flex: 1; text-align: center; text-decoration: none; font-weight: 800;">
-              <i class="fa-brands fa-whatsapp"></i> Eren Özertaş'a Yaz
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 2. AREL AI CANLI SOHBET MODALI -->
-  <div class="modal" id="arelAiModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('arelAiModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-sparkles"></i> AREL AI Danışmanınız</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Gayrimenkul ve piyasalar hakkında soru sorabilirsiniz.</p>
-
-      <div class="ai-chat-box" id="aiChatBox">
-        <div class="ai-msg">
-          <strong>AREL AI:</strong> Selamlar! Ben AREL AI. Bana gayrimenkul, piyasalar veya lokasyonlar hakkında soru sorabilirsiniz.
-        </div>
-      </div>
-
-      <div class="image-preview-wrapper" id="imgPreviewWrapper">
-        <button class="remove-img-btn" onclick="removeSelectedImage()">✕</button>
-        <img id="imgPreview" src="" alt="Yüklenen Görsel">
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:8px;">
-        <textarea id="aiUserInput" class="form-input" rows="2" placeholder="Sorunuzu yazın..." style="margin-bottom:0; resize:none;"></textarea>
-        
-        <div style="display:flex; gap:8px;">
-          <button type="button" onclick="document.getElementById('aiFileInput').click()" style="background:rgba(245, 197, 24, 0.15); border:1px solid var(--neon-gold); color:var(--neon-gold); padding:10px 14px; border-radius:8px; cursor:pointer;" title="Fotoğraf Ekle">
-            <i class="fa-solid fa-paperclip"></i>
-          </button>
-          <input type="file" id="aiFileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
-
-          <button type="button" onclick="processArelAI()" style="flex:1; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; cursor:pointer; color:#000; font-weight:800;">
-            <i class="fa-solid fa-paper-plane"></i> Gönder
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 3. MÜLKÜNÜ SAT / KİRALA MODALI -->
-  <div class="modal" id="addPropertyModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('addPropertyModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-house-medical"></i> Mülkünü Sat / Kirala</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Mülkünüzün bilgilerini iletin, AREL Gayrimenkul güvencesiyle pazarlayalım.</p>
-      
-      <form onsubmit="submitAddProperty(event)">
-        <input type="text" id="propOwnerName" class="form-input" placeholder="Adınız Soyadınız" required>
-        <input type="tel" id="propOwnerPhone" class="form-input" placeholder="Telefon Numaranız" required>
-        <input type="text" id="propPrice" class="form-input" placeholder="İstediğiniz Fiyat (TL)" required>
-        <input type="text" id="propAddress" class="form-input" placeholder="Konum (İlçe / Mahalle / Site)" required>
-        <textarea id="propNote" class="form-input" rows="3" placeholder="Ekstra detaylar..."></textarea>
-        
-        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">
-          <i class="fa-brands fa-whatsapp"></i> Eren Özertaş'a İlet
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- 4. TAPU MODALI -->
-  <div class="modal" id="tapuModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('tapuModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-map-location-dot"></i> Tapu & Parsel Sorgulama</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">TKGM Parsel Sorgu servisi üzerinden resmi harita ve ada/parsel detaylarına ulaşabilirsiniz.</p>
-      <button onclick="window.open('https://parselsorgu.tkgm.gov.tr/', '_blank')" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000; margin-top:10px;">TKGM Sistemine Git</button>
-    </div>
-  </div>
-
-  <!-- 5. KİRA & AMORTİSMAN HESAPLAYICI -->
-  <div class="modal" id="rentCalcModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('rentCalcModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-calculator"></i> Kira & Amortisman Hesaplayıcı</h3>
-      <input type="number" id="propValInput" placeholder="Mülk Değeri (TL)" class="form-input" oninput="runDetailedRentCalc()">
-      <input type="number" id="rentValInput" placeholder="Aylık Kira Geliri (TL)" class="form-input" oninput="runDetailedRentCalc()">
-      <div style="background: rgba(245, 197, 24, 0.08); border: 1px dashed var(--neon-gold); padding: 15px; border-radius: 10px; margin-top:10px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span style="color:var(--text-muted);">Yıllık Toplam Kira:</span><strong id="annualRentRes" style="color:#fff;">0 TL</strong></div>
-        <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Amortisman (Geri Dönüş):</span><strong id="amortRes" style="color:var(--neon-gold);">0 Yıl</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 6. VIP RANDEVU MODALI -->
-  <div class="modal" id="appointModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('appointModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-calendar-check"></i> VIP Ofis Randevu Talebi</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Size uygun gün ve saati seçin, randevunuzu oluşturalım.</p>
-      
-      <form onsubmit="submitAppointment(event)">
-        <label class="form-label">Adınız Soyadınız *</label>
-        <input type="text" id="appOwnerName" class="form-input" placeholder="Ad Soyad" required>
-        
-        <label class="form-label">Telefon Numaranız *</label>
-        <input type="tel" id="appOwnerPhone" class="form-input" placeholder="05XX XXX XX XX" required>
-        
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-          <div>
-            <label class="form-label"><i class="fa-solid fa-calendar-days"></i> Tarih *</label>
-            <input type="date" id="appDate" class="form-input" required>
-          </div>
-          <div>
-            <label class="form-label"><i class="fa-solid fa-clock"></i> Saat *</label>
-            <input type="time" id="appTime" class="form-input" required>
-          </div>
-        </div>
-
-        <label class="form-label">Not (İsteğe Bağlı)</label>
-        <textarea id="appNote" class="form-input" rows="2" placeholder="Örn: Daire alımı hakkında bilgi almak istiyorum."></textarea>
-
-        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000; margin-top:5px;">
-          <i class="fa-brands fa-whatsapp"></i> Randevu Talebini Gönder
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- 7. KREDİ HESAPLAMA MODALI -->
-  <div class="modal" id="creditModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('creditModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-percent"></i> Konut Kredisi Analizi</h3>
-      <input type="number" id="creditAmount" placeholder="Kredi Tutarı (TL)" class="form-input" oninput="calcCredit()">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-        <input type="number" id="creditRate" placeholder="Aylık Faiz % (3.05)" class="form-input" value="3.05" step="0.01" oninput="calcCredit()">
-        <input type="number" id="creditMonth" placeholder="Vade (Ay)" class="form-input" value="120" oninput="calcCredit()">
-      </div>
-      <div style="background: rgba(245, 197, 24, 0.08); border: 1px dashed var(--neon-gold); padding: 15px; border-radius: 10px; margin-top:10px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span style="color:var(--text-muted);">Tahmini Taksit:</span><strong id="creditMonthlyRes" style="color:var(--cyan-btn);">0 TL</strong></div>
-        <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Toplam Geri Ödeme:</span><strong id="creditTotalRes" style="color:var(--neon-gold);">0 TL</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 8. YATIRIM DANIŞMANLIĞI MODALI -->
-  <div class="modal" id="investModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('investModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-chart-line"></i> Özel Yatırım Danışmanlığı</h3>
-      <form onsubmit="submitInvest(event)">
-        <input type="text" id="invName" class="form-input" placeholder="Adınız Soyadınız" required>
-        <input type="tel" id="invPhone" class="form-input" placeholder="Telefon Numaranız" required>
-        <input type="text" id="invBudget" class="form-input" placeholder="Yatırım Bütçeniz (TL)" required>
-        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">Yatırım Danışmanlığı İste</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- 9. YÖNETİCİ PANELİ MODALI -->
-  <div class="modal" id="adminModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('adminModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-user-shield"></i> YÖNETİCİ PANELİ</h3>
-      
-      <form onsubmit="adminAddNewProperty(event)" style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">
-        <h4 style="color:#fff; margin-bottom:10px;">+ Yeni İlan Ekle</h4>
-        <input type="text" id="admTitle" class="form-input" placeholder="İlan Başlığı" required>
-        <input type="text" id="admPrice" class="form-input" placeholder="Fiyat (Örn: 12.500.000 TL)" required>
-        <input type="text" id="admLocation" class="form-input" placeholder="Konum" required>
-        <input type="url" id="admImage" class="form-input" placeholder="Fotoğraf URL Bağlantısı" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" required>
-        <button type="submit" style="width:100%; padding:10px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">
-          <i class="fa-solid fa-plus"></i> İlanı Yayınla
-        </button>
-      </form>
-
-      <h4 style="color:#fff; margin-bottom:10px;">Mevcut İlanlar</h4>
-      <div id="adminListingManageList"></div>
-    </div>
-  </div>
-
-  <!-- ALT GEZİNME BARİ -->
-  <div class="bottom-bar">
-    <div class="nav-tab active" id="tabHome" onclick="switchTab('home')">
-      <i class="fa-solid fa-layer-group" style="font-size:1.2rem;"></i>
-      <span>Tüm İlanlar</span>
-    </div>
-    <div class="nav-tab" id="tabFavs" onclick="switchTab('favs')">
-      <i class="fa-solid fa-heart" style="font-size:1.2rem; color:#ef4444;"></i>
-      <span>Favorilerim</span>
-    </div>
-    <div class="nav-tab" onclick="openWhatsAppDirect()">
-      <i class="fa-brands fa-whatsapp" style="font-size:1.3rem; color:#25d366;"></i>
-      <span>Eren Özertaş</span>
-    </div>
-  </div>
-
-  <!-- JAVASCRIPT KODLARI -->
-  <script>
-    let listings = [
-      {
-        id: "ARL-101",
-        title: "KAYAPINAR DİCLEKENT 3+1 LÜKS DAİRE",
-        price: "4.250.000 TL",
-        location: "Diyarbakır / Kayapınar / Diclekent Mh.",
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
-        gross: "185 m²",
-        net: "165 m²",
-        rooms: "3+1",
-        date: "20.08.2026"
-      },
-      {
-        id: "ARL-102",
-        title: "MEZOPOTAMYA SİTE İÇİ 4+1 PREMİUM DAİRE",
-        price: "5.800.000 TL",
-        location: "Diyarbakır / Kayapınar / Mezopotamya Mh.",
-        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop",
-        gross: "220 m²",
-        net: "195 m²",
-        rooms: "4+1",
-        date: "20.08.2026"
-      }
-    ];
-
-    let favorites = JSON.parse(localStorage.getItem('arel_favs') || '[]');
-    let currentTab = 'home';
-
-    window.onload = function() {
-      initTicker();
-      renderListings();
-    };
-
-    // MODAL AÇMA/KAPAMA FONKSİYONLARI (GARANTİLİ ÇALIŞIR)
-    function openModal(id) {
-      const targetModal = document.getElementById(id);
-      if(targetModal) {
-        targetModal.classList.add('active');
-      } else {
-        console.error("Bulunamayan Modal ID:", id);
-      }
-    }
-
-    function closeModal(id) {
-      const targetModal = document.getElementById(id);
-      if(targetModal) {
-        targetModal.classList.remove('active');
-      }
-    }
-
-    function toggleDrawer(open) {
-      const drawer = document.getElementById('drawerMenu');
-      const overlay = document.getElementById('drawerOverlay');
-      if (open) {
-        drawer.classList.add('active');
-        overlay.classList.add('active');
-      } else {
-        drawer.classList.remove('active');
-        overlay.classList.remove('active');
-      }
-    }
-
-    function renderListings() {
-      const grid = document.getElementById('listingList');
-      const searchVal = document.getElementById('searchInput').value.toLowerCase();
-      grid.innerHTML = '';
-
-      let filtered = listings.filter(item => {
-        const matchesSearch = item.title.toLowerCase().includes(searchVal) || 
-                              item.location.toLowerCase().includes(searchVal);
-        if (currentTab === 'favs') {
-          return matchesSearch && favorites.includes(item.id);
-        }
-        return matchesSearch;
-      });
-
-      if (filtered.length === 0) {
-        grid.innerHTML = `<div class="loading-text">Aradığınız kriterlere uygun ilan bulunamadı.</div>`;
-        return;
-      }
-
-      filtered.forEach(item => {
-        const isFav = favorites.includes(item.id);
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="card-img-wrapper" onclick="openDetailModal('${item.id}')">
-            <img class="card-img" src="${item.image}" alt="${item.title}">
-            <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav(event, '${item.id}')">
-              <i class="fa-solid fa-heart"></i>
-            </button>
-          </div>
-          <div class="card-body">
-            <div class="card-price">${item.price}</div>
-            <div class="card-title" onclick="openDetailModal('${item.id}')">${item.title}</div>
-            <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
-            <div class="card-actions">
-              <button class="btn-detail" onclick="openDetailModal('${item.id}')">Detayları Gör</button>
-              <a class="btn-whatsapp" href="https://wa.me/905060528621?text=${encodeURIComponent(item.title + ' hakkında bilgi almak istiyorum.')}" target="_blank">
-                <i class="fa-brands fa-whatsapp"></i> WhatsApp
-              </a>
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function toggleFav(e, id) {
-      e.stopPropagation();
-      if (favorites.includes(id)) {
-        favorites = favorites.filter(f => f !== id);
-      } else {
-        favorites.push(id);
-      }
-      localStorage.setItem('arel_favs', JSON.stringify(favorites));
-      renderListings();
-    }
-
-    function switchTab(tab) {
-      currentTab = tab;
-      document.getElementById('tabHome').classList.toggle('active', tab === 'home');
-      document.getElementById('tabFavs').classList.toggle('active', tab === 'favs');
-      
-      const titleEl = document.getElementById('sectionTitle');
-      titleEl.innerText = tab === 'favs' ? "Favori Portföylerim" : "Diyarbakır Güncel Portföyleri";
-      renderListings();
-    }
-
-    function openDetailModal(id) {
-      const item = listings.find(l => l.id === id);
-      if (!item) return;
-
-      document.getElementById('detHeaderLocation').innerText = item.location;
-      document.getElementById('detMainImg').src = item.image;
-      document.getElementById('detId').innerText = item.id;
-      document.getElementById('detDate').innerText = item.date || '20.08.2026';
-      document.getElementById('detGross').innerText = item.gross || '180 m²';
-      document.getElementById('detNet').innerText = item.net || '160 m²';
-      document.getElementById('detRooms').innerText = item.rooms || '3+1';
-      document.getElementById('detWaBtn').href = `https://wa.me/905060528621?text=${encodeURIComponent(item.title + ' (İlan No: ' + item.id + ') ile ilgileniyorum.')}`;
-
-      openModal('propertyDetailModal');
-    }
-
-    function openPrivateAdmin() {
-      const pass = prompt("Yönetici Parolasını Giriniz:");
-      if (pass === "1234" || pass === "arel") {
-        renderAdminManageList();
-        openModal('adminModal');
-      } else if (pass !== null) {
-        alert("Hatalı parola!");
-      }
-    }
-
-    function renderAdminManageList() {
-      const container = document.getElementById('adminListingManageList');
-      container.innerHTML = '';
-      listings.forEach(item => {
-        const row = document.createElement('div');
-        row.className = 'admin-item-row';
-        row.innerHTML = `
-          <div>
-            <strong style="color:#fff; font-size:0.85rem;">${item.title}</strong>
-            <div style="color:var(--neon-gold); font-size:0.78rem;">${item.price}</div>
-          </div>
-          <button class="btn-delete" onclick="deleteProperty('${item.id}')">Sil</button>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function adminAddNewProperty(e) {
-      e.preventDefault();
-      const newProp = {
-        id: "ARL-" + Math.floor(Math.random() * 1000),
-        title: document.getElementById('admTitle').value,
-        price: document.getElementById('admPrice').value,
-        location: document.getElementById('admLocation').value,
-        image: document.getElementById('admImage').value,
-        gross: "190 m²",
-        net: "170 m²",
-        rooms: "3+1",
-        date: new Date().toLocaleDateString('tr-TR')
-      };
-      listings.unshift(newProp);
-      alert("Yeni ilan eklendi!");
-      renderListings();
-      closeModal('adminModal');
-    }
-
-    function deleteProperty(id) {
-      if (confirm("Bu ilanı silmek istediğinize emin misiniz?")) {
-        listings = listings.filter(l => l.id !== id);
-        renderAdminManageList();
-        renderListings();
-      }
-    }
-
-    function calcCredit() {
-      const amount = parseFloat(document.getElementById('creditAmount').value) || 0;
-      const rate = (parseFloat(document.getElementById('creditRate').value) || 0) / 100;
-      const months = parseInt(document.getElementById('creditMonth').value) || 120;
-
-      if (amount <= 0 || rate <= 0) {
-        document.getElementById('creditMonthlyRes').innerText = "0 TL";
-        document.getElementById('creditTotalRes').innerText = "0 TL";
-        return;
-      }
-
-      const monthlyPayment = (amount * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
-      const totalPayment = monthlyPayment * months;
-
-      document.getElementById('creditMonthlyRes').innerText = monthlyPayment.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + " TL";
-      document.getElementById('creditTotalRes').innerText = totalPayment.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + " TL";
-    }
-
-    function runDetailedRentCalc() {
-      const propVal = parseFloat(document.getElementById('propValInput').value) || 0;
-      const rentVal = parseFloat(document.getElementById('rentValInput').value) || 0;
-      const annualRent = rentVal * 12;
-      const amort = annualRent > 0 ? (propVal / annualRent).toFixed(1) : 0;
-
-      document.getElementById('annualRentRes').innerText = annualRent.toLocaleString('tr-TR') + " TL";
-      document.getElementById('amortRes').innerText = amort + " Yıl";
-    }
-
-    function submitAppointment(e) {
-      e.preventDefault();
-      const name = document.getElementById('appOwnerName').value;
-      const phone = document.getElementById('appOwnerPhone').value;
-      const date = document.getElementById('appDate').value;
-      const time = document.getElementById('appTime').value;
-      const note = document.getElementById('appNote').value;
-
-      const msg = `Merhaba Eren Bey, Randevu Talebim:\nAd Soyad: ${name}\nTel: ${phone}\nTarih: ${date} Saat: ${time}\nNot: ${note}`;
-      window.open(`https://wa.me/905060528621?text=${encodeURIComponent(msg)}`, '_blank');
-      closeModal('appointModal');
-    }
-
-    function submitAddProperty(e) {
-      e.preventDefault();
-      const name = document.getElementById('propOwnerName').value;
-      const phone = document.getElementById('propOwnerPhone').value;
-      const price = document.getElementById('propPrice').value;
-      const address = document.getElementById('propAddress').value;
-      const note = document.getElementById('propNote').value;
-
-      const msg = `Merhaba AREL Gayrimenkul, Mülk Satış/Kiralama Talebi:\nAd Soyad: ${name}\nTel: ${phone}\nİstenen Fiyat: ${price}\nKonum: ${address}\nDetay: ${note}`;
-      window.open(`https://wa.me/905060528621?text=${encodeURIComponent(msg)}`, '_blank');
-      closeModal('addPropertyModal');
-    }
-
-    function submitInvest(e) {
-      e.preventDefault();
-      const name = document.getElementById('invName').value;
-      const phone = document.getElementById('invPhone').value;
-      const budget = document.getElementById('invBudget').value;
-
-      const msg = `Merhaba Eren Bey, Yatırım Danışmanlığı Talebi:\nAd Soyad: ${name}\nTel: ${phone}\nBütçe: ${budget}`;
-      window.open(`https://wa.me/905060528621?text=${encodeURIComponent(msg)}`, '_blank');
-      closeModal('investModal');
-    }
-
-    function openWhatsAppDirect() {
-      window.open('https://wa.me/905060528621', '_blank');
-    }
-
-    function handleImageUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('imgPreview').src = e.target.result;
-          document.getElementById('imgPreviewWrapper').style.display = 'block';
-        }
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function removeSelectedImage() {
-      document.getElementById('aiFileInput').value = "";
-      document.getElementById('imgPreview').src = "";
-      document.getElementById('imgPreviewWrapper').style.display = 'none';
-    }
-
-    function processArelAI() {
-      const input = document.getElementById('aiUserInput');
-      const text = input.value.trim();
-      const chatBox = document.getElementById('aiChatBox');
-
-      if (!text) return;
-
-      const userDiv = document.createElement('div');
-      userDiv.className = 'user-msg';
-      userDiv.innerText = text;
-      chatBox.appendChild(userDiv);
-
-      input.value = '';
-      removeSelectedImage();
-      chatBox.scrollTop = chatBox.scrollHeight;
-
-      setTimeout(() => {
-        const aiDiv = document.createElement('div');
-        aiDiv.className = 'ai-msg';
-        aiDiv.innerHTML = `<strong>AREL AI:</strong> Talebinizi aldım dostum! Diyarbakır gayrimenkul piyasasına göre hemen inceliyorum.`;
-        chatBox.appendChild(aiDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }, 800);
-    }
-
-    function initTicker() {
-      const track = document.getElementById('tickerTrack');
-      const data = [
-        { title: "USD/TRY", val: "32.85", change: "+0.15%", up: true },
-        { title: "EUR/TRY", val: "35.40", change: "-0.08%", up: false },
-        { title: "ALTIN/GRAM", val: "2.450 TL", change: "+0.42%", up: true },
-        { title: "BIST 100", val: "10.250", change: "+1.10%", up: true },
-        { title: "DİYARBAKIR KONUT ENDEKSİ", val: "%+3.2", change: "Aylık Yükseliş", up: true }
-      ];
-
-      let html = "";
-      [...data, ...data].forEach(item => {
-        html += `
-          <div class="ticker-card">
-            <span class="ticker-title">${item.title}</span>
-            <span class="ticker-val">${item.val}</span>
-            <span class="ticker-change ${item.up ? 'up' : 'down'}">
-              <i class="fa-solid fa-caret-${item.up ? 'up' : 'down'}"></i> ${item.change}
-            </span>
-          </div>
-        `;
-      });
-      track.innerHTML = html;
-    }
-  </script>
-</body>
-</html>
+  <!-- CANLI FİNANS BANDI -->
+  <div class="ticker-bar">
+    <div class="ticker-track" id="tickerTrack">
+      <div class="ticker-card"><span class="ticker-title">CANLI VERİLER YÜKLENİYOR...</span></div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="navbar">
+      <div class="brand-logo" onclick="switchTab('home')">
+        <div class="brand-icon"><i class="fa-solid fa-city"></i></div>
+        <div class="brand-title">AREL GAYRİMENKUL</div>
+      </div>
+      
+      <button class="drawer-toggle-btn" onclick="toggleDrawer(true)">
+        <i class="fa-solid fa-bars-staggered"></i> Kurumsal & İletişim
+      </button>
+    </div>
+  </header>
+
+  <!-- ÇEKMECE MENU -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer(false)"></div>
+  <div class="drawer" id="drawerMenu">
+    <div class="drawer-header">
+      <h3 style="color:var(--neon-gold);"><i class="fa-solid fa-store"></i> Ofis & İletişim</h3>
+      <span class="drawer-close" style="cursor:pointer;" onclick="toggleDrawer(false)">&times;</span>
+    </div>
+
+    <div>
+      <h4 style="color:#fff;">Eren Özertaş</h4>
+      <p style="color:var(--neon-gold); font-weight:700; font-size:0.85rem;">AREL Gayrimenkul Danışmanlık</p>
+    </div>
+
+    <div style="background:#000; border:1px solid var(--border-color); padding:15px; border-radius:12px;">
+      <strong style="color:var(--neon-gold); display:block; margin-bottom:6px;"><i class="fa-solid fa-location-dot"></i> Ofis Adresi:</strong>
+      <p style="font-size:0.85rem; color:#fff; line-height:1.4;">
+        Fırat Mh. Abdulkadir Aksu Caddesi Karayıl Paradise Evleri Altı No: 35BC, Kayapınar / Diyarbakır
+      </p>
+    </div>
+
+    <div style="background:#000; border:1px solid var(--border-color); padding:15px; border-radius:12px;">
+      <strong style="color:var(--neon-gold); display:block; margin-bottom:6px;"><i class="fa-solid fa-phone"></i> İletişim Hattı:</strong>
+      <p style="font-size:0.95rem; color:#fff; font-weight:800;">+90 (506) 052 86 21</p>
+    </div>
+
+    <a href="https://wa.me/905060528621" target="_blank" style="background:#25D366; color:#fff; text-align:center; padding:12px; border-radius:10px; font-weight:800; text-decoration:none; margin-top:auto;">
+      <i class="fa-brands fa-whatsapp"></i> Doğrudan Mesaj Gönder
+    </a>
+  </div>
+
+  <div class="container">
+    <div class="search-row">
+      <div class="search-input-box">
+        <i class="fa-solid fa-magnifying-glass" style="color:var(--neon-gold); margin-right:10px;"></i>
+        <input type="text" id="searchInput" onkeyup="renderListings()" placeholder="Kayapınar, Diclekent, Mezopotamya 3+1 ara...">
+      </div>
+    </div>
+
+    <!-- HİZMETLER GRID -->
+    <div class="action-grid">
+      <div class="grid-btn highlight" onclick="openModal('arelAiModal')">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span>AREL AI Akıllı Danışman</span>
+      </div>
+
+      <div class="grid-btn" onclick="openModal('addPropertyModal')">
+        <i class="fa-solid fa-house-medical"></i>
+        <span>Mülkünü Sat / Kirala</span>
+      </div>
+
+      <div class="grid-btn" onclick="openModal('tapuModal')">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>Tapu & TKGM Parsel</span>
+      </div>
+
+      <div class="grid-btn" onclick="openModal('rentCalcModal')">
+        <i class="fa-solid fa-calculator"></i>
+        <span>Kira & Amortisman</span>
+      </div>
+
+      <div class="grid-btn" onclick="openModal('appointModal')">
+        <i class="fa-solid fa-calendar-check"></i>
+        <span>VIP Ofis Randevusu</span>
+      </div>
+
+      <div class="grid-btn" onclick="openModal('creditModal')">
+        <i class="fa-solid fa-percent"></i>
+        <span>Konut Kredisi Analizi</span>
+      </div>
+
+      <div class="grid-btn" onclick="openModal('investModal')">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Yatırım Danışmanlığı</span>
+      </div>
+
+      <div class="grid-btn" onclick="openPrivateAdmin()">
+        <i class="fa-solid fa-user-gear"></i>
+        <span>Yönetici Paneli</span>
+      </div>
+    </div>
+
+    <!-- İLAN LİSTESİ -->
+    <h3 id="sectionTitle" style="color:var(--neon-gold); margin-bottom:15px;">Diyarbakır Güncel Portföyleri</h3>
+    <div class="listings-grid" id="listingList">
+      <div class="loading-text">İlanlar yükleniyor...</div>
+    </div>
+  </div>
+
+  <!-- İLAN DETAY MODALI -->
+  <div class="modal" id="propertyDetailModal">
+    <div class="modal-card wide-modal">
+      <span class="modal-close" onclick="closeModal('propertyDetailModal')">&times;</span>
+      
+      <div style="color: #00e5ff; font-weight: 700; font-size: 0.95rem; margin-bottom: 12px;" id="detHeaderLocation">
+        Diyarbakır / Kayapınar / Mezopotamya Mh.
+      </div>
+
+      <div class="detail-container">
+        <div>
+          <div class="main-img-box">
+            <img id="detMainImg" src="" alt="Daire Görseli">
+          </div>
+          
+          <div class="gallery-grid" id="detGalleryGrid"></div>
+        </div>
+
+        <div>
+          <table class="property-specs-table">
+            <tr>
+              <td class="label-col">İlan No</td>
+              <td class="val-col val-highlight" id="detId">-</td>
+            </tr>
+            <tr>
+              <td class="label-col">İlan Tarihi</td>
+              <td class="val-col" id="detDate">-</td>
+            </tr>
+            <tr>
+              <td class="label-col">Emlak Tipi</td>
+              <td class="val-col">Satılık Daire</td>
+            </tr>
+            <tr>
+              <td class="label-col">m² (Brüt)</td>
+              <td class="val-col" id="detGross">-</td>
+            </tr>
+            <tr>
+              <td class="label-col">m² (Net)</td>
+              <td class="val-col" id="detNet">-</td>
+            </tr>
+            <tr>
+              <td class="label-col">Oda Sayısı</td>
+              <td class="val-col" id="detRooms">-</td>
+            </tr>
+            <tr>
+              <td class="label-col">Bina Yaşı</td>
+              <td class="val-col">0 (Oturuma Hazır)</td>
+            </tr>
+            <tr>
+              <td class="label-col">Kat Sayısı</td>
+              <td class="val-col">10</td>
+            </tr>
+            <tr>
+              <td class="label-col">Bulunduğu Kat</td>
+              <td class="val-col">1</td>
+            </tr>
+            <tr>
+              <td class="label-col">Isıtma</td>
+              <td class="val-col">Merkezi</td>
+            </tr>
+            <tr>
+              <td class="label-col">Banyo Sayısı</td>
+              <td class="val-col">2</td>
+            </tr>
+            <tr>
+              <td class="label-col">Mutfak</td>
+              <td class="val-col">Kapalı</td>
+            </tr>
+            <tr>
+              <td class="label-col">Balkon</td>
+              <td class="val-col">Var</td>
+            </tr>
+            <tr>
+              <td class="label-col">Asansör</td>
+              <td class="val-col">Var</td>
+            </tr>
+            <tr>
+              <td class="label-col">Otopark</td>
+              <td class="val-col">Açık Otopark</td>
+            </tr>
+            <tr>
+              <td class="label-col">Eşyalı</td>
+              <td class="val-col">Hayır</td>
+            </tr>
+            <tr>
+              <td class="label-col">Kullanım Durumu</td>
+              <td class="val-col">Boş</td>
+            </tr>
+            <tr>
+              <td class="label-col">Site İçerisinde</td>
+              <td class="val-col">Hayır</td>
+            </tr>
+            <tr>
+              <td class="label-col">Krediye Uygun</td>
+              <td class="val-col">Evet</td>
+            </tr>
+            <tr>
+              <td class="label-col">Kimden</td>
+              <td class="val-col">Emlak Ofisinden</td>
+            </tr>
+          </table>
+
+          <div style="margin-top: 15px; display: flex; gap: 10px;">
+            <a id="detWaBtn" href="#" target="_blank" class="btn-whatsapp" style="padding: 12px; border-radius: 8px; flex: 1; text-align: center; text-decoration: none; font-weight: 800;">
+              <i class="fa-brands fa-whatsapp"></i> Eren Özertaş'a Yaz
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIP RANDEVU MODALI -->
+  <div class="modal" id="appointModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('appointModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-calendar-check"></i> VIP Ofis Randevu Talebi</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Size uygun gün ve saati seçin, randevunuzu oluşturalım.</p>
+      
+      <form onsubmit="submitAppointment(event)">
+        <label class="form-label">Adınız Soyadınız *</label>
+        <input type="text" id="appOwnerName" class="form-input" placeholder="Ad Soyad" required>
+        
+        <label class="form-label">Telefon Numaranız *</label>
+        <input type="tel" id="appOwnerPhone" class="form-input" placeholder="05XX XXX XX XX" required>
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+          <div>
+            <label class="form-label"><i class="fa-solid fa-calendar-days"></i> Randevu Tarihi *</label>
+            <input type="date" id="appDate" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label"><i class="fa-solid fa-clock"></i> Saat *</label>
+            <input type="time" id="appTime" class="form-input" required>
+          </div>
+        </div>
+
+        <label class="form-label">Görüşmek İstediğiniz Konu / Not (İsteğe Bağlı)</label>
+        <textarea id="appNote" class="form-input" rows="2" placeholder="Örn: 3+1 daire alımı hakkında detaylı bilgi almak istiyorum."></textarea>
+
+        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000; margin-top:5px;">
+          <i class="fa-brands fa-whatsapp"></i> Randevu Talebini WhatsApp ile Gönder
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- YÖNETİCİ PANELİ MODALI -->
+  <div class="modal" id="adminModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('adminModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-user-shield"></i> YÖNETİCİ PANELİ (İlan Yönetimi)</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Yeni portföy ekleyebilir veya mevcut ilanları silebilirsin.</p>
+
+      <form onsubmit="adminAddNewProperty(event)" style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">
+        <h4 style="color:#fff; margin-bottom:10px;">+ Yeni İlan Ekle</h4>
+        <input type="text" id="admTitle" class="form-input" placeholder="İlan Başlığı (Örn: KAYAPINAR 3+1 LÜKS DAİRE)" required>
+        <input type="text" id="admPrice" class="form-input" placeholder="Fiyat (Örn: 12.500.000 TL)" required>
+        <input type="text" id="admLocation" class="form-input" placeholder="Konum (Örn: Diyarbakır / Kayapınar / Diclekent Mh.)" required>
+        <input type="url" id="admImage" class="form-input" placeholder="Fotoğraf URL Bağlantısı" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" required>
+        <button type="submit" style="width:100%; padding:10px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">
+          <i class="fa-solid fa-plus"></i> İlanı Canlı Sitede Yayınla
+        </button>
+      </form>
+
+      <h4 style="color:#fff; margin-bottom:10px;">Mevcut İlanları Sil / Yönet</h4>
+      <div id="adminListingManageList"></div>
+    </div>
+  </div>
+
+  <!-- AREL AI CANLI SOHBET MODALI -->
+  <div class="modal" id="arelAiModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('arelAiModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-sparkles"></i> AREL AI Danışmanınız</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Aklına takılan her türlü soruyu sorabilir, dilersen mülk fotoğrafı da ekleyebilirsin!</p>
+
+      <div class="ai-chat-box" id="aiChatBox">
+        <div class="ai-msg">
+          <strong>AREL AI:</strong> Selamlar, hoş geldin canım dostum! 😊 Ben AREL AI. Bana gayrimenkul, piyasalar, lokasyonlar ya da aklına takılan herhangi bir konuda soru sorabilirsin. İstersen fotoğraf yükleyip değerlendirmemi de isteyebilirsin!
+        </div>
+      </div>
+
+      <div class="image-preview-wrapper" id="imgPreviewWrapper">
+        <button class="remove-img-btn" onclick="removeSelectedImage()">✕</button>
+        <img id="imgPreview" src="" alt="Yüklenen Görsel">
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <textarea id="aiUserInput" class="form-input" rows="2" placeholder="Sorunu yaz dostum..." style="margin-bottom:0; resize:none;"></textarea>
+        
+        <div style="display:flex; gap:8px;">
+          <button type="button" onclick="document.getElementById('aiFileInput').click()" style="background:rgba(245, 197, 24, 0.15); border:1px solid var(--neon-gold); color:var(--neon-gold); padding:10px 14px; border-radius:8px; cursor:pointer;" title="Fotoğraf Ekle (İsteğe Bağlı)">
+            <i class="fa-solid fa-paperclip"></i>
+          </button>
+          <input type="file" id="aiFileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+
+          <button type="button" onclick="processArelAI()" style="flex:1; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; cursor:pointer; color:#000; font-weight:800;">
+            <i class="fa-solid fa-paper-plane"></i> Gönder & Sor
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DİĞER MODALLAR -->
+  <div class="modal" id="addPropertyModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('addPropertyModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-house-medical"></i> Mülkünü Sat / Kirala</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Mülkünüzün bilgilerini iletin, AREL Gayrimenkul güvencesiyle pazarlayalım.</p>
+      
+      <form onsubmit="submitAddProperty(event)">
+        <input type="text" id="propOwnerName" class="form-input" placeholder="Adınız Soyadınız" required>
+        <input type="tel" id="propOwnerPhone" class="form-input" placeholder="Telefon Numaranız" required>
+        <input type="text" id="propPrice" class="form-input" placeholder="İstediğiniz Fiyat (TL)" required>
+        <input type="text" id="propAddress" class="form-input" placeholder="Konum (İlçe / Mahalle / Site)" required>
+        <textarea id="propNote" class="form-input" rows="3" placeholder="Ekstra detaylar..."></textarea>
+        
+        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">
+          <i class="fa-brands fa-whatsapp"></i> Eren Özertaş'a İlet
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="creditModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('creditModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-percent"></i> Konut Kredisi Hesabı</h3>
+      <input type="number" id="creditAmount" placeholder="Kredi Tutarı (TL)" class="form-input" oninput="calcCredit()">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <input type="number" id="creditRate" placeholder="Aylık Faiz % (3.05)" class="form-input" value="3.05" step="0.01" oninput="calcCredit()">
+        <input type="number" id="creditMonth" placeholder="Vade (Ay)" class="form-input" value="120" oninput="calcCredit()">
+      </div>
+      <div style="background: rgba(245, 197, 24, 0.08); border: 1px dashed var(--neon-gold); padding: 15px; border-radius: 10px; margin-top:10px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span style="color:var(--text-muted);">Tahmini Taksit:</span><strong id="creditMonthlyRes" style="color:var(--cyan-btn);">0 TL</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Toplam Geri Ödeme:</span><strong id="creditTotalRes" style="color:var(--neon-gold);">0 TL</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="investModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('investModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-chart-line"></i> AREL Özel Yatırım Danışmanlığı</h3>
+      <form onsubmit="submitInvest(event)">
+        <input type="text" id="invName" class="form-input" placeholder="Adınız Soyadınız" required>
+        <input type="tel" id="invPhone" class="form-input" placeholder="Telefon Numaranız" required>
+        <input type="text" id="invBudget" class="form-input" placeholder="Yatırım Bütçeniz (TL)" required>
+        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">Yatırım Danışmanlığı İste</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="rentCalcModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('rentCalcModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-calculator"></i> Kira & Amortisman Hesaplayıcı</h3>
+      <input type="number" id="propValInput" placeholder="Mülk Değeri (TL)" class="form-input" oninput="runDetailedRentCalc()">
+      <input type="number" id="rentValInput" placeholder="Aylık Kira Geliri (TL)" class="form-input" oninput="runDetailedRentCalc()">
+      <div style="background: rgba(245, 197, 24, 0.08); border: 1px dashed var(--neon-gold); padding: 15px; border-radius: 10px; margin-top:10px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span style="color:var(--text-muted);">Yıllık Toplam Kira:</span><strong id="annualRentRes" style="color:#fff;">0 TL</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Amortisman (Geri Dönüş):</span><strong id="amortRes" style="color:var(--neon-gold);">0 Yıl</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="tapuModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('tapuModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-map-location-dot"></i> Tapu & Parsel Sorgulama</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">TKGM Parsel Sorgu servisi üzerinden resmi harita ve ada/parsel detaylarına ulaşabilirsiniz.</p>
+      <button onclick="window.open('https://parselsorgu.tkgm.gov.tr/', '_blank')" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000; margin-top:10px;">TKGM Sistemine Git</button>
+    </div>
+  </div>
+
+  <!-- ALT GEZİNME BARİ -->
+  <div class="bottom-bar">
+    <div class="nav-tab active" id="tabHome" onclick="switchTab('home')">
+      <i class="fa-solid fa-layer-group" style="font-size:1.2rem;"></i>
+      <span>Tüm İlanlar</span>
+    </div>
+    <div class="nav-tab" id="tabFavs" onclick="switchTab('favs')">
+      <i class="fa-solid fa-heart" style="font-size:1.2rem; color:#ef4444;"></i>
+      <span>Favorilerim</span>
+    </div>
+    <div class="nav-tab" onclick="openWhatsAppDirect()">
+      <i class="fa-brands fa-whatsapp" style="font-size:1.3rem; color:#25d366;"></i>
+      <span>Eren Özertaş</span>
+    </div>
+  </div>
+
+  <script>
+    // ====================== FIREBASE AYARLARI ======================
+  
