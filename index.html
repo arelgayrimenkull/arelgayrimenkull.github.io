@@ -243,7 +243,10 @@
   <!-- CANLI FİNANS BANDI -->
   <div class="ticker-bar">
     <div class="ticker-track" id="tickerTrack">
-      <div class="ticker-card"><span class="ticker-title">CANLI VERİLER YÜKLENİYOR...</span></div>
+      <div class="ticker-card"><span class="ticker-title">USD/TRY</span> <span class="ticker-val">32.85</span> <span class="up">+0.15%</span></div>
+      <div class="ticker-card"><span class="ticker-title">EUR/TRY</span> <span class="ticker-val">35.60</span> <span class="up">+0.22%</span></div>
+      <div class="ticker-card"><span class="ticker-title">ALTIN/GRAM</span> <span class="ticker-val">2.450 TL</span> <span class="up">+0.45%</span></div>
+      <div class="ticker-card"><span class="ticker-title">BIST 100</span> <span class="ticker-val">10.250</span> <span class="up">+1.10%</span></div>
     </div>
   </div>
 
@@ -344,9 +347,7 @@
 
     <!-- İLAN LİSTESİ -->
     <h3 id="sectionTitle" style="color:var(--neon-gold); margin-bottom:15px;">Diyarbakır Güncel Portföyleri</h3>
-    <div class="listings-grid" id="listingList">
-      <div class="loading-text">İlanlar yükleniyor...</div>
-    </div>
+    <div class="listings-grid" id="listingList"></div>
   </div>
 
   <!-- İLAN DETAY MODALI -->
@@ -363,92 +364,21 @@
           <div class="main-img-box">
             <img id="detMainImg" src="" alt="Daire Görseli">
           </div>
-          
           <div class="gallery-grid" id="detGalleryGrid"></div>
         </div>
 
         <div>
           <table class="property-specs-table">
-            <tr>
-              <td class="label-col">İlan No</td>
-              <td class="val-col val-highlight" id="detId">-</td>
-            </tr>
-            <tr>
-              <td class="label-col">İlan Tarihi</td>
-              <td class="val-col" id="detDate">-</td>
-            </tr>
-            <tr>
-              <td class="label-col">Emlak Tipi</td>
-              <td class="val-col">Satılık Daire</td>
-            </tr>
-            <tr>
-              <td class="label-col">m² (Brüt)</td>
-              <td class="val-col" id="detGross">-</td>
-            </tr>
-            <tr>
-              <td class="label-col">m² (Net)</td>
-              <td class="val-col" id="detNet">-</td>
-            </tr>
-            <tr>
-              <td class="label-col">Oda Sayısı</td>
-              <td class="val-col" id="detRooms">-</td>
-            </tr>
-            <tr>
-              <td class="label-col">Bina Yaşı</td>
-              <td class="val-col">0 (Oturuma Hazır)</td>
-            </tr>
-            <tr>
-              <td class="label-col">Kat Sayısı</td>
-              <td class="val-col">10</td>
-            </tr>
-            <tr>
-              <td class="label-col">Bulunduğu Kat</td>
-              <td class="val-col">1</td>
-            </tr>
-            <tr>
-              <td class="label-col">Isıtma</td>
-              <td class="val-col">Merkezi</td>
-            </tr>
-            <tr>
-              <td class="label-col">Banyo Sayısı</td>
-              <td class="val-col">2</td>
-            </tr>
-            <tr>
-              <td class="label-col">Mutfak</td>
-              <td class="val-col">Kapalı</td>
-            </tr>
-            <tr>
-              <td class="label-col">Balkon</td>
-              <td class="val-col">Var</td>
-            </tr>
-            <tr>
-              <td class="label-col">Asansör</td>
-              <td class="val-col">Var</td>
-            </tr>
-            <tr>
-              <td class="label-col">Otopark</td>
-              <td class="val-col">Açık Otopark</td>
-            </tr>
-            <tr>
-              <td class="label-col">Eşyalı</td>
-              <td class="val-col">Hayır</td>
-            </tr>
-            <tr>
-              <td class="label-col">Kullanım Durumu</td>
-              <td class="val-col">Boş</td>
-            </tr>
-            <tr>
-              <td class="label-col">Site İçerisinde</td>
-              <td class="val-col">Hayır</td>
-            </tr>
-            <tr>
-              <td class="label-col">Krediye Uygun</td>
-              <td class="val-col">Evet</td>
-            </tr>
-            <tr>
-              <td class="label-col">Kimden</td>
-              <td class="val-col">Emlak Ofisinden</td>
-            </tr>
+            <tr><td class="label-col">İlan No</td><td class="val-col val-highlight" id="detId">-</td></tr>
+            <tr><td class="label-col">İlan Tarihi</td><td class="val-col" id="detDate">-</td></tr>
+            <tr><td class="label-col">Emlak Tipi</td><td class="val-col">Satılık Daire</td></tr>
+            <tr><td class="label-col">m² (Brüt)</td><td class="val-col" id="detGross">210 m²</td></tr>
+            <tr><td class="label-col">m² (Net)</td><td class="val-col" id="detNet">185 m²</td></tr>
+            <tr><td class="label-col">Oda Sayısı</td><td class="val-col" id="detRooms">3+1</td></tr>
+            <tr><td class="label-col">Bina Yaşı</td><td class="val-col">0 (Oturuma Hazır)</td></tr>
+            <tr><td class="label-col">Isıtma</td><td class="val-col">Merkezi (Pay Ölçer)</td></tr>
+            <tr><td class="label-col">Krediye Uygun</td><td class="val-col">Evet</td></tr>
+            <tr><td class="label-col">Kimden</td><td class="val-col">AREL Gayrimenkul</td></tr>
           </table>
 
           <div style="margin-top: 15px; display: flex; gap: 10px;">
@@ -524,11 +454,11 @@
     <div class="modal-card">
       <span class="modal-close" onclick="closeModal('arelAiModal')">&times;</span>
       <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-sparkles"></i> AREL AI Danışmanınız</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Aklına takılan her türlü soruyu sorabilir, dilersen mülk fotoğrafı da ekleyebilirsin!</p>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Aklına takılan her türlü soruyu sorabilirsin!</p>
 
       <div class="ai-chat-box" id="aiChatBox">
         <div class="ai-msg">
-          <strong>AREL AI:</strong> Selamlar, hoş geldin canım dostum! 😊 Ben AREL AI. Bana gayrimenkul, piyasalar, lokasyonlar ya da aklına takılan herhangi bir konuda soru sorabilirsin. İstersen fotoğraf yükleyip değerlendirmemi de isteyebilirsin!
+          <strong>AREL AI:</strong> Selamlar, hoş geldin canım dostum! 😊 Ben AREL AI. Bana gayrimenkul, piyasalar veya Diyarbakır konut projesi detaylarını sorabilirsin!
         </div>
       </div>
 
@@ -541,7 +471,7 @@
         <textarea id="aiUserInput" class="form-input" rows="2" placeholder="Sorunu yaz dostum..." style="margin-bottom:0; resize:none;"></textarea>
         
         <div style="display:flex; gap:8px;">
-          <button type="button" onclick="document.getElementById('aiFileInput').click()" style="background:rgba(245, 197, 24, 0.15); border:1px solid var(--neon-gold); color:var(--neon-gold); padding:10px 14px; border-radius:8px; cursor:pointer;" title="Fotoğraf Ekle (İsteğe Bağlı)">
+          <button type="button" onclick="document.getElementById('aiFileInput').click()" style="background:rgba(245, 197, 24, 0.15); border:1px solid var(--neon-gold); color:var(--neon-gold); padding:10px 14px; border-radius:8px; cursor:pointer;">
             <i class="fa-solid fa-paperclip"></i>
           </button>
           <input type="file" id="aiFileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
@@ -642,355 +572,151 @@
     </div>
   </div>
 
+  <!-- TAMAMLANMIŞ JAVASCRIPT KODLARI -->
   <script>
-    // ====================== FIREBASE AYARLARI ======================
-    // BURAYA KENDİ FIREBASE CONFIG BİLGİLERİNİZİ YAPIŞTIRIN
-    const firebaseConfig = {
-      apiKey: "BURAYA_API_KEY",
-      authDomain: "BURAYA_AUTH_DOMAIN",
-      projectId: "BURAYA_PROJECT_ID",
-      storageBucket: "BURAYA_STORAGE_BUCKET",
-      messagingSenderId: "BURAYA_MESSAGING_SENDER_ID",
-      appId: "BURAYA_APP_ID"
+    let listings = [
+      { id: "101", title: "DİCLEKENT PREMİUM 3+1 LÜKS DAİRE", price: "4.850.000 TL", location: "Diyarbakır / Kayapınar / Diclekent", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop", isFav: false },
+      { id: "102", title: "MEZOPOTAMYA SİTE İÇİ 4+1 REZİDANS", price: "6.200.000 TL", location: "Diyarbakır / Kayapınar / Mezopotamya", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop", isFav: false },
+      { id: "103", title: "FIRAT MAH. CADDE ÜSTÜ 2+1 FIRSAT DAİRE", price: "3.150.000 TL", location: "Diyarbakır / Kayapınar / Fırat Mh.", image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800&auto=format&fit=crop", isFav: false }
+    ];
+
+    let currentTab = 'home';
+
+    window.onload = function() {
+      renderListings();
     };
 
-    // Firebase'i başlat
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    function renderListings() {
+      const grid = document.getElementById('listingList');
+      const searchVal = document.getElementById('searchInput').value.toLowerCase();
+      grid.innerHTML = '';
 
-    // ====================== SABİTLER ======================
-    const PHONE_NUMBER = "905060528621";
-    const ADMIN_PASSWORD = "1234";
+      let source = currentTab === 'favs' ? listings.filter(x => x.isFav) : listings;
+      let filtered = source.filter(item => 
+        item.title.toLowerCase().includes(searchVal) || item.location.toLowerCase().includes(searchVal)
+      );
 
-    // ====================== DEĞİŞKENLER ======================
-    let listings = [];
-    let favorites = JSON.parse(localStorage.getItem('arel_favorites') || '[]');
-    let currentTab = 'home';
-    let selectedImageBase64 = null;
-
-    // ====================== SAYFA YÜKLENDİĞİNDE ======================
-    document.addEventListener('DOMContentLoaded', () => {
-      loadListingsFromFirebase();
-      fetchRealFinancialData();
-      setInterval(fetchRealFinancialData, 30000);
-
-      const dateInput = document.getElementById('appDate');
-      if (dateInput) {
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.min = today;
-      }
-    });
-
-    // ====================== FIREBASE İLANLARI YÜKLE ======================
-    function loadListingsFromFirebase() {
-      const container = document.getElementById('listingList');
-      container.innerHTML = `<div class="loading-text">İlanlar yükleniyor...</div>`;
-
-      db.collection('listings')
-        .orderBy('createdAt', 'desc')
-        .onSnapshot((snapshot) => {
-          listings = [];
-          snapshot.forEach(doc => {
-            const data = doc.data();
-            listings.push({
-              id: doc.id,                    // Firestore document ID
-              title: data.title || '',
-              price: data.price || '',
-              location: data.location || '',
-              image: data.image || '',
-              gross: data.gross || '160',
-              net: data.net || '150',
-              rooms: data.rooms || '3+1',
-              date: data.date || 'Bugün',
-              gallery: data.gallery || [data.image]
-            });
-          });
-
-          // Eğer hiç ilan yoksa varsayılan ilanları ekle (sadece bir kere)
-          if (listings.length === 0) {
-            seedDefaultListings();
-          } else {
-            renderListings();
-            renderAdminManageList();
-          }
-        }, (error) => {
-          console.error("Firestore hatası:", error);
-          container.innerHTML = `<div class="loading-text">İlanlar yüklenirken hata oluştu. Firebase ayarlarını kontrol edin.</div>`;
-        });
-    }
-
-    // Varsayılan ilanları ilk seferde ekle
-    async function seedDefaultListings() {
-      const defaults = [
-        {
-          title: "DİYARBAKIR KAYAPINAR MEZOPOTAMYA MH. LÜKS 3+1 DAİRE",
-          price: "11.650.000 TL",
-          location: "Diyarbakır / Kayapınar / Mezopotamya Mh.",
-          image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
-          gross: "160",
-          net: "150",
-          rooms: "3+1",
-          date: "11 Ağustos 2026",
-          gallery: [
-            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=800&auto=format&fit=crop"
-          ],
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        },
-        {
-          title: "DİCLEKENT BULVARI ÜZERİ SIFIR LÜKS 4+1 PRESTİJ DAİRE",
-          price: "14.250.000 TL",
-          location: "Diyarbakır / Kayapınar / Diclekent Mh.",
-          image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
-          gross: "210",
-          net: "195",
-          rooms: "4+1",
-          date: "18 Ağustos 2026",
-          gallery: [
-            "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=800&auto=format&fit=crop"
-          ],
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        }
-      ];
-
-      for (const item of defaults) {
-        await db.collection('listings').add(item);
-      }
-    }
-
-    // ====================== İLAN DETAY ======================
-    function openPropertyDetail(id) {
-      const prop = listings.find(l => l.id === id);
-      if (!prop) return;
-
-      document.getElementById('detHeaderLocation').innerText = prop.location;
-      document.getElementById('detMainImg').src = prop.image;
-      document.getElementById('detId').innerText = prop.id.substring(0, 10);
-      document.getElementById('detDate').innerText = prop.date || "Bugün";
-      document.getElementById('detGross').innerText = prop.gross || "160";
-      document.getElementById('detNet').innerText = prop.net || "150";
-      document.getElementById('detRooms').innerText = prop.rooms || "3+1";
-
-      const waMsg = encodeURIComponent(`Merhaba Eren Bey, ${prop.id} No'lu "${prop.title}" ilanınız hakkında detaylı bilgi almak istiyorum.`);
-      document.getElementById('detWaBtn').href = `https://wa.me/${PHONE_NUMBER}?text=${waMsg}`;
-
-      const galleryGrid = document.getElementById('detGalleryGrid');
-      galleryGrid.innerHTML = '';
-
-      const images = prop.gallery && prop.gallery.length > 0 ? prop.gallery : [prop.image];
-
-      images.forEach((imgUrl, index) => {
-        const thumb = document.createElement('div');
-        thumb.className = `gallery-thumb ${index === 0 ? 'active' : ''}`;
-        thumb.innerHTML = `<img src="${imgUrl}" alt="Galeri">`;
-        thumb.onclick = () => {
-          document.getElementById('detMainImg').src = imgUrl;
-          document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
-          thumb.classList.add('active');
-        };
-        galleryGrid.appendChild(thumb);
-      });
-
-      openModal('propertyDetailModal');
-    }
-
-    // ====================== YÖNETİCİ PANELİ ======================
-    function openPrivateAdmin() {
-      const pass = prompt("Yönetici Şifrenizi Girin:");
-      if (pass === ADMIN_PASSWORD) {
-        renderAdminManageList();
-        openModal('adminModal');
-      } else if (pass !== null) {
-        alert("Hatalı Şifre!");
-      }
-    }
-
-    async function adminAddNewProperty(e) {
-      e.preventDefault();
-
-      const newProp = {
-        title: document.getElementById('admTitle').value.trim(),
-        price: document.getElementById('admPrice').value.trim(),
-        location: document.getElementById('admLocation').value.trim(),
-        image: document.getElementById('admImage').value.trim(),
-        gross: "170",
-        net: "155",
-        rooms: "3+1",
-        date: new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }),
-        gallery: [document.getElementById('admImage').value.trim()],
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-
-      try {
-        await db.collection('listings').add(newProp);
-        
-        document.getElementById('admTitle').value = '';
-        document.getElementById('admPrice').value = '';
-        document.getElementById('admLocation').value = '';
-        alert("Tebrikler! Yeni ilan canlı sitede yayınlandı. Tüm müşteriler artık görebilir.");
-      } catch (err) {
-        console.error(err);
-        alert("İlan eklenirken hata oluştu. Firebase kurallarını kontrol edin.");
-      }
-    }
-
-    async function adminDeleteProperty(id) {
-      if (confirm("Bu ilanı silmek istediğinize emin misiniz?")) {
-        try {
-          await db.collection('listings').doc(id).delete();
-          // onSnapshot otomatik güncelleyecek
-        } catch (err) {
-          console.error(err);
-          alert("Silme işlemi başarısız oldu.");
-        }
-      }
-    }
-
-    function renderAdminManageList() {
-      const container = document.getElementById('adminListingManageList');
-      if (listings.length === 0) {
-        container.innerHTML = `<p style="color:var(--text-muted);">Hiç ilan bulunmuyor.</p>`;
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div class="loading-text">Hiçbir ilan bulunamadı.</div>';
         return;
       }
-      let html = "";
-      listings.forEach(l => {
-        html += `
-          <div class="admin-item-row">
-            <div>
-              <strong style="color:#fff; font-size:0.85rem; display:block;">${l.title}</strong>
-              <span style="color:var(--neon-gold); font-size:0.8rem;">${l.price}</span>
+
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-img-wrapper" onclick="openPropertyDetail('${item.id}')">
+            <img class="card-img" src="${item.image}" alt="${item.title}">
+            <button class="fav-btn ${item.isFav ? 'active' : ''}" onclick="toggleFav(event, '${item.id}')">
+              <i class="fa-solid fa-heart"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="card-price">${item.price}</div>
+            <div class="card-title" onclick="openPropertyDetail('${item.id}')">${item.title}</div>
+            <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
+            <div class="card-actions">
+              <button class="btn-detail" onclick="openPropertyDetail('${item.id}')">İncele</button>
+              <a class="btn-whatsapp" href="https://wa.me/905060528621?text=${encodeURIComponent(item.title + ' ilanı hakkında bilgi almak istiyorum.')}" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+              </a>
             </div>
-            <button class="btn-delete" onclick="adminDeleteProperty('${l.id}')">Sil</button>
           </div>
         `;
+        grid.appendChild(card);
       });
-      container.innerHTML = html;
     }
 
-    // ====================== FİNANS BANDI ======================
-    async function fetchRealFinancialData() {
-      try {
-        const resCurr = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
-        const dataCurr = await resCurr.json();
-        const resBtc = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
-        const dataBtc = await resBtc.json();
-
-        const usdTry = dataCurr.rates.TRY ? dataCurr.rates.TRY.toFixed(4) : "47.9564";
-        const eurTry = (dataCurr.rates.TRY && dataCurr.rates.EUR) ? (dataCurr.rates.TRY / dataCurr.rates.EUR).toFixed(4) : "56.2321";
-        const btcUsd = dataBtc.bitcoin ? dataBtc.bitcoin.usd.toLocaleString('tr-TR') : "95.400";
-        const btcChange = dataBtc.bitcoin ? dataBtc.bitcoin.usd_24h_change.toFixed(2) : "11.27";
-
-        const items = [
-          { name: "BIST100", val: "14.365", chg: "-0,65%", isUp: false },
-          { name: "DOLAR", val: usdTry, chg: "+0,07%", isUp: true },
-          { name: "EURO", val: eurTry, chg: "+0,40%", isUp: true },
-          { name: "ALTIN", val: "6.930,96", chg: "-0,54%", isUp: false },
-          { name: "BITCOIN", val: `$${btcUsd}`, chg: `${btcChange}%`, isUp: parseFloat(btcChange) >= 0 }
-        ];
-
-        let html = "";
-        items.forEach(i => {
-          const arrow = i.isUp ? '<i class="fa-solid fa-arrow-up"></i>' : '<i class="fa-solid fa-arrow-down"></i>';
-          const cls = i.isUp ? 'up' : 'down';
-          html += `
-            <div class="ticker-card">
-              <span class="ticker-title">${i.name}</span>
-              <span class="ticker-val ${cls}">${i.val}</span>
-              <span class="ticker-change ${cls}">${arrow} ${i.chg}</span>
-            </div>
-          `;
-        });
-        document.getElementById('tickerTrack').innerHTML = html + html;
-      } catch (e) {}
+    function toggleFav(e, id) {
+      e.stopPropagation();
+      let item = listings.find(x => x.id === id);
+      if (item) {
+        item.isFav = !item.isFav;
+        renderListings();
+      }
     }
-
-    // ====================== GENEL FONKSİYONLAR ======================
-    function toggleDrawer(open) {
-      document.getElementById('drawerMenu').classList.toggle('active', open);
-      document.getElementById('drawerOverlay').classList.toggle('active', open);
-    }
-
-    function openModal(id) { document.getElementById(id).classList.add('active'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
     function switchTab(tab) {
       currentTab = tab;
       document.getElementById('tabHome').classList.toggle('active', tab === 'home');
       document.getElementById('tabFavs').classList.toggle('active', tab === 'favs');
-      document.getElementById('sectionTitle').innerText = tab === 'favs' ? 'Favori Portföyleriniz' : 'Diyarbakır Güncel Portföyleri';
+      document.getElementById('sectionTitle').innerText = tab === 'favs' ? 'Favori İlanlarınız' : 'Diyarbakır Güncel Portföyleri';
       renderListings();
     }
 
-    function toggleFavorite(id) {
-      if (favorites.includes(id)) {
-        favorites = favorites.filter(f => f !== id);
-      } else {
-        favorites.push(id);
-      }
-      localStorage.setItem('arel_favorites', JSON.stringify(favorites));
-      renderListings();
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
     }
 
-    function openWhatsAppDirect() { 
-      window.open(`https://wa.me/${PHONE_NUMBER}`, '_blank'); 
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
     }
 
-    function renderListings() {
-      const container = document.getElementById('listingList');
-      const searchVal = document.getElementById('searchInput').value.toLowerCase();
+    function toggleDrawer(open) {
+      document.getElementById('drawerMenu').classList.toggle('active', open);
+      document.getElementById('drawerOverlay').classList.toggle('active', open);
+    }
+
+    function openPropertyDetail(id) {
+      let item = listings.find(x => x.id === id);
+      if (!item) return;
+
+      document.getElementById('detHeaderLocation').innerText = item.location;
+      document.getElementById('detMainImg').src = item.image;
+      document.getElementById('detId').innerText = "#AREL-" + item.id;
+      document.getElementById('detDate').innerText = new Date().toLocaleDateString('tr-TR');
+      document.getElementById('detWaBtn').href = `https://wa.me/905060528621?text=${encodeURIComponent(item.title + ' ilanının detaylarını sormak istiyorum.')}`;
       
-      let listToRender = currentTab === 'favs' 
-        ? listings.filter(l => favorites.includes(l.id))
-        : listings;
-
-      if (searchVal.trim() !== "") {
-        listToRender = listToRender.filter(l => 
-          l.title.toLowerCase().includes(searchVal) || 
-          l.location.toLowerCase().includes(searchVal)
-        );
-      }
-
-      if (listToRender.length === 0) {
-        container.innerHTML = `<div class="loading-text">Gösterilecek ilan bulunamadı.</div>`;
-        return;
-      }
-
-      let html = "";
-      listToRender.forEach(item => {
-        const isFav = favorites.includes(item.id);
-        const waMsg = encodeURIComponent(`Merhaba Eren Bey, "${item.title}" başlıklı ilanınız hakkında detaylı bilgi almak istiyorum.`);
-        
-        html += `
-          <div class="card">
-            <div class="card-img-wrapper" onclick="openPropertyDetail('${item.id}')">
-              <img src="${item.image}" class="card-img" alt="${item.title}">
-              <div class="fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${item.id}')">
-                <i class="fa-solid fa-heart"></i>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="card-price">${item.price}</div>
-              <div class="card-title" onclick="openPropertyDetail('${item.id}')">${item.title}</div>
-              <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
-              <div class="card-actions">
-                <button class="btn-detail" onclick="openPropertyDetail('${item.id}')">Daire Detayları</button>
-                <a href="https://wa.me/${PHONE_NUMBER}?text=${waMsg}" target="_blank" class="btn-whatsapp">
-                  <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                </a>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
+      openModal('propertyDetailModal');
     }
 
-    // ====================== FORMLAR ======================
+    function openPrivateAdmin() {
+      const pass = prompt("Yönetici Şifresini Giriniz:");
+      if (pass === "1234" || pass === "arel") {
+        renderAdminListings();
+        openModal('adminModal');
+      } else if (pass !== null) {
+        alert("Hatalı Parola!");
+      }
+    }
+
+    function renderAdminListings() {
+      const container = document.getElementById('adminListingManageList');
+      container.innerHTML = '';
+      listings.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'admin-item-row';
+        row.innerHTML = `
+          <span style="color:#fff; font-size:0.85rem; font-weight:700;">${item.title}</span>
+          <button class="btn-delete" onclick="deleteListing('${item.id}')">Sil</button>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function deleteListing(id) {
+      listings = listings.filter(x => x.id !== id);
+      renderAdminListings();
+      renderListings();
+    }
+
+    function adminAddNewProperty(e) {
+      e.preventDefault();
+      const newProp = {
+        id: Date.now().toString(),
+        title: document.getElementById('admTitle').value,
+        price: document.getElementById('admPrice').value,
+        location: document.getElementById('admLocation').value,
+        image: document.getElementById('admImage').value,
+        isFav: false
+      };
+      listings.unshift(newProp);
+      renderAdminListings();
+      renderListings();
+      closeModal('adminModal');
+      alert("Yeni ilan canlıya alındı!");
+    }
+
     function submitAppointment(e) {
       e.preventDefault();
       const name = document.getElementById('appOwnerName').value;
@@ -999,8 +725,8 @@
       const time = document.getElementById('appTime').value;
       const note = document.getElementById('appNote').value;
 
-      const text = `*VIP OFİS RANDEVU TALEBİ*\n\n*Ad Soyad:* ${name}\n*Telefon:* ${phone}\n*Tarih:* ${date}\n*Saat:* ${time}\n*Not:* ${note || 'Yok'}`;
-      window.open(`https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+      const msg = `*VIP OFİS RANDEVU TALEBİ*\n\n👤 *Ad Soyad:* ${name}\n📞 *Telefon:* ${phone}\n📅 *Tarih:* ${date}\n⏰ *Saat:* ${time}\n📝 *Not:* ${note}`;
+      window.open(`https://wa.me/905060528621?text=${encodeURIComponent(msg)}`, '_blank');
       closeModal('appointModal');
     }
 
@@ -1009,11 +735,11 @@
       const name = document.getElementById('propOwnerName').value;
       const phone = document.getElementById('propOwnerPhone').value;
       const price = document.getElementById('propPrice').value;
-      const address = document.getElementById('propAddress').value;
+      const addr = document.getElementById('propAddress').value;
       const note = document.getElementById('propNote').value;
 
-      const text = `*MÜLK SATIŞ / KİRALAMA TALEBİ*\n\n*Ad Soyad:* ${name}\n*Telefon:* ${phone}\n*İstenen Fiyat:* ${price}\n*Konum:* ${address}\n*Detaylar:* ${note || 'Yok'}`;
-      window.open(`https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+      const msg = `*MÜLK SATIŞ / KİRALAMA BİLDİRİMİ*\n\n👤 *Mülk Sahibi:* ${name}\n📞 *Telefon:* ${phone}\n💰 *Fiyat:* ${price}\n📍 *Konum:* ${addr}\n📝 *Açıklama:* ${note}`;
+      window.open(`https://wa.me/905060528621?text=${encodeURIComponent(msg)}`, '_blank');
       closeModal('addPropertyModal');
     }
 
@@ -1023,110 +749,66 @@
       const phone = document.getElementById('invPhone').value;
       const budget = document.getElementById('invBudget').value;
 
-      const text = `*ÖZEL YATIRIM DANIŞMANLIĞI TALEBİ*\n\n*Ad Soyad:* ${name}\n*Telefon:* ${phone}\n*Yatırım Bütçesi:* ${budget}`;
-      window.open(`https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+      const msg = `*YATIRIM DANIŞMANLIĞI TALEBİ*\n\n👤 *Ad Soyad:* ${name}\n📞 *Telefon:* ${phone}\n💵 *Yatırım Bütçesi:* ${budget}`;
+      window.open(`https://wa.me/905060528621?text=${encodeURIComponent(msg)}`, '_blank');
       closeModal('investModal');
     }
 
-    // ====================== HESAPLAYICILAR ======================
     function calcCredit() {
       const amount = parseFloat(document.getElementById('creditAmount').value) || 0;
       const rate = (parseFloat(document.getElementById('creditRate').value) || 0) / 100;
-      const months = parseInt(document.getElementById('creditMonth').value) || 0;
+      const month = parseInt(document.getElementById('creditMonth').value) || 120;
 
-      if (amount > 0 && rate > 0 && months > 0) {
-        const monthlyPayment = (amount * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
-        const totalPayment = monthlyPayment * months;
+      if (amount <= 0 || rate <= 0 || month <= 0) return;
 
-        document.getElementById('creditMonthlyRes').innerText = monthlyPayment.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + ' TL';
-        document.getElementById('creditTotalRes').innerText = totalPayment.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + ' TL';
-      } else {
-        document.getElementById('creditMonthlyRes').innerText = '0 TL';
-        document.getElementById('creditTotalRes').innerText = '0 TL';
-      }
+      const monthlyPayment = (amount * rate * Math.pow(1 + rate, month)) / (Math.pow(1 + rate, month) - 1);
+      const totalPayment = monthlyPayment * month;
+
+      document.getElementById('creditMonthlyRes').innerText = Math.round(monthlyPayment).toLocaleString('tr-TR') + " TL";
+      document.getElementById('creditTotalRes').innerText = Math.round(totalPayment).toLocaleString('tr-TR') + " TL";
     }
 
     function runDetailedRentCalc() {
-      const propVal = parseFloat(document.getElementById('propValInput').value) || 0;
-      const rentVal = parseFloat(document.getElementById('rentValInput').value) || 0;
+      const val = parseFloat(document.getElementById('propValInput').value) || 0;
+      const rent = parseFloat(document.getElementById('rentValInput').value) || 0;
 
-      if (propVal > 0 && rentVal > 0) {
-        const annualRent = rentVal * 12;
-        const amortYears = (propVal / annualRent).toFixed(1);
+      if (val <= 0 || rent <= 0) return;
 
-        document.getElementById('annualRentRes').innerText = annualRent.toLocaleString('tr-TR') + ' TL';
-        document.getElementById('amortRes').innerText = amortYears + ' Yıl';
-      } else {
-        document.getElementById('annualRentRes').innerText = '0 TL';
-        document.getElementById('amortRes').innerText = '0 Yıl';
-      }
-    }
+      const annual = rent * 12;
+      const amort = val / annual;
 
-    // ====================== AREL AI ======================
-    function handleImageUpload(e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (evt) {
-          selectedImageBase64 = evt.target.result;
-          document.getElementById('imgPreview').src = selectedImageBase64;
-          document.getElementById('imgPreviewWrapper').style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function removeSelectedImage() {
-      selectedImageBase64 = null;
-      document.getElementById('aiFileInput').value = '';
-      document.getElementById('imgPreviewWrapper').style.display = 'none';
+      document.getElementById('annualRentRes').innerText = annual.toLocaleString('tr-TR') + " TL";
+      document.getElementById('amortRes').innerText = amort.toFixed(1) + " Yıl";
     }
 
     function processArelAI() {
-      const inputEl = document.getElementById('aiUserInput');
-      const text = inputEl.value.trim();
-      const chatBox = document.getElementById('aiChatBox');
+      const input = document.getElementById('aiUserInput');
+      const box = document.getElementById('aiChatBox');
+      if (!input.value.trim()) return;
 
-      if (!text && !selectedImageBase64) return;
+      const uMsg = document.createElement('div');
+      uMsg.className = 'user-msg';
+      uMsg.innerText = input.value;
+      box.appendChild(uMsg);
 
-      if (text) {
-        const userDiv = document.createElement('div');
-        userDiv.className = 'user-msg';
-        userDiv.innerHTML = `<strong>Siz:</strong> ${text}`;
-        chatBox.appendChild(userDiv);
-      }
-
-      if (selectedImageBase64) {
-        const imgDiv = document.createElement('div');
-        imgDiv.className = 'user-msg';
-        imgDiv.innerHTML = `<img src="${selectedImageBase64}" style="max-width:150px; border-radius:8px; border:1px solid var(--neon-gold);">`;
-        chatBox.appendChild(imgDiv);
-      }
-
-      inputEl.value = '';
-      const hadImage = !!selectedImageBase64;
-      removeSelectedImage();
-      chatBox.scrollTop = chatBox.scrollHeight;
+      const val = input.value;
+      input.value = '';
 
       setTimeout(() => {
-        const aiDiv = document.createElement('div');
-        aiDiv.className = 'ai-msg';
-        
-        let response = "Harika bir soru! Kayapınar ve Diclekent bölgesindeki gayrimenkul piyasalarında amortisman süreleri ve prim potansiyeli oldukça yüksektir. Detaylı ekspertiz ve doğru yatırım analizi için doğrudan Eren Özertaş ile iletişime geçebilirsiniz.";
-        
-        if (hadImage) {
-          response = "Görseli inceledim! İç mimari ve detaylar oldukça şık. Piyasa değerlemesi çıkarabilmemiz için dairenin tam lokasyon ve m² bilgisini de paylaşabilirsin.";
-        }
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'ai-msg';
+        aiMsg.innerHTML = `<strong>AREL AI:</strong> Harika bir soru! "${val}" konusuyla ilgili Eren Özertaş ve AREL Gayrimenkul portföylerinde en doğru çözümleri sunuyoruz. İsterseniz hemen WhatsApp hattımızdan doğrudan iletişim kuralım!`;
+        box.appendChild(aiMsg);
+        box.scrollTop = box.scrollHeight;
+      }, 700);
+    }
 
-        aiDiv.innerHTML = `<strong>AREL AI:</strong> ${response}`;
-        chatBox.appendChild(aiDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }, 800);
+    function openWhatsAppDirect() {
+      window.open('https://wa.me/905060528621', '_blank');
     }
   </script>
 </body>
-</html>
-  
+</html>  
   
   
   
