@@ -184,7 +184,7 @@
     }
     .form-label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
 
-    /* İLAN DETAY MODALI STİLLERİ */
+    /* İLAN DETAY MODALI STİLLERİ (GÖRSELDEKİ BİREBİR YAPI) */
     .detail-container {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
@@ -223,16 +223,15 @@
     .ai-msg { background: rgba(245, 197, 24, 0.1); border-left: 3px solid var(--neon-gold); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; color: #fff; }
     .user-msg { background: rgba(0, 229, 255, 0.1); border-right: 3px solid var(--cyan-btn); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; text-align: right; color: #fff; }
 
-    /* ADMIN PANELİ BUTONLARI */
+    /* ADMIN PANEL İTEM */
     .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #000; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 8px; }
     .btn-delete { background: #ef4444; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-    .btn-edit { background: var(--cyan-btn); color: #000; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-right: 6px; }
 
     /* ALT BAR */
     .bottom-bar {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: rgba(15, 18, 22, 0.98); border-top: 1px solid var(--border-color);
-      display: flex; justify-around: space-around; align-items: center; padding: 10px 0; z-index: 99;
+      display: flex; justify-content: space-around; align-items: center; padding: 10px 0; z-index: 99;
     }
     .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; flex: 1; font-size: 0.8rem; }
     .nav-tab.active { color: var(--neon-gold); font-weight: 700; }
@@ -347,7 +346,7 @@
     <div class="listings-grid" id="listingList"></div>
   </div>
 
-  <!-- İLAN DETAY MODALI -->
+  <!-- İLAN DETAY MODALI (EKRAN GÖRÜNTÜSÜNDEKİ BİREBİR TASARIM) -->
   <div class="modal" id="propertyDetailModal">
     <div class="modal-card wide-modal">
       <span class="modal-close" onclick="closeModal('propertyDetailModal')">&times;</span>
@@ -363,10 +362,12 @@
             <img id="detMainImg" src="" alt="Daire Görseli">
           </div>
           
-          <div class="gallery-grid" id="detGalleryGrid"></div>
+          <div class="gallery-grid" id="detGalleryGrid">
+            <!-- Galeri Fotoğrafları JS ile Doldurulacak -->
+          </div>
         </div>
 
-        <!-- SAĞ: TEKNİK ÖZELLİKLER TABLOSU -->
+        <!-- SAĞ: BİREBİR TEKNİK ÖZELLİKLER TABLOSU -->
         <div>
           <table class="property-specs-table">
             <tr>
@@ -461,83 +462,6 @@
     </div>
   </div>
 
-  <!-- YÖNETİCİ PANELİ MODALI (EKLEME & DÜZENLEME MÜMKÜN) -->
-  <div class="modal" id="adminModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('adminModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-user-shield"></i> YÖNETİCİ PANELİ (Kontrol & Düzenleme)</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Sitedeki tüm ilan detaylarını düzenleyebilir, silebilir veya yeni ilan yayınlayabilirsin.</p>
-
-      <form onsubmit="adminAddNewProperty(event)" style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">
-        <h4 style="color:#fff; margin-bottom:10px;">+ Yeni İlan Ekle</h4>
-        <input type="text" id="admTitle" class="form-input" placeholder="İlan Başlığı (Örn: KAYAPINAR 3+1 LÜKS DAİRE)" required>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-          <input type="text" id="admPrice" class="form-input" placeholder="Fiyat (Örn: 12.500.000 TL)" required>
-          <input type="text" id="admRooms" class="form-input" placeholder="Oda Sayısı (Örn: 3+1)" value="3+1" required>
-        </div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-          <input type="text" id="admGross" class="form-input" placeholder="m² Brüt (Örn: 170)" value="170" required>
-          <input type="text" id="admNet" class="form-input" placeholder="m² Net (Örn: 155)" value="155" required>
-        </div>
-        <input type="text" id="admLocation" class="form-input" placeholder="Konum (Örn: Diyarbakır / Kayapınar / Diclekent Mh.)" required>
-        <input type="url" id="admImage" class="form-input" placeholder="Fotoğraf URL Bağlantısı" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" required>
-        
-        <button type="submit" style="width:100%; padding:10px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">
-          <i class="fa-solid fa-plus"></i> İlanı Canlı Sitede Yayınla
-        </button>
-      </form>
-
-      <h4 style="color:#fff; margin-bottom:10px;">Mevcut İlanları Düzenle / Sil</h4>
-      <div id="adminListingManageList"></div>
-    </div>
-  </div>
-
-  <!-- İLAN DÜZENLEME DİYALOG MODALI -->
-  <div class="modal" id="editPropertyModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('editPropertyModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-pen-to-square"></i> İlan Bilgilerini Düzenle</h3>
-      
-      <form onsubmit="savePropertyEdit(event)">
-        <input type="hidden" id="editPropId">
-        <label class="form-label">İlan Başlığı</label>
-        <input type="text" id="editTitle" class="form-input" required>
-        
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-          <div>
-            <label class="form-label">Fiyat</label>
-            <input type="text" id="editPrice" class="form-input" required>
-          </div>
-          <div>
-            <label class="form-label">Oda Sayısı</label>
-            <input type="text" id="editRooms" class="form-input" required>
-          </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-          <div>
-            <label class="form-label">m² Brüt</label>
-            <input type="text" id="editGross" class="form-input" required>
-          </div>
-          <div>
-            <label class="form-label">m² Net</label>
-            <input type="text" id="editNet" class="form-input" required>
-          </div>
-        </div>
-
-        <label class="form-label">Konum Detayı</label>
-        <input type="text" id="editLocation" class="form-input" required>
-
-        <label class="form-label">Görsel URL</label>
-        <input type="url" id="editImage" class="form-input" required>
-
-        <button type="submit" style="width:100%; padding:12px; background:var(--cyan-btn); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000; margin-top:5px;">
-          <i class="fa-solid fa-floppy-disk"></i> Değişiklikleri Kaydet
-        </button>
-      </form>
-    </div>
-  </div>
-
   <!-- VIP RANDEVU MODALI -->
   <div class="modal" id="appointModal">
     <div class="modal-card">
@@ -570,6 +494,29 @@
           <i class="fa-brands fa-whatsapp"></i> Randevu Talebini WhatsApp ile Gönder
         </button>
       </form>
+    </div>
+  </div>
+
+  <!-- YÖNETİCİ PANELİ MODALI -->
+  <div class="modal" id="adminModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('adminModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-user-shield"></i> YÖNETİCİ PANELİ (İlan Yönetimi)</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Yeni portföy ekleyebilir veya mevcut ilanları silebilirsin.</p>
+
+      <form onsubmit="adminAddNewProperty(event)" style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">
+        <h4 style="color:#fff; margin-bottom:10px;">+ Yeni İlan Ekle</h4>
+        <input type="text" id="admTitle" class="form-input" placeholder="İlan Başlığı (Örn: KAYAPINAR 3+1 LÜKS DAİRE)" required>
+        <input type="text" id="admPrice" class="form-input" placeholder="Fiyat (Örn: 12.500.000 TL)" required>
+        <input type="text" id="admLocation" class="form-input" placeholder="Konum (Örn: Diyarbakır / Kayapınar / Diclekent Mh.)" required>
+        <input type="url" id="admImage" class="form-input" placeholder="Fotoğraf URL Bağlantısı" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" required>
+        <button type="submit" style="width:100%; padding:10px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">
+          <i class="fa-solid fa-plus"></i> İlanı Canlı Sitede Yayınla
+        </button>
+      </form>
+
+      <h4 style="color:#fff; margin-bottom:10px;">Mevcut İlanları Sil / Yönet</h4>
+      <div id="adminListingManageList"></div>
     </div>
   </div>
 
@@ -608,7 +555,7 @@
     </div>
   </div>
 
-  <!-- DİĞER HİZMET MODALLARI -->
+  <!-- DİĞER MODALLAR -->
   <div class="modal" id="addPropertyModal">
     <div class="modal-card">
       <span class="modal-close" onclick="closeModal('addPropertyModal')">&times;</span>
@@ -702,18 +649,21 @@
 
     let defaultListings = [
       {
-        id: 1787229793431,
+        id: 1304384614,
         title: "DİYARBAKIR KAYAPINAR MEZOPOTAMYA MH. LÜKS 3+1 DAİRE",
         price: "11.650.000 TL",
         location: "Diyarbakır / Kayapınar / Mezopotamya Mh.",
         image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
-        gross: "170",
-        net: "155",
+        gross: "160",
+        net: "150",
         rooms: "3+1",
-        date: "Bugün",
+        date: "11 Ağustos 2026",
         gallery: [
           "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop"
+          "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=800&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=800&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=800&auto=format&fit=crop"
         ]
       },
       {
@@ -727,7 +677,9 @@
         rooms: "4+1",
         date: "18 Ağustos 2026",
         gallery: [
-          "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop"
+          "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=800&auto=format&fit=crop"
         ]
       }
     ];
@@ -754,7 +706,7 @@
       localStorage.setItem('arel_listings', JSON.stringify(listings));
     }
 
-    /* DETAY MODALINI YÜKLEME */
+    /* DETAY MODALINI BİREBİR YÜKLEME */
     function openPropertyDetail(id) {
       const prop = listings.find(l => l.id === id);
       if (!prop) return;
@@ -762,9 +714,9 @@
       document.getElementById('detHeaderLocation').innerText = prop.location;
       document.getElementById('detMainImg').src = prop.image;
       document.getElementById('detId').innerText = prop.id;
-      document.getElementById('detDate').innerText = prop.date || "Bugün";
-      document.getElementById('detGross').innerText = prop.gross || "170";
-      document.getElementById('detNet').innerText = prop.net || "155";
+      document.getElementById('detDate').innerText = prop.date || "11 Ağustos 2026";
+      document.getElementById('detGross').innerText = prop.gross || "160";
+      document.getElementById('detNet').innerText = prop.net || "150";
       document.getElementById('detRooms').innerText = prop.rooms || "3+1";
 
       const waMsg = encodeURIComponent(`Merhaba Eren Bey, ${prop.id} No'lu "${prop.title}" ilanınız hakkında detaylı bilgi almak istiyorum.`);
@@ -790,7 +742,7 @@
       openModal('propertyDetailModal');
     }
 
-    /* YÖNETİCİ PANELİ KONTROLLERİ */
+    /* YÖNETİCİ PANELİ */
     function openPrivateAdmin() {
       const pass = prompt("Yönetici Şifrenizi Girin:");
       if (pass === ADMIN_PASSWORD) {
@@ -809,9 +761,9 @@
         price: document.getElementById('admPrice').value,
         location: document.getElementById('admLocation').value,
         image: document.getElementById('admImage').value,
-        gross: document.getElementById('admGross').value,
-        net: document.getElementById('admNet').value,
-        rooms: document.getElementById('admRooms').value,
+        gross: "170",
+        net: "155",
+        rooms: "3+1",
         date: "Bugün",
         gallery: [document.getElementById('admImage').value]
       };
@@ -825,46 +777,6 @@
       document.getElementById('admPrice').value = '';
       document.getElementById('admLocation').value = '';
       alert("Tebrikler! Yeni İlan Canlı Sitede Yayınlandı.");
-    }
-
-    /* DÜZENLEME İŞLEMLERİ */
-    function openEditPropertyModal(id) {
-      const prop = listings.find(l => l.id === id);
-      if (!prop) return;
-
-      document.getElementById('editPropId').value = prop.id;
-      document.getElementById('editTitle').value = prop.title;
-      document.getElementById('editPrice').value = prop.price;
-      document.getElementById('editRooms').value = prop.rooms || "3+1";
-      document.getElementById('editGross').value = prop.gross || "170";
-      document.getElementById('editNet').value = prop.net || "155";
-      document.getElementById('editLocation').value = prop.location;
-      document.getElementById('editImage').value = prop.image;
-
-      openModal('editPropertyModal');
-    }
-
-    function savePropertyEdit(e) {
-      e.preventDefault();
-      const id = parseInt(document.getElementById('editPropId').value);
-      const propIndex = listings.findIndex(l => l.id === id);
-
-      if (propIndex !== -1) {
-        listings[propIndex].title = document.getElementById('editTitle').value;
-        listings[propIndex].price = document.getElementById('editPrice').value;
-        listings[propIndex].rooms = document.getElementById('editRooms').value;
-        listings[propIndex].gross = document.getElementById('editGross').value;
-        listings[propIndex].net = document.getElementById('editNet').value;
-        listings[propIndex].location = document.getElementById('editLocation').value;
-        listings[propIndex].image = document.getElementById('editImage').value;
-        listings[propIndex].gallery[0] = document.getElementById('editImage').value;
-
-        saveListings();
-        renderListings();
-        renderAdminManageList();
-        closeModal('editPropertyModal');
-        alert("İlan Başarıyla Güncellendi!");
-      }
     }
 
     function adminDeleteProperty(id) {
@@ -888,12 +800,9 @@
           <div class="admin-item-row">
             <div>
               <strong style="color:#fff; font-size:0.85rem; display:block;">${l.title}</strong>
-              <span style="color:var(--neon-gold); font-size:0.8rem;">${l.price} - ${l.rooms}</span>
+              <span style="color:var(--neon-gold); font-size:0.8rem;">${l.price}</span>
             </div>
-            <div>
-              <button class="btn-edit" onclick="openEditPropertyModal(${l.id})">Düzenle</button>
-              <button class="btn-delete" onclick="adminDeleteProperty(${l.id})">Sil</button>
-            </div>
+            <button class="btn-delete" onclick="adminDeleteProperty(${l.id})">Sil</button>
           </div>
         `;
       });
