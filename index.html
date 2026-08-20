@@ -954,33 +954,6 @@
       }
     }
 
-    function renderAdminManageList() {
-      const container = document.getElementById('adminListingManageList');
-      if (!container) return;
-
-      if (listings.length === 0) {
-        container.innerHTML = `<div style="color:var(--text-muted); text-align:center; padding:15px;">Kayıtlı ilan bulunmuyor.</div>`;
-        return;
-      }
-
-      let html = "";
-      listings.forEach(item => {
-        html += `
-          <div class="admin-item-row">
-            <div style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:60%;">
-              <strong style="color:#fff; font-size:0.85rem; display:block; overflow:hidden; text-overflow:ellipsis;">${item.title}</strong>
-              <span style="color:var(--neon-gold); font-size:0.8rem;">${item.price}</span>
-            </div>
-            <div>
-              <button class="btn-edit" onclick="openEditPropertyModal(${item.id})"><i class="fa-solid fa-pen"></i></button>
-              <button class="btn-delete" onclick="adminDeleteProperty(${item.id})"><i class="fa-solid fa-trash"></i></button>
-            </div>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
-    }
-
     function adminAddNewProperty(e) {
       e.preventDefault();
       const newProp = {
@@ -998,11 +971,6 @@
       saveListings();
       renderListings();
       renderAdminManageList();
-
-      // Form alanlarını sıfırla
-      document.getElementById('admTitle').value = "";
-      document.getElementById('admPrice').value = "";
-      document.getElementById('admLocation').value = "";
 
       alert("İlan bu cihazın hafızasına eklendi. Tüm ziyaretçilerin varsayılan olarak görebilmesi için koddaki 'defaultListings' dizisine de ekleyip GitHub'a yükleyebilirsiniz.");
     }
@@ -1054,32 +1022,53 @@
       }
     }
 
-    /* MODAL VE ÇEKMECE KONTROL YARDIMCILARI */
-    function openModal(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal) modal.classList.add('active');
-    }
+    function renderAdminManageList() {
+      const container = document.getElementById('adminListingManageList');
+      if (!container) return;
 
-    function closeModal(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal) modal.classList.remove('active');
+      if (listings.length === 0) {
+        container.innerHTML = `<p style="color:var(--text-muted);">Hiç ilan bulunmuyor.</p>`;
+        return;
+      }
+      let html = "";
+      listings.forEach(l => {
+        html += `
+          <div class="admin-item-row">
+            <div>
+              <strong style="color:#fff; font-size:0.85rem; display:block;">${l.title}</strong>
+              <span style="color:var(--neon-gold); font-size:0.8rem;">${l.price}</span>
+            </div>
+            <div>
+              <button class="btn-edit" onclick="openEditPropertyModal(${l.id})">Düzenle</button>
+              <button class="btn-delete" onclick="adminDeleteProperty(${l.id})">Sil</button>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
     }
 
     function toggleDrawer(open) {
       const drawer = document.getElementById('drawerMenu');
       const overlay = document.getElementById('drawerOverlay');
-      if (open) {
-        drawer.classList.add('active');
-        overlay.classList.add('active');
-      } else {
-        drawer.classList.remove('active');
-        overlay.classList.remove('active');
+      if(drawer && overlay) {
+        drawer.classList.toggle('active', open);
+        overlay.classList.toggle('active', open);
       }
     }
 
-    function openWhatsAppDirect() {
-      const waMsg = encodeURIComponent("Merhaba Eren Bey, gayrimenkulümün satışı/kiralaması ile ilgili bilgi almak istiyorum.");
-      window.open(`https://wa.me/${PHONE_NUMBER}?text=${waMsg}`, '_blank');
+    function openModal(id) { 
+      const m = document.getElementById(id);
+      if(m) m.classList.add('active'); 
+    }
+
+    function closeModal(id) { 
+      const m = document.getElementById(id);
+      if(m) m.classList.remove('active'); 
+    }
+
+    function openWhatsAppDirect() { 
+      window.open(`https://wa.me/${PHONE_NUMBER}`, '_blank'); 
     }
   </script>
 </body>
