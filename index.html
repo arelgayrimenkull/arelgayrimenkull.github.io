@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
   <style>
     :root {
       --bg-dark: #0d0f12;
@@ -35,7 +39,6 @@
       padding-bottom: 90px;
     }
 
-    /* FİNANS BANDI */
     .ticker-bar {
       background: #06080a;
       border-bottom: 1px solid var(--border-color);
@@ -76,7 +79,6 @@
       100% { transform: translateX(-50%); }
     }
 
-    /* HEADER */
     header {
       background: rgba(15, 18, 22, 0.96);
       border-bottom: 1px solid var(--border-color);
@@ -98,7 +100,6 @@
       display: flex; align-items: center; gap: 8px;
     }
 
-    /* ÇEKMECE MENU */
     .drawer-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.7); z-index: 999; display: none; opacity: 0; transition: 0.3s;
@@ -113,7 +114,6 @@
     .drawer.active { right: 0; }
     .drawer-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
 
-    /* CONTAINER & SEARCH */
     .container { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
     .search-row { display: flex; gap: 12px; margin-bottom: 20px; }
     .search-input-box {
@@ -124,7 +124,6 @@
       width: 100%; background: transparent; border: none; outline: none; color: #fff; padding: 14px 0; font-size: 0.95rem;
     }
 
-    /* ACTION GRID */
     .action-grid {
       display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px;
     }
@@ -141,7 +140,6 @@
     .grid-btn span { font-size: 0.82rem; font-weight: 700; color: #fff; text-align: center; }
     .grid-btn.highlight { background: rgba(245, 197, 24, 0.12); border-color: var(--neon-gold); }
 
-    /* İLAN LİSTESİ */
     .listings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
     .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; position: relative; }
     .card-img-wrapper { position: relative; height: 200px; cursor: pointer; }
@@ -165,7 +163,6 @@
     .btn-detail { background: rgba(0, 229, 255, 0.15); color: var(--cyan-btn); border: 1px solid var(--cyan-btn) !important; }
     .btn-whatsapp { background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
-    /* MODALLAR */
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.88); z-index: 1000; align-items: center; justify-content: center; padding: 20px;
@@ -184,7 +181,6 @@
     }
     .form-label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
 
-    /* İLAN DETAY MODALI STİLLERİ (GÖRSELDEKİ BİREBİR YAPI) */
     .detail-container {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
@@ -215,7 +211,6 @@
     .property-specs-table td.val-col { color: var(--text-muted); }
     .property-specs-table td.val-highlight { color: #ef4444; font-weight: 800; }
 
-    /* AREL AI SOHBET */
     .image-preview-wrapper { position: relative; margin-bottom: 10px; display: none; }
     .image-preview-wrapper img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 12px; border: 1px solid var(--neon-gold); }
     .remove-img-btn { position: absolute; top: 8px; right: 8px; background: rgba(239, 68, 68, 0.9); color: #fff; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-weight: bold; }
@@ -223,11 +218,9 @@
     .ai-msg { background: rgba(245, 197, 24, 0.1); border-left: 3px solid var(--neon-gold); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; color: #fff; }
     .user-msg { background: rgba(0, 229, 255, 0.1); border-right: 3px solid var(--cyan-btn); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; text-align: right; color: #fff; }
 
-    /* ADMIN PANEL İTEM */
     .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #000; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 8px; }
     .btn-delete { background: #ef4444; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
 
-    /* ALT BAR */
     .bottom-bar {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: rgba(15, 18, 22, 0.98); border-top: 1px solid var(--border-color);
@@ -235,6 +228,14 @@
     }
     .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; flex: 1; font-size: 0.8rem; }
     .nav-tab.active { color: var(--neon-gold); font-weight: 700; }
+
+    .loading-text {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--text-muted);
+      padding: 40px 0;
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -343,10 +344,12 @@
 
     <!-- İLAN LİSTESİ -->
     <h3 id="sectionTitle" style="color:var(--neon-gold); margin-bottom:15px;">Diyarbakır Güncel Portföyleri</h3>
-    <div class="listings-grid" id="listingList"></div>
+    <div class="listings-grid" id="listingList">
+      <div class="loading-text">İlanlar yükleniyor...</div>
+    </div>
   </div>
 
-  <!-- İLAN DETAY MODALI (EKRAN GÖRÜNTÜSÜNDEKİ BİREBİR TASARIM) -->
+  <!-- İLAN DETAY MODALI -->
   <div class="modal" id="propertyDetailModal">
     <div class="modal-card wide-modal">
       <span class="modal-close" onclick="closeModal('propertyDetailModal')">&times;</span>
@@ -356,27 +359,23 @@
       </div>
 
       <div class="detail-container">
-        <!-- SOL: FOTOĞRAFLAR VE GALERİ -->
         <div>
           <div class="main-img-box">
             <img id="detMainImg" src="" alt="Daire Görseli">
           </div>
           
-          <div class="gallery-grid" id="detGalleryGrid">
-            <!-- Galeri Fotoğrafları JS ile Doldurulacak -->
-          </div>
+          <div class="gallery-grid" id="detGalleryGrid"></div>
         </div>
 
-        <!-- SAĞ: BİREBİR TEKNİK ÖZELLİKLER TABLOSU -->
         <div>
           <table class="property-specs-table">
             <tr>
               <td class="label-col">İlan No</td>
-              <td class="val-col val-highlight" id="detId">1304384614</td>
+              <td class="val-col val-highlight" id="detId">-</td>
             </tr>
             <tr>
               <td class="label-col">İlan Tarihi</td>
-              <td class="val-col" id="detDate">11 Ağustos 2026</td>
+              <td class="val-col" id="detDate">-</td>
             </tr>
             <tr>
               <td class="label-col">Emlak Tipi</td>
@@ -384,15 +383,15 @@
             </tr>
             <tr>
               <td class="label-col">m² (Brüt)</td>
-              <td class="val-col" id="detGross">160</td>
+              <td class="val-col" id="detGross">-</td>
             </tr>
             <tr>
               <td class="label-col">m² (Net)</td>
-              <td class="val-col" id="detNet">150</td>
+              <td class="val-col" id="detNet">-</td>
             </tr>
             <tr>
               <td class="label-col">Oda Sayısı</td>
-              <td class="val-col" id="detRooms">3+1</td>
+              <td class="val-col" id="detRooms">-</td>
             </tr>
             <tr>
               <td class="label-col">Bina Yaşı</td>
@@ -547,7 +546,7 @@
           </button>
           <input type="file" id="aiFileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
 
-          <button type="button" onclick="processArelAI()" style="flex:1; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">
+          <button type="button" onclick="processArelAI()" style="flex:1; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; cursor:pointer; color:#000; font-weight:800;">
             <i class="fa-solid fa-paper-plane"></i> Gönder & Sor
           </button>
         </div>
@@ -644,54 +643,34 @@
   </div>
 
   <script>
+    // ====================== FIREBASE AYARLARI ======================
+    // BURAYA KENDİ FIREBASE CONFIG BİLGİLERİNİZİ YAPIŞTIRIN
+    const firebaseConfig = {
+      apiKey: "BURAYA_API_KEY",
+      authDomain: "BURAYA_AUTH_DOMAIN",
+      projectId: "BURAYA_PROJECT_ID",
+      storageBucket: "BURAYA_STORAGE_BUCKET",
+      messagingSenderId: "BURAYA_MESSAGING_SENDER_ID",
+      appId: "BURAYA_APP_ID"
+    };
+
+    // Firebase'i başlat
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // ====================== SABİTLER ======================
     const PHONE_NUMBER = "905060528621";
     const ADMIN_PASSWORD = "1234";
 
-    let defaultListings = [
-      {
-        id: 1304384614,
-        title: "DİYARBAKIR KAYAPINAR MEZOPOTAMYA MH. LÜKS 3+1 DAİRE",
-        price: "11.650.000 TL",
-        location: "Diyarbakır / Kayapınar / Mezopotamya Mh.",
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
-        gross: "160",
-        net: "150",
-        rooms: "3+1",
-        date: "11 Ağustos 2026",
-        gallery: [
-          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=800&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=800&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=800&auto=format&fit=crop"
-        ]
-      },
-      {
-        id: 1304384615,
-        title: "DİCLEKENT BULVARI ÜZERİ SIFIR LÜKS 4+1 PRESTİJ DAİRE",
-        price: "14.250.000 TL",
-        location: "Diyarbakır / Kayapınar / Diclekent Mh.",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
-        gross: "210",
-        net: "195",
-        rooms: "4+1",
-        date: "18 Ağustos 2026",
-        gallery: [
-          "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=800&auto=format&fit=crop"
-        ]
-      }
-    ];
-
-    let listings = JSON.parse(localStorage.getItem('arel_listings')) || defaultListings;
-    let favorites = [];
+    // ====================== DEĞİŞKENLER ======================
+    let listings = [];
+    let favorites = JSON.parse(localStorage.getItem('arel_favorites') || '[]');
     let currentTab = 'home';
     let selectedImageBase64 = null;
 
+    // ====================== SAYFA YÜKLENDİĞİNDE ======================
     document.addEventListener('DOMContentLoaded', () => {
-      saveListings();
-      renderListings();
+      loadListingsFromFirebase();
       fetchRealFinancialData();
       setInterval(fetchRealFinancialData, 30000);
 
@@ -702,19 +681,97 @@
       }
     });
 
-    function saveListings() {
-      localStorage.setItem('arel_listings', JSON.stringify(listings));
+    // ====================== FIREBASE İLANLARI YÜKLE ======================
+    function loadListingsFromFirebase() {
+      const container = document.getElementById('listingList');
+      container.innerHTML = `<div class="loading-text">İlanlar yükleniyor...</div>`;
+
+      db.collection('listings')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot((snapshot) => {
+          listings = [];
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            listings.push({
+              id: doc.id,                    // Firestore document ID
+              title: data.title || '',
+              price: data.price || '',
+              location: data.location || '',
+              image: data.image || '',
+              gross: data.gross || '160',
+              net: data.net || '150',
+              rooms: data.rooms || '3+1',
+              date: data.date || 'Bugün',
+              gallery: data.gallery || [data.image]
+            });
+          });
+
+          // Eğer hiç ilan yoksa varsayılan ilanları ekle (sadece bir kere)
+          if (listings.length === 0) {
+            seedDefaultListings();
+          } else {
+            renderListings();
+            renderAdminManageList();
+          }
+        }, (error) => {
+          console.error("Firestore hatası:", error);
+          container.innerHTML = `<div class="loading-text">İlanlar yüklenirken hata oluştu. Firebase ayarlarını kontrol edin.</div>`;
+        });
     }
 
-    /* DETAY MODALINI BİREBİR YÜKLEME */
+    // Varsayılan ilanları ilk seferde ekle
+    async function seedDefaultListings() {
+      const defaults = [
+        {
+          title: "DİYARBAKIR KAYAPINAR MEZOPOTAMYA MH. LÜKS 3+1 DAİRE",
+          price: "11.650.000 TL",
+          location: "Diyarbakır / Kayapınar / Mezopotamya Mh.",
+          image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
+          gross: "160",
+          net: "150",
+          rooms: "3+1",
+          date: "11 Ağustos 2026",
+          gallery: [
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=800&auto=format&fit=crop"
+          ],
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        },
+        {
+          title: "DİCLEKENT BULVARI ÜZERİ SIFIR LÜKS 4+1 PRESTİJ DAİRE",
+          price: "14.250.000 TL",
+          location: "Diyarbakır / Kayapınar / Diclekent Mh.",
+          image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
+          gross: "210",
+          net: "195",
+          rooms: "4+1",
+          date: "18 Ağustos 2026",
+          gallery: [
+            "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=800&auto=format&fit=crop"
+          ],
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }
+      ];
+
+      for (const item of defaults) {
+        await db.collection('listings').add(item);
+      }
+    }
+
+    // ====================== İLAN DETAY ======================
     function openPropertyDetail(id) {
       const prop = listings.find(l => l.id === id);
       if (!prop) return;
 
       document.getElementById('detHeaderLocation').innerText = prop.location;
       document.getElementById('detMainImg').src = prop.image;
-      document.getElementById('detId').innerText = prop.id;
-      document.getElementById('detDate').innerText = prop.date || "11 Ağustos 2026";
+      document.getElementById('detId').innerText = prop.id.substring(0, 10);
+      document.getElementById('detDate').innerText = prop.date || "Bugün";
       document.getElementById('detGross').innerText = prop.gross || "160";
       document.getElementById('detNet').innerText = prop.net || "150";
       document.getElementById('detRooms').innerText = prop.rooms || "3+1";
@@ -742,49 +799,55 @@
       openModal('propertyDetailModal');
     }
 
-    /* YÖNETİCİ PANELİ */
+    // ====================== YÖNETİCİ PANELİ ======================
     function openPrivateAdmin() {
       const pass = prompt("Yönetici Şifrenizi Girin:");
       if (pass === ADMIN_PASSWORD) {
         renderAdminManageList();
         openModal('adminModal');
-      } else if(pass !== null) {
+      } else if (pass !== null) {
         alert("Hatalı Şifre!");
       }
     }
 
-    function adminAddNewProperty(e) {
+    async function adminAddNewProperty(e) {
       e.preventDefault();
+
       const newProp = {
-        id: Date.now(),
-        title: document.getElementById('admTitle').value,
-        price: document.getElementById('admPrice').value,
-        location: document.getElementById('admLocation').value,
-        image: document.getElementById('admImage').value,
+        title: document.getElementById('admTitle').value.trim(),
+        price: document.getElementById('admPrice').value.trim(),
+        location: document.getElementById('admLocation').value.trim(),
+        image: document.getElementById('admImage').value.trim(),
         gross: "170",
         net: "155",
         rooms: "3+1",
-        date: "Bugün",
-        gallery: [document.getElementById('admImage').value]
+        date: new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }),
+        gallery: [document.getElementById('admImage').value.trim()],
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 
-      listings.unshift(newProp);
-      saveListings();
-      renderListings();
-      renderAdminManageList();
-
-      document.getElementById('admTitle').value = '';
-      document.getElementById('admPrice').value = '';
-      document.getElementById('admLocation').value = '';
-      alert("Tebrikler! Yeni İlan Canlı Sitede Yayınlandı.");
+      try {
+        await db.collection('listings').add(newProp);
+        
+        document.getElementById('admTitle').value = '';
+        document.getElementById('admPrice').value = '';
+        document.getElementById('admLocation').value = '';
+        alert("Tebrikler! Yeni ilan canlı sitede yayınlandı. Tüm müşteriler artık görebilir.");
+      } catch (err) {
+        console.error(err);
+        alert("İlan eklenirken hata oluştu. Firebase kurallarını kontrol edin.");
+      }
     }
 
-    function adminDeleteProperty(id) {
+    async function adminDeleteProperty(id) {
       if (confirm("Bu ilanı silmek istediğinize emin misiniz?")) {
-        listings = listings.filter(l => l.id !== id);
-        saveListings();
-        renderListings();
-        renderAdminManageList();
+        try {
+          await db.collection('listings').doc(id).delete();
+          // onSnapshot otomatik güncelleyecek
+        } catch (err) {
+          console.error(err);
+          alert("Silme işlemi başarısız oldu.");
+        }
       }
     }
 
@@ -802,13 +865,14 @@
               <strong style="color:#fff; font-size:0.85rem; display:block;">${l.title}</strong>
               <span style="color:var(--neon-gold); font-size:0.8rem;">${l.price}</span>
             </div>
-            <button class="btn-delete" onclick="adminDeleteProperty(${l.id})">Sil</button>
+            <button class="btn-delete" onclick="adminDeleteProperty('${l.id}')">Sil</button>
           </div>
         `;
       });
       container.innerHTML = html;
     }
 
+    // ====================== FİNANS BANDI ======================
     async function fetchRealFinancialData() {
       try {
         const resCurr = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
@@ -845,6 +909,7 @@
       } catch (e) {}
     }
 
+    // ====================== GENEL FONKSİYONLAR ======================
     function toggleDrawer(open) {
       document.getElementById('drawerMenu').classList.toggle('active', open);
       document.getElementById('drawerOverlay').classList.toggle('active', open);
@@ -862,8 +927,12 @@
     }
 
     function toggleFavorite(id) {
-      if (favorites.includes(id)) { favorites = favorites.filter(f => f !== id); } 
-      else { favorites.push(id); }
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(f => f !== id);
+      } else {
+        favorites.push(id);
+      }
+      localStorage.setItem('arel_favorites', JSON.stringify(favorites));
       renderListings();
     }
 
@@ -879,15 +948,15 @@
         ? listings.filter(l => favorites.includes(l.id))
         : listings;
 
-      if(searchVal.trim() !== "") {
+      if (searchVal.trim() !== "") {
         listToRender = listToRender.filter(l => 
           l.title.toLowerCase().includes(searchVal) || 
           l.location.toLowerCase().includes(searchVal)
         );
       }
 
-      if(listToRender.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:var(--text-muted); padding:40px 0;">Gösterilecek ilan bulunamadı.</div>`;
+      if (listToRender.length === 0) {
+        container.innerHTML = `<div class="loading-text">Gösterilecek ilan bulunamadı.</div>`;
         return;
       }
 
@@ -898,18 +967,18 @@
         
         html += `
           <div class="card">
-            <div class="card-img-wrapper" onclick="openPropertyDetail(${item.id})">
+            <div class="card-img-wrapper" onclick="openPropertyDetail('${item.id}')">
               <img src="${item.image}" class="card-img" alt="${item.title}">
-              <div class="fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(${item.id})">
+              <div class="fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${item.id}')">
                 <i class="fa-solid fa-heart"></i>
               </div>
             </div>
             <div class="card-body">
               <div class="card-price">${item.price}</div>
-              <div class="card-title" onclick="openPropertyDetail(${item.id})">${item.title}</div>
+              <div class="card-title" onclick="openPropertyDetail('${item.id}')">${item.title}</div>
               <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
               <div class="card-actions">
-                <button class="btn-detail" onclick="openPropertyDetail(${item.id})">Daire Detayları</button>
+                <button class="btn-detail" onclick="openPropertyDetail('${item.id}')">Daire Detayları</button>
                 <a href="https://wa.me/${PHONE_NUMBER}?text=${waMsg}" target="_blank" class="btn-whatsapp">
                   <i class="fa-brands fa-whatsapp"></i> WhatsApp
                 </a>
@@ -921,7 +990,7 @@
       container.innerHTML = html;
     }
 
-    /* FORMLAR VE WHATSAPP ENTEGRASYONLARI */
+    // ====================== FORMLAR ======================
     function submitAppointment(e) {
       e.preventDefault();
       const name = document.getElementById('appOwnerName').value;
@@ -959,13 +1028,13 @@
       closeModal('investModal');
     }
 
-    /* HESAPLAYICILAR */
+    // ====================== HESAPLAYICILAR ======================
     function calcCredit() {
       const amount = parseFloat(document.getElementById('creditAmount').value) || 0;
       const rate = (parseFloat(document.getElementById('creditRate').value) || 0) / 100;
       const months = parseInt(document.getElementById('creditMonth').value) || 0;
 
-      if(amount > 0 && rate > 0 && months > 0) {
+      if (amount > 0 && rate > 0 && months > 0) {
         const monthlyPayment = (amount * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
         const totalPayment = monthlyPayment * months;
 
@@ -981,7 +1050,7 @@
       const propVal = parseFloat(document.getElementById('propValInput').value) || 0;
       const rentVal = parseFloat(document.getElementById('rentValInput').value) || 0;
 
-      if(propVal > 0 && rentVal > 0) {
+      if (propVal > 0 && rentVal > 0) {
         const annualRent = rentVal * 12;
         const amortYears = (propVal / annualRent).toFixed(1);
 
@@ -993,7 +1062,7 @@
       }
     }
 
-    /* AREL AI SOHBET */
+    // ====================== AREL AI ======================
     function handleImageUpload(e) {
       const file = e.target.files[0];
       if (file) {
