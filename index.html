@@ -70,8 +70,9 @@
     .ticker-title { font-weight: 800; color: #fff; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.5px; }
     .ticker-val { font-weight: 800; font-size: 0.95rem; }
 
-    .up { color: var(--up-green); }
-    .down { color: var(--down-red); }
+    /* RENK VE YÖN SINIFLARI */
+    .up { color: var(--up-green) !important; }
+    .down { color: var(--down-red) !important; }
 
     @keyframes marquee {
       0% { transform: translateX(0); }
@@ -196,18 +197,54 @@
 </head>
 <body>
 
-  <!-- EKRAN GÖRÜNTÜSÜNDEKİ GERÇEK BİREBİR FİNANS VE CANLI BORSA BANDI -->
+  <!-- BİREBİR EKRAN GÖRÜNTÜSÜ BORSA VE FİNANS BANDI (RENKLER VE OKLAR TAM DÜZELTİLDİ) -->
   <div class="ticker-bar">
     <div class="ticker-track" id="tickerTrack">
-      <div class="ticker-card"><span class="ticker-title">BIST 100</span> <span class="ticker-val" id="tick-bist">14.365</span> <span class="down" id="tick-bist-rate">-0,65%</span></div>
-      <div class="ticker-card"><span class="ticker-title">DOLAR</span> <span class="ticker-val" id="tick-usd">47,9564</span> <span class="up" id="tick-usd-rate">0,07%</span></div>
-      <div class="ticker-card"><span class="ticker-title">EURO</span> <span class="ticker-val" id="tick-eur">56,2321</span> <span class="up" id="tick-eur-rate">0,40%</span></div>
-      <div class="ticker-card"><span class="ticker-title">ALTIN</span> <span class="ticker-val" id="tick-gold">6.930,96</span> <span class="down" id="tick-gold-rate">-0,54%</span></div>
-      <div class="ticker-card"><span class="ticker-title">PETROL</span> <span class="ticker-val" id="tick-oil">93,73</span> <span class="up" id="tick-oil-rate">2,30%</span></div>
-      <div class="ticker-card"><span class="ticker-title">BONO</span> <span class="ticker-val" id="tick-bond">40,74</span> <span class="down" id="tick-bond-rate">-0,32%</span></div>
-      <div class="ticker-card"><span class="ticker-title">BITCOIN</span> <span class="ticker-val" id="tick-btc">3.423.805</span> <span class="up" id="tick-btc-rate">11,27%</span></div>
-      <div class="ticker-card"><span class="ticker-title">VAN B.BAŞ TOSUN</span> <span class="ticker-val" id="tick-tosun">510 TL/KG</span> <span class="up" id="tick-tosun-dir">+0,0%</span></div>
-      <div class="ticker-card"><span class="ticker-title">VAN K.BAŞ KUZU</span> <span class="ticker-val" id="tick-kuzu">18.000 TL</span> <span class="up" id="tick-kuzu-dir">+0,0%</span></div>
+      <div class="ticker-card">
+        <span class="ticker-title">BIST 100</span>
+        <span class="ticker-val down">14.365</span>
+        <span class="down"><i class="fa-solid fa-arrow-down"></i> -0,65%</span>
+      </div>
+      <div class="ticker-card">
+        <span class="ticker-title">DOLAR</span>
+        <span class="ticker-val up">47,9564</span>
+        <span class="up"><i class="fa-solid fa-arrow-up"></i> 0,07%</span>
+      </div>
+      <div class="ticker-card">
+        <span class="ticker-title">EURO</span>
+        <span class="ticker-val up">56,2321</span>
+        <span class="up"><i class="fa-solid fa-arrow-up"></i> 0,40%</span>
+      </div>
+      <div class="ticker-card">
+        <span class="ticker-title">ALTIN</span>
+        <span class="ticker-val down">6.930,96</span>
+        <span class="down"><i class="fa-solid fa-arrow-down"></i> -0,54%</span>
+      </div>
+      <div class="ticker-card">
+        <span class="ticker-title">PETROL</span>
+        <span class="ticker-val up">93,73</span>
+        <span class="up"><i class="fa-solid fa-arrow-up"></i> 2,30%</span>
+      </div>
+      <div class="ticker-card">
+        <span class="ticker-title">BONO</span>
+        <span class="ticker-val down">40,74</span>
+        <span class="down"><i class="fa-solid fa-arrow-down"></i> -0,32%</span>
+      </div>
+      <div class="ticker-card">
+        <span class="ticker-title">BITCOIN</span>
+        <span class="ticker-val up">3.423.805</span>
+        <span class="up"><i class="fa-solid fa-arrow-up"></i> 11,27%</span>
+      </div>
+      <div class="ticker-card">
+        <span class="ticker-title">VAN B.BAŞ TOSUN</span>
+        <span class="ticker-val up" id="tick-tosun">510 TL/KG</span>
+        <span class="up">+0,0%</span>
+      </div>
+      <div class="ticker-card">
+        <span class="ticker-title">VAN K.BAŞ KUZU</span>
+        <span class="ticker-val up" id="tick-kuzu">18.000 TL</span>
+        <span class="up">+0,0%</span>
+      </div>
     </div>
   </div>
 
@@ -388,7 +425,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT & BİREBİR FİNANS ENTEGRASYONU -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     const defaultListings = [
       { id: "101", title: "DİCLEKENT PREMİUM 3+1 LÜKS DAİRE", price: "4.850.000 TL", location: "Diyarbakır / Kayapınar / Diclekent", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop", isFav: false },
@@ -402,17 +439,6 @@
     else { listings = defaultListings; localStorage.setItem('arel_listings', JSON.stringify(listings)); }
 
     let currentTab = 'home';
-
-    // EKRAN GÖRÜNTÜSÜNDEKİ CANLI BORSADAN BİREBİR ALINAN VERİLER
-    const finansVerileri = {
-      bist: { fiyat: 14365, oran: "-0,65%" },
-      usd: { fiyat: "47,9564", oran: "0,07%" },
-      eur: { fiyat: "56,2321", oran: "0,40%" },
-      gold: { fiyat: "6.930,96", oran: "-0,54%" },
-      oil: { fiyat: "93,73", oran: "2,30%" },
-      bond: { fiyat: "40,74", oran: "-0,32%" },
-      btc: { fiyat: "3.423.805", oran: "11,27%" }
-    };
 
     // VAN CANLI HAYVAN BORSA VERİLERİ
     const vanBorsaKalemler = [
