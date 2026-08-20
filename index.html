@@ -163,17 +163,18 @@
     .btn-detail { background: rgba(0, 229, 255, 0.15); color: var(--cyan-btn); border: 1px solid var(--cyan-btn) !important; }
     .btn-whatsapp { background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
+    /* MODAL STYLES (Z-INDEX KONTROLÜ İLE KESİN AÇILMA) */
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.88); z-index: 1000; align-items: center; justify-content: center; padding: 20px;
+      background: rgba(0,0,0,0.88); z-index: 99999; align-items: center; justify-content: center; padding: 20px;
     }
-    .modal.active { display: flex; }
+    .modal.active { display: flex !important; }
     .modal-card {
       background: #12161f; border: 1px solid var(--neon-gold); width: 100%; max-width: 600px;
       border-radius: 18px; padding: 22px; position: relative; max-height: 90vh; overflow-y: auto;
     }
     .modal-card.wide-modal { max-width: 950px; }
-    .modal-close { position: absolute; top: 15px; right: 15px; color: var(--text-muted); font-size: 1.3rem; cursor: pointer; z-index: 10; }
+    .modal-close { position: absolute; top: 15px; right: 15px; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; z-index: 10; }
 
     .form-input {
       width: 100%; padding: 10px; background: #000; border: 1px solid var(--border-color);
@@ -181,11 +182,7 @@
     }
     .form-label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
 
-    .detail-container {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 20px;
-    }
+    .detail-container { display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; }
     @media (max-width: 800px) { .detail-container { grid-template-columns: 1fr; } }
 
     .main-img-box {
@@ -193,16 +190,6 @@
       border: 1px solid var(--border-color); margin-bottom: 10px; background: #000;
     }
     .main-img-box img { width: 100%; height: 100%; object-fit: cover; }
-
-    .gallery-grid {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
-    }
-    .gallery-thumb {
-      height: 55px; border-radius: 6px; overflow: hidden; cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.2); opacity: 0.7; transition: 0.2s;
-    }
-    .gallery-thumb:hover, .gallery-thumb.active { opacity: 1; border-color: var(--neon-gold); }
-    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
     .property-specs-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
     .property-specs-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
@@ -229,13 +216,7 @@
     .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; flex: 1; font-size: 0.8rem; }
     .nav-tab.active { color: var(--neon-gold); font-weight: 700; }
 
-    .loading-text {
-      grid-column: 1 / -1;
-      text-align: center;
-      color: var(--text-muted);
-      padding: 40px 0;
-      font-size: 1rem;
-    }
+    .loading-text { grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 1rem; }
   </style>
 </head>
 <body>
@@ -299,7 +280,7 @@
       </div>
     </div>
 
-    <!-- HİZMETLER GRID -->
+    <!-- HİZMETLER GRID (TÜM BUTONLAR MODALLARA DOĞRU BAĞLANDI) -->
     <div class="action-grid">
       <div class="grid-btn highlight" onclick="openModal('arelAiModal')">
         <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -349,7 +330,9 @@
     </div>
   </div>
 
-  <!-- İLAN DETAY MODALI -->
+  <!-- --- MODALLAR --- -->
+
+  <!-- 1. İLAN DETAY MODALI -->
   <div class="modal" id="propertyDetailModal">
     <div class="modal-card wide-modal">
       <span class="modal-close" onclick="closeModal('propertyDetailModal')">&times;</span>
@@ -363,8 +346,6 @@
           <div class="main-img-box">
             <img id="detMainImg" src="" alt="Daire Görseli">
           </div>
-          
-          <div class="gallery-grid" id="detGalleryGrid"></div>
         </div>
 
         <div>
@@ -398,56 +379,12 @@
               <td class="val-col">0 (Oturuma Hazır)</td>
             </tr>
             <tr>
-              <td class="label-col">Kat Sayısı</td>
-              <td class="val-col">10</td>
-            </tr>
-            <tr>
-              <td class="label-col">Bulunduğu Kat</td>
-              <td class="val-col">1</td>
-            </tr>
-            <tr>
               <td class="label-col">Isıtma</td>
               <td class="val-col">Merkezi</td>
             </tr>
             <tr>
-              <td class="label-col">Banyo Sayısı</td>
-              <td class="val-col">2</td>
-            </tr>
-            <tr>
-              <td class="label-col">Mutfak</td>
-              <td class="val-col">Kapalı</td>
-            </tr>
-            <tr>
-              <td class="label-col">Balkon</td>
-              <td class="val-col">Var</td>
-            </tr>
-            <tr>
-              <td class="label-col">Asansör</td>
-              <td class="val-col">Var</td>
-            </tr>
-            <tr>
-              <td class="label-col">Otopark</td>
-              <td class="val-col">Açık Otopark</td>
-            </tr>
-            <tr>
-              <td class="label-col">Eşyalı</td>
-              <td class="val-col">Hayır</td>
-            </tr>
-            <tr>
-              <td class="label-col">Kullanım Durumu</td>
-              <td class="val-col">Boş</td>
-            </tr>
-            <tr>
-              <td class="label-col">Site İçerisinde</td>
-              <td class="val-col">Hayır</td>
-            </tr>
-            <tr>
               <td class="label-col">Krediye Uygun</td>
               <td class="val-col">Evet</td>
-            </tr>
-            <tr>
-              <td class="label-col">Kimden</td>
-              <td class="val-col">Emlak Ofisinden</td>
             </tr>
           </table>
 
@@ -461,74 +398,16 @@
     </div>
   </div>
 
-  <!-- VIP RANDEVU MODALI -->
-  <div class="modal" id="appointModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('appointModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-calendar-check"></i> VIP Ofis Randevu Talebi</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Size uygun gün ve saati seçin, randevunuzu oluşturalım.</p>
-      
-      <form onsubmit="submitAppointment(event)">
-        <label class="form-label">Adınız Soyadınız *</label>
-        <input type="text" id="appOwnerName" class="form-input" placeholder="Ad Soyad" required>
-        
-        <label class="form-label">Telefon Numaranız *</label>
-        <input type="tel" id="appOwnerPhone" class="form-input" placeholder="05XX XXX XX XX" required>
-        
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-          <div>
-            <label class="form-label"><i class="fa-solid fa-calendar-days"></i> Randevu Tarihi *</label>
-            <input type="date" id="appDate" class="form-input" required>
-          </div>
-          <div>
-            <label class="form-label"><i class="fa-solid fa-clock"></i> Saat *</label>
-            <input type="time" id="appTime" class="form-input" required>
-          </div>
-        </div>
-
-        <label class="form-label">Görüşmek İstediğiniz Konu / Not (İsteğe Bağlı)</label>
-        <textarea id="appNote" class="form-input" rows="2" placeholder="Örn: 3+1 daire alımı hakkında detaylı bilgi almak istiyorum."></textarea>
-
-        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000; margin-top:5px;">
-          <i class="fa-brands fa-whatsapp"></i> Randevu Talebini WhatsApp ile Gönder
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- YÖNETİCİ PANELİ MODALI -->
-  <div class="modal" id="adminModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('adminModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-user-shield"></i> YÖNETİCİ PANELİ (İlan Yönetimi)</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Yeni portföy ekleyebilir veya mevcut ilanları silebilirsin.</p>
-
-      <form onsubmit="adminAddNewProperty(event)" style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">
-        <h4 style="color:#fff; margin-bottom:10px;">+ Yeni İlan Ekle</h4>
-        <input type="text" id="admTitle" class="form-input" placeholder="İlan Başlığı (Örn: KAYAPINAR 3+1 LÜKS DAİRE)" required>
-        <input type="text" id="admPrice" class="form-input" placeholder="Fiyat (Örn: 12.500.000 TL)" required>
-        <input type="text" id="admLocation" class="form-input" placeholder="Konum (Örn: Diyarbakır / Kayapınar / Diclekent Mh.)" required>
-        <input type="url" id="admImage" class="form-input" placeholder="Fotoğraf URL Bağlantısı" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" required>
-        <button type="submit" style="width:100%; padding:10px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">
-          <i class="fa-solid fa-plus"></i> İlanı Canlı Sitede Yayınla
-        </button>
-      </form>
-
-      <h4 style="color:#fff; margin-bottom:10px;">Mevcut İlanları Sil / Yönet</h4>
-      <div id="adminListingManageList"></div>
-    </div>
-  </div>
-
-  <!-- AREL AI CANLI SOHBET MODALI -->
+  <!-- 2. AREL AI CANLI SOHBET MODALI -->
   <div class="modal" id="arelAiModal">
     <div class="modal-card">
       <span class="modal-close" onclick="closeModal('arelAiModal')">&times;</span>
       <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-sparkles"></i> AREL AI Danışmanınız</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Aklına takılan her türlü soruyu sorabilir, dilersen mülk fotoğrafı da ekleyebilirsin!</p>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Gayrimenkul ve piyasalar hakkında soru sorabilirsiniz.</p>
 
       <div class="ai-chat-box" id="aiChatBox">
         <div class="ai-msg">
-          <strong>AREL AI:</strong> Selamlar, hoş geldin canım dostum! 😊 Ben AREL AI. Bana gayrimenkul, piyasalar, lokasyonlar ya da aklına takılan herhangi bir konuda soru sorabilirsin. İstersen fotoğraf yükleyip değerlendirmemi de isteyebilirsin!
+          <strong>AREL AI:</strong> Selamlar! Ben AREL AI. Bana gayrimenkul, piyasalar veya lokasyonlar hakkında soru sorabilirsiniz.
         </div>
       </div>
 
@@ -538,23 +417,23 @@
       </div>
 
       <div style="display:flex; flex-direction:column; gap:8px;">
-        <textarea id="aiUserInput" class="form-input" rows="2" placeholder="Sorunu yaz dostum..." style="margin-bottom:0; resize:none;"></textarea>
+        <textarea id="aiUserInput" class="form-input" rows="2" placeholder="Sorunuzu yazın..." style="margin-bottom:0; resize:none;"></textarea>
         
         <div style="display:flex; gap:8px;">
-          <button type="button" onclick="document.getElementById('aiFileInput').click()" style="background:rgba(245, 197, 24, 0.15); border:1px solid var(--neon-gold); color:var(--neon-gold); padding:10px 14px; border-radius:8px; cursor:pointer;" title="Fotoğraf Ekle (İsteğe Bağlı)">
+          <button type="button" onclick="document.getElementById('aiFileInput').click()" style="background:rgba(245, 197, 24, 0.15); border:1px solid var(--neon-gold); color:var(--neon-gold); padding:10px 14px; border-radius:8px; cursor:pointer;" title="Fotoğraf Ekle">
             <i class="fa-solid fa-paperclip"></i>
           </button>
           <input type="file" id="aiFileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
 
           <button type="button" onclick="processArelAI()" style="flex:1; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; cursor:pointer; color:#000; font-weight:800;">
-            <i class="fa-solid fa-paper-plane"></i> Gönder & Sor
+            <i class="fa-solid fa-paper-plane"></i> Gönder
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- DİĞER MODALLAR -->
+  <!-- 3. MÜLKÜNÜ SAT / KİRALA MODALI -->
   <div class="modal" id="addPropertyModal">
     <div class="modal-card">
       <span class="modal-close" onclick="closeModal('addPropertyModal')">&times;</span>
@@ -575,35 +454,17 @@
     </div>
   </div>
 
-  <div class="modal" id="creditModal">
+  <!-- 4. TAPU MODALI -->
+  <div class="modal" id="tapuModal">
     <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('creditModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-percent"></i> Konut Kredisi Hesabı</h3>
-      <input type="number" id="creditAmount" placeholder="Kredi Tutarı (TL)" class="form-input" oninput="calcCredit()">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-        <input type="number" id="creditRate" placeholder="Aylık Faiz % (3.05)" class="form-input" value="3.05" step="0.01" oninput="calcCredit()">
-        <input type="number" id="creditMonth" placeholder="Vade (Ay)" class="form-input" value="120" oninput="calcCredit()">
-      </div>
-      <div style="background: rgba(245, 197, 24, 0.08); border: 1px dashed var(--neon-gold); padding: 15px; border-radius: 10px; margin-top:10px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span style="color:var(--text-muted);">Tahmini Taksit:</span><strong id="creditMonthlyRes" style="color:var(--cyan-btn);">0 TL</strong></div>
-        <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Toplam Geri Ödeme:</span><strong id="creditTotalRes" style="color:var(--neon-gold);">0 TL</strong></div>
-      </div>
+      <span class="modal-close" onclick="closeModal('tapuModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-map-location-dot"></i> Tapu & Parsel Sorgulama</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">TKGM Parsel Sorgu servisi üzerinden resmi harita ve ada/parsel detaylarına ulaşabilirsiniz.</p>
+      <button onclick="window.open('https://parselsorgu.tkgm.gov.tr/', '_blank')" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000; margin-top:10px;">TKGM Sistemine Git</button>
     </div>
   </div>
 
-  <div class="modal" id="investModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('investModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-chart-line"></i> AREL Özel Yatırım Danışmanlığı</h3>
-      <form onsubmit="submitInvest(event)">
-        <input type="text" id="invName" class="form-input" placeholder="Adınız Soyadınız" required>
-        <input type="tel" id="invPhone" class="form-input" placeholder="Telefon Numaranız" required>
-        <input type="text" id="invBudget" class="form-input" placeholder="Yatırım Bütçeniz (TL)" required>
-        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">Yatırım Danışmanlığı İste</button>
-      </form>
-    </div>
-  </div>
-
+  <!-- 5. KİRA & AMORTİSMAN HESAPLAYICI -->
   <div class="modal" id="rentCalcModal">
     <div class="modal-card">
       <span class="modal-close" onclick="closeModal('rentCalcModal')">&times;</span>
@@ -617,12 +478,91 @@
     </div>
   </div>
 
-  <div class="modal" id="tapuModal">
+  <!-- 6. VIP RANDEVU MODALI -->
+  <div class="modal" id="appointModal">
     <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('tapuModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-map-location-dot"></i> Tapu & Parsel Sorgulama</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">TKGM Parsel Sorgu servisi üzerinden resmi harita ve ada/parsel detaylarına ulaşabilirsiniz.</p>
-      <button onclick="window.open('https://parselsorgu.tkgm.gov.tr/', '_blank')" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000; margin-top:10px;">TKGM Sistemine Git</button>
+      <span class="modal-close" onclick="closeModal('appointModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-calendar-check"></i> VIP Ofis Randevu Talebi</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Size uygun gün ve saati seçin, randevunuzu oluşturalım.</p>
+      
+      <form onsubmit="submitAppointment(event)">
+        <label class="form-label">Adınız Soyadınız *</label>
+        <input type="text" id="appOwnerName" class="form-input" placeholder="Ad Soyad" required>
+        
+        <label class="form-label">Telefon Numaranız *</label>
+        <input type="tel" id="appOwnerPhone" class="form-input" placeholder="05XX XXX XX XX" required>
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+          <div>
+            <label class="form-label"><i class="fa-solid fa-calendar-days"></i> Tarih *</label>
+            <input type="date" id="appDate" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label"><i class="fa-solid fa-clock"></i> Saat *</label>
+            <input type="time" id="appTime" class="form-input" required>
+          </div>
+        </div>
+
+        <label class="form-label">Not (İsteğe Bağlı)</label>
+        <textarea id="appNote" class="form-input" rows="2" placeholder="Örn: Daire alımı hakkında bilgi almak istiyorum."></textarea>
+
+        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000; margin-top:5px;">
+          <i class="fa-brands fa-whatsapp"></i> Randevu Talebini Gönder
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. KREDİ HESAPLAMA MODALI -->
+  <div class="modal" id="creditModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('creditModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-percent"></i> Konut Kredisi Analizi</h3>
+      <input type="number" id="creditAmount" placeholder="Kredi Tutarı (TL)" class="form-input" oninput="calcCredit()">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <input type="number" id="creditRate" placeholder="Aylık Faiz % (3.05)" class="form-input" value="3.05" step="0.01" oninput="calcCredit()">
+        <input type="number" id="creditMonth" placeholder="Vade (Ay)" class="form-input" value="120" oninput="calcCredit()">
+      </div>
+      <div style="background: rgba(245, 197, 24, 0.08); border: 1px dashed var(--neon-gold); padding: 15px; border-radius: 10px; margin-top:10px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span style="color:var(--text-muted);">Tahmini Taksit:</span><strong id="creditMonthlyRes" style="color:var(--cyan-btn);">0 TL</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Toplam Geri Ödeme:</span><strong id="creditTotalRes" style="color:var(--neon-gold);">0 TL</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. YATIRIM DANIŞMANLIĞI MODALI -->
+  <div class="modal" id="investModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('investModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-chart-line"></i> Özel Yatırım Danışmanlığı</h3>
+      <form onsubmit="submitInvest(event)">
+        <input type="text" id="invName" class="form-input" placeholder="Adınız Soyadınız" required>
+        <input type="tel" id="invPhone" class="form-input" placeholder="Telefon Numaranız" required>
+        <input type="text" id="invBudget" class="form-input" placeholder="Yatırım Bütçeniz (TL)" required>
+        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">Yatırım Danışmanlığı İste</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 9. YÖNETİCİ PANELİ MODALI -->
+  <div class="modal" id="adminModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('adminModal')">&times;</span>
+      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-user-shield"></i> YÖNETİCİ PANELİ</h3>
+      
+      <form onsubmit="adminAddNewProperty(event)" style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">
+        <h4 style="color:#fff; margin-bottom:10px;">+ Yeni İlan Ekle</h4>
+        <input type="text" id="admTitle" class="form-input" placeholder="İlan Başlığı" required>
+        <input type="text" id="admPrice" class="form-input" placeholder="Fiyat (Örn: 12.500.000 TL)" required>
+        <input type="text" id="admLocation" class="form-input" placeholder="Konum" required>
+        <input type="url" id="admImage" class="form-input" placeholder="Fotoğraf URL Bağlantısı" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" required>
+        <button type="submit" style="width:100%; padding:10px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">
+          <i class="fa-solid fa-plus"></i> İlanı Yayınla
+        </button>
+      </form>
+
+      <h4 style="color:#fff; margin-bottom:10px;">Mevcut İlanlar</h4>
+      <div id="adminListingManageList"></div>
     </div>
   </div>
 
@@ -644,28 +584,6 @@
 
   <!-- JAVASCRIPT KODLARI -->
   <script>
-    // --- FIREBASE AYARLARI ---
-    // Lütfen kendi Firebase proje bilgilerinizi giriniz
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    let db;
-    try {
-      if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-      }
-      db = firebase.firestore();
-    } catch (e) {
-      console.warn("Firebase yapılandırması henüz tamamlanmadı, yerel veriler kullanılıyor.", e);
-    }
-
-    // YEDEK ÖRNEK PORTFÖYLERE İHTİYAÇ DUYULURSA
     let listings = [
       {
         id: "ARL-101",
@@ -694,33 +612,40 @@
     let favorites = JSON.parse(localStorage.getItem('arel_favs') || '[]');
     let currentTab = 'home';
 
-    // VERİLERİ YÜKLE
     window.onload = function() {
       initTicker();
-      loadListings();
+      renderListings();
     };
 
-    function loadListings() {
-      if (db) {
-        db.collection("listings").onSnapshot((snapshot) => {
-          let fetched = [];
-          snapshot.forEach((doc) => {
-            fetched.push({ id: doc.id, ...doc.data() });
-          });
-          if(fetched.length > 0) {
-            listings = fetched;
-          }
-          renderListings();
-        }, (err) => {
-          console.error("Firebase veri çekme hatası:", err);
-          renderListings();
-        });
+    // MODAL AÇMA/KAPAMA FONKSİYONLARI (GARANTİLİ ÇALIŞIR)
+    function openModal(id) {
+      const targetModal = document.getElementById(id);
+      if(targetModal) {
+        targetModal.classList.add('active');
       } else {
-        renderListings();
+        console.error("Bulunamayan Modal ID:", id);
       }
     }
 
-    // İLANLARI EKRANA ÇİZME
+    function closeModal(id) {
+      const targetModal = document.getElementById(id);
+      if(targetModal) {
+        targetModal.classList.remove('active');
+      }
+    }
+
+    function toggleDrawer(open) {
+      const drawer = document.getElementById('drawerMenu');
+      const overlay = document.getElementById('drawerOverlay');
+      if (open) {
+        drawer.classList.add('active');
+        overlay.classList.add('active');
+      } else {
+        drawer.classList.remove('active');
+        overlay.classList.remove('active');
+      }
+    }
+
     function renderListings() {
       const grid = document.getElementById('listingList');
       const searchVal = document.getElementById('searchInput').value.toLowerCase();
@@ -767,7 +692,6 @@
       });
     }
 
-    // FAVORİ İŞLEMLERİ
     function toggleFav(e, id) {
       e.stopPropagation();
       if (favorites.includes(id)) {
@@ -785,36 +709,10 @@
       document.getElementById('tabFavs').classList.toggle('active', tab === 'favs');
       
       const titleEl = document.getElementById('sectionTitle');
-      if(tab === 'favs') {
-        titleEl.innerText = "Favori Portföylerim";
-      } else {
-        titleEl.innerText = "Diyarbakır Güncel Portföyleri";
-      }
+      titleEl.innerText = tab === 'favs' ? "Favori Portföylerim" : "Diyarbakır Güncel Portföyleri";
       renderListings();
     }
 
-    // MODAL YÖNETİMİ
-    function openModal(id) {
-      document.getElementById(id).classList.add('active');
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('active');
-    }
-
-    function toggleDrawer(open) {
-      const drawer = document.getElementById('drawerMenu');
-      const overlay = document.getElementById('drawerOverlay');
-      if (open) {
-        drawer.classList.add('active');
-        overlay.classList.add('active');
-      } else {
-        drawer.classList.remove('active');
-        overlay.classList.remove('active');
-      }
-    }
-
-    // DETAY MODALI AÇMA
     function openDetailModal(id) {
       const item = listings.find(l => l.id === id);
       if (!item) return;
@@ -826,19 +724,17 @@
       document.getElementById('detGross').innerText = item.gross || '180 m²';
       document.getElementById('detNet').innerText = item.net || '160 m²';
       document.getElementById('detRooms').innerText = item.rooms || '3+1';
-      
       document.getElementById('detWaBtn').href = `https://wa.me/905060528621?text=${encodeURIComponent(item.title + ' (İlan No: ' + item.id + ') ile ilgileniyorum.')}`;
 
       openModal('propertyDetailModal');
     }
 
-    // YÖNETİCİ PANELİ
     function openPrivateAdmin() {
       const pass = prompt("Yönetici Parolasını Giriniz:");
-      if (pass === "1234" || pass === "arel") { // Şifreyi kendi istediğiniz şifre ile değiştirebilirsiniz
+      if (pass === "1234" || pass === "arel") {
         renderAdminManageList();
         openModal('adminModal');
-      } else {
+      } else if (pass !== null) {
         alert("Hatalı parola!");
       }
     }
@@ -863,6 +759,7 @@
     function adminAddNewProperty(e) {
       e.preventDefault();
       const newProp = {
+        id: "ARL-" + Math.floor(Math.random() * 1000),
         title: document.getElementById('admTitle').value,
         price: document.getElementById('admPrice').value,
         location: document.getElementById('admLocation').value,
@@ -872,38 +769,20 @@
         rooms: "3+1",
         date: new Date().toLocaleDateString('tr-TR')
       };
-
-      if (db) {
-        db.collection("listings").add(newProp).then(() => {
-          alert("Yeni ilan Firebase veritabanına başarıyla eklendi!");
-          closeModal('adminModal');
-        });
-      } else {
-        newProp.id = "ARL-" + Math.floor(Math.random() * 1000);
-        listings.unshift(newProp);
-        alert("Yeni ilan eklendi!");
-        renderListings();
-        closeModal('adminModal');
-      }
+      listings.unshift(newProp);
+      alert("Yeni ilan eklendi!");
+      renderListings();
+      closeModal('adminModal');
     }
 
     function deleteProperty(id) {
       if (confirm("Bu ilanı silmek istediğinize emin misiniz?")) {
-        if (db) {
-          db.collection("listings").doc(id).delete().then(() => {
-            alert("İlan silindi.");
-            renderAdminManageList();
-          });
-        } else {
-          listings = listings.filter(l => l.id !== id);
-          alert("İlan silindi.");
-          renderAdminManageList();
-          renderListings();
-        }
+        listings = listings.filter(l => l.id !== id);
+        renderAdminManageList();
+        renderListings();
       }
     }
 
-    // HESAPLAYICILAR VE FORMLAR
     function calcCredit() {
       const amount = parseFloat(document.getElementById('creditAmount').value) || 0;
       const rate = (parseFloat(document.getElementById('creditRate').value) || 0) / 100;
@@ -915,8 +794,7 @@
         return;
       }
 
-      const monthlyRate = rate;
-      const monthlyPayment = (amount * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+      const monthlyPayment = (amount * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
       const totalPayment = monthlyPayment * months;
 
       document.getElementById('creditMonthlyRes').innerText = monthlyPayment.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + " TL";
@@ -926,7 +804,6 @@
     function runDetailedRentCalc() {
       const propVal = parseFloat(document.getElementById('propValInput').value) || 0;
       const rentVal = parseFloat(document.getElementById('rentValInput').value) || 0;
-
       const annualRent = rentVal * 12;
       const amort = annualRent > 0 ? (propVal / annualRent).toFixed(1) : 0;
 
@@ -975,7 +852,6 @@
       window.open('https://wa.me/905060528621', '_blank');
     }
 
-    // AI CANLI SOHBET TARAFI
     function handleImageUpload(event) {
       const file = event.target.files[0];
       if (file) {
@@ -1008,19 +884,17 @@
 
       input.value = '';
       removeSelectedImage();
-
       chatBox.scrollTop = chatBox.scrollHeight;
 
       setTimeout(() => {
         const aiDiv = document.createElement('div');
         aiDiv.className = 'ai-msg';
-        aiDiv.innerHTML = `<strong>AREL AI:</strong> Talebinizi aldım dostum! Diyarbakır gayrimenkul piyasasına ve AREL Gayrimenkul kriterlerine göre incelememi yapıyorum.`;
+        aiDiv.innerHTML = `<strong>AREL AI:</strong> Talebinizi aldım dostum! Diyarbakır gayrimenkul piyasasına göre hemen inceliyorum.`;
         chatBox.appendChild(aiDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
-      }, 1000);
+      }, 800);
     }
 
-    // CANLI BORSA BANDI İÇİN
     function initTicker() {
       const track = document.getElementById('tickerTrack');
       const data = [
@@ -1032,7 +906,6 @@
       ];
 
       let html = "";
-      // İki defa döngüye alıyoruz ki kayma efekti kesintisiz sürsün
       [...data, ...data].forEach(item => {
         html += `
           <div class="ticker-card">
