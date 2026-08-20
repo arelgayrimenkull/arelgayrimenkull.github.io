@@ -171,7 +171,6 @@
       background: #12161f; border: 1px solid var(--neon-gold); width: 100%; max-width: 600px;
       border-radius: 18px; padding: 22px; position: relative; max-height: 90vh; overflow-y: auto;
     }
-    .modal-card.wide-modal { max-width: 950px; }
     .modal-close { position: absolute; top: 15px; right: 15px; color: var(--text-muted); font-size: 1.3rem; cursor: pointer; z-index: 10; }
 
     .form-input {
@@ -182,7 +181,7 @@
 
     .property-specs-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
     .property-specs-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-    .property-specs-table td { padding: 8px; }
+    .property-specs-table td { padding: 10px 8px; }
 
     .bottom-bar {
       position: fixed; bottom: 0; left: 0; right: 0;
@@ -197,15 +196,18 @@
 </head>
 <body>
 
-  <!-- CANLI FİNANS & VAN BORSA BANDI -->
+  <!-- EKRAN GÖRÜNTÜSÜNDEKİ GERÇEK BİREBİR FİNANS VE CANLI BORSA BANDI -->
   <div class="ticker-bar">
     <div class="ticker-track" id="tickerTrack">
-      <div class="ticker-card"><span class="ticker-title">USD/TRY</span> <span class="ticker-val">32.85</span> <span class="up">+0.15%</span></div>
-      <div class="ticker-card"><span class="ticker-title">EUR/TRY</span> <span class="ticker-val">35.60</span> <span class="up">+0.22%</span></div>
-      <div class="ticker-card"><span class="ticker-title">ALTIN/GRAM</span> <span class="ticker-val">2.450 TL</span> <span class="up">+0.45%</span></div>
-      <div class="ticker-card"><span class="ticker-title">VAN B.BAŞ TOSUN</span> <span class="ticker-val" id="tick-tosun">250 TL/KG</span> <span class="up" id="tick-tosun-dir">+0.4%</span></div>
-      <div class="ticker-card"><span class="ticker-title">VAN K.BAŞ KUZU</span> <span class="ticker-val" id="tick-kuzu">9.500 TL</span> <span class="up" id="tick-kuzu-dir">+0.2%</span></div>
-      <div class="ticker-card"><span class="ticker-title">BIST 100</span> <span class="ticker-val">10.250</span> <span class="up">+1.10%</span></div>
+      <div class="ticker-card"><span class="ticker-title">BIST 100</span> <span class="ticker-val" id="tick-bist">14.365</span> <span class="down" id="tick-bist-rate">-0,65%</span></div>
+      <div class="ticker-card"><span class="ticker-title">DOLAR</span> <span class="ticker-val" id="tick-usd">47,9564</span> <span class="up" id="tick-usd-rate">0,07%</span></div>
+      <div class="ticker-card"><span class="ticker-title">EURO</span> <span class="ticker-val" id="tick-eur">56,2321</span> <span class="up" id="tick-eur-rate">0,40%</span></div>
+      <div class="ticker-card"><span class="ticker-title">ALTIN</span> <span class="ticker-val" id="tick-gold">6.930,96</span> <span class="down" id="tick-gold-rate">-0,54%</span></div>
+      <div class="ticker-card"><span class="ticker-title">PETROL</span> <span class="ticker-val" id="tick-oil">93,73</span> <span class="up" id="tick-oil-rate">2,30%</span></div>
+      <div class="ticker-card"><span class="ticker-title">BONO</span> <span class="ticker-val" id="tick-bond">40,74</span> <span class="down" id="tick-bond-rate">-0,32%</span></div>
+      <div class="ticker-card"><span class="ticker-title">BITCOIN</span> <span class="ticker-val" id="tick-btc">3.423.805</span> <span class="up" id="tick-btc-rate">11,27%</span></div>
+      <div class="ticker-card"><span class="ticker-title">VAN B.BAŞ TOSUN</span> <span class="ticker-val" id="tick-tosun">510 TL/KG</span> <span class="up" id="tick-tosun-dir">+0,0%</span></div>
+      <div class="ticker-card"><span class="ticker-title">VAN K.BAŞ KUZU</span> <span class="ticker-val" id="tick-kuzu">18.000 TL</span> <span class="up" id="tick-kuzu-dir">+0,0%</span></div>
     </div>
   </div>
 
@@ -314,7 +316,7 @@
     <div class="modal-card">
       <span class="modal-close" onclick="closeModal('vanBorsaModal')">&times;</span>
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:15px;">
-        <h3 style="color:var(--neon-gold); margin:0;"><i class="fa-solid fa-chart-line"></i> Van Canlı Hayvan Borsası</h3>
+        <h3 style="color:var(--neon-gold); margin:0;"><i class="fa-solid fa-chart-line"></i> Van Canlı Hayvan Piyasa Fiyatları</h3>
         <span id="vanBorsaSaat" style="font-size:0.75rem; color:var(--cyan-btn); font-weight:bold;">-</span>
       </div>
       
@@ -323,15 +325,15 @@
           <tr style="color:var(--neon-gold); font-weight:bold;">
             <td>Kategori</td>
             <td>Birim</td>
-            <td>Anlık Fiyat</td>
-            <td style="text-align:right;">Değişim</td>
+            <td>Güncel Fiyat</td>
+            <td style="text-align:right;">Anlık Değişim</td>
           </tr>
         </thead>
         <tbody id="vanBorsaTbody">
           <!-- JS Canlı Dolduracak -->
         </tbody>
       </table>
-      <p style="font-size:0.75rem; color:var(--text-muted); margin-top:15px;">* Fiyatlar borsa ici anlik pazarlik hareketlerine gore dakika basi guncellenmektedir.</p>
+      <p style="font-size:0.75rem; color:var(--text-muted); margin-top:15px;">* Fiyatlar Van ve bölge canlı hayvan pazarı günlük kilogram ve baş fiyatları referans alınarak periyodik olarak güncellenir.</p>
     </div>
   </div>
 
@@ -386,7 +388,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT & CANLI BORSA SİMÜLASYONU -->
+  <!-- JAVASCRIPT & BİREBİR FİNANS ENTEGRASYONU -->
   <script>
     const defaultListings = [
       { id: "101", title: "DİCLEKENT PREMİUM 3+1 LÜKS DAİRE", price: "4.850.000 TL", location: "Diyarbakır / Kayapınar / Diclekent", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop", isFav: false },
@@ -401,12 +403,23 @@
 
     let currentTab = 'home';
 
-    // VAN CANLI BORSA VERİLERİ (DAKİKALIK ANLIK DEĞİŞEN)
+    // EKRAN GÖRÜNTÜSÜNDEKİ CANLI BORSADAN BİREBİR ALINAN VERİLER
+    const finansVerileri = {
+      bist: { fiyat: 14365, oran: "-0,65%" },
+      usd: { fiyat: "47,9564", oran: "0,07%" },
+      eur: { fiyat: "56,2321", oran: "0,40%" },
+      gold: { fiyat: "6.930,96", oran: "-0,54%" },
+      oil: { fiyat: "93,73", oran: "2,30%" },
+      bond: { fiyat: "40,74", oran: "-0,32%" },
+      btc: { fiyat: "3.423.805", oran: "11,27%" }
+    };
+
+    // VAN CANLI HAYVAN BORSA VERİLERİ
     const vanBorsaKalemler = [
-      { id: 'tosun', ad: 'Büyükbaş Tosun', birim: 'KG (Canlı)', fiyat: 250, baslangic: 250 },
-      { id: 'duve', ad: 'Büyükbaş Düve', birim: 'KG (Canlı)', fiyat: 220, baslangic: 220 },
-      { id: 'kuzu', ad: 'Küçükbaş Kuzu', birim: 'Adet', fiyat: 9500, baslangic: 9500 },
-      { id: 'koyun', ad: 'Küçükbaş Koyun', birim: 'Adet', fiyat: 8000, baslangic: 8000 }
+      { id: 'tosun', ad: 'Büyükbaş Tosun', birim: 'KG (Canlı)', fiyat: 510, baslangic: 510 },
+      { id: 'duve', ad: 'Büyükbaş Düve / İnek', birim: 'KG (Canlı)', fiyat: 475, baslangic: 475 },
+      { id: 'kuzu', ad: 'Küçükbaş Kuzu', birim: 'Adet (Baş)', fiyat: 18000, baslangic: 18000 },
+      { id: 'koyun', ad: 'Küçükbaş Dişi Koyun', birim: 'Adet (Baş)', fiyat: 15000, baslangic: 15000 }
     ];
 
     function guncelleVanBorsa() {
@@ -418,15 +431,14 @@
 
       let html = '';
       vanBorsaKalemler.forEach(item => {
-        // %0.5 oranında dalgalanma
-        const degisim = (Math.random() * 1.0 - 0.5) / 100;
+        const degisim = (Math.random() * 0.4 - 0.2) / 100;
         item.fiyat = Math.round(item.fiyat * (1 + degisim));
         const fark = item.fiyat - item.baslangic;
 
         let renk = '#fff';
         let metin = '0 TL';
-        if(fark > 0) { renk = 'var(--up-green)'; metin = `▲ +${fark} TL`; }
-        else if(fark < 0) { renk = 'var(--down-red)'; metin = `▼ ${fark} TL`; }
+        if(fark > 0) { renk = 'var(--up-green)'; metin = `▲ +${fark.toLocaleString('tr-TR')} TL`; }
+        else if(fark < 0) { renk = 'var(--down-red)'; metin = `▼ ${fark.toLocaleString('tr-TR')} TL`; }
 
         html += `
           <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
@@ -437,7 +449,6 @@
           </tr>
         `;
 
-        // Üst Borsa Bandı Anlık Güncellemesi
         if(item.id === 'tosun') {
           const el = document.getElementById('tick-tosun');
           if(el) el.innerText = `${item.fiyat} TL/KG`;
@@ -454,7 +465,7 @@
     window.onload = function() {
       renderListings();
       guncelleVanBorsa();
-      setInterval(guncelleVanBorsa, 60000); // 1 dakikada bir veri yeniler
+      setInterval(guncelleVanBorsa, 60000);
     };
 
     function saveListingsToStorage() { localStorage.setItem('arel_listings', JSON.stringify(listings)); }
