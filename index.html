@@ -69,10 +69,8 @@
 
     .ticker-title { font-weight: 800; color: #fff; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.5px; }
     .ticker-val { font-weight: 800; font-size: 0.95rem; }
-    .ticker-change { font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 2px; }
 
     .up { color: var(--up-green); }
-    .down { color: var(--down-red); }
 
     @keyframes marquee {
       0% { transform: translateX(0); }
@@ -194,16 +192,6 @@
     }
     .main-img-box img { width: 100%; height: 100%; object-fit: cover; }
 
-    .gallery-grid {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
-    }
-    .gallery-thumb {
-      height: 55px; border-radius: 6px; overflow: hidden; cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.2); opacity: 0.7; transition: 0.2s;
-    }
-    .gallery-thumb:hover, .gallery-thumb.active { opacity: 1; border-color: var(--neon-gold); }
-    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
-
     .property-specs-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
     .property-specs-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
     .property-specs-table td { padding: 7px 4px; }
@@ -211,9 +199,6 @@
     .property-specs-table td.val-col { color: var(--text-muted); }
     .property-specs-table td.val-highlight { color: #ef4444; font-weight: 800; }
 
-    .image-preview-wrapper { position: relative; margin-bottom: 10px; display: none; }
-    .image-preview-wrapper img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 12px; border: 1px solid var(--neon-gold); }
-    .remove-img-btn { position: absolute; top: 8px; right: 8px; background: rgba(239, 68, 68, 0.9); color: #fff; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-weight: bold; }
     .ai-chat-box { background: #080a0d; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; min-height: 220px; max-height: 320px; overflow-y: auto; margin-bottom: 12px; display: flex; flex-direction: column; gap: 10px; }
     .ai-msg { background: rgba(245, 197, 24, 0.1); border-left: 3px solid var(--neon-gold); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; color: #fff; }
     .user-msg { background: rgba(0, 229, 255, 0.1); border-right: 3px solid var(--cyan-btn); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; text-align: right; color: #fff; }
@@ -356,7 +341,7 @@
       <span class="modal-close" onclick="closeModal('propertyDetailModal')">&times;</span>
       
       <div style="color: #00e5ff; font-weight: 700; font-size: 0.95rem; margin-bottom: 12px;" id="detHeaderLocation">
-        Diyarbakır / Kayapınar / Mezopotamya Mh.
+        Diyarbakır / Kayapınar
       </div>
 
       <div class="detail-container">
@@ -364,20 +349,15 @@
           <div class="main-img-box">
             <img id="detMainImg" src="" alt="Daire Görseli">
           </div>
-          <div class="gallery-grid" id="detGalleryGrid"></div>
         </div>
 
         <div>
+          <h3 id="detTitle" style="color:#fff; margin-bottom:10px;">-</h3>
           <table class="property-specs-table">
             <tr><td class="label-col">İlan No</td><td class="val-col val-highlight" id="detId">-</td></tr>
-            <tr><td class="label-col">İlan Tarihi</td><td class="val-col" id="detDate">-</td></tr>
-            <tr><td class="label-col">Emlak Tipi</td><td class="val-col">Satılık Daire</td></tr>
-            <tr><td class="label-col">m² (Brüt)</td><td class="val-col" id="detGross">210 m²</td></tr>
-            <tr><td class="label-col">m² (Net)</td><td class="val-col" id="detNet">185 m²</td></tr>
-            <tr><td class="label-col">Oda Sayısı</td><td class="val-col" id="detRooms">3+1</td></tr>
-            <tr><td class="label-col">Bina Yaşı</td><td class="val-col">0 (Oturuma Hazır)</td></tr>
-            <tr><td class="label-col">Isıtma</td><td class="val-col">Merkezi (Pay Ölçer)</td></tr>
-            <tr><td class="label-col">Krediye Uygun</td><td class="val-col">Evet</td></tr>
+            <tr><td class="label-col">Fiyat</td><td class="val-col" id="detPrice" style="color:var(--neon-gold); font-weight:bold;">-</td></tr>
+            <tr><td class="label-col">Konum</td><td class="val-col" id="detLocation">-</td></tr>
+            <tr><td class="label-col">Emlak Tipi</td><td class="val-col">Satılık Daire / Portföy</td></tr>
             <tr><td class="label-col">Kimden</td><td class="val-col">AREL Gayrimenkul</td></tr>
           </table>
 
@@ -458,28 +438,15 @@
 
       <div class="ai-chat-box" id="aiChatBox">
         <div class="ai-msg">
-          <strong>AREL AI:</strong> Selamlar, hoş geldin canım dostum! 😊 Ben AREL AI. Bana gayrimenkul, piyasalar veya Diyarbakır konut projesi detaylarını sorabilirsin!
+          <strong>AREL AI:</strong> Selamlar, hoş geldin! 😊 Ben AREL AI. Bana gayrimenkul, piyasalar veya Diyarbakır konut projeleri hakkında sorabilirsin!
         </div>
-      </div>
-
-      <div class="image-preview-wrapper" id="imgPreviewWrapper">
-        <button class="remove-img-btn" onclick="removeSelectedImage()">✕</button>
-        <img id="imgPreview" src="" alt="Yüklenen Görsel">
       </div>
 
       <div style="display:flex; flex-direction:column; gap:8px;">
         <textarea id="aiUserInput" class="form-input" rows="2" placeholder="Sorunu yaz dostum..." style="margin-bottom:0; resize:none;"></textarea>
-        
-        <div style="display:flex; gap:8px;">
-          <button type="button" onclick="document.getElementById('aiFileInput').click()" style="background:rgba(245, 197, 24, 0.15); border:1px solid var(--neon-gold); color:var(--neon-gold); padding:10px 14px; border-radius:8px; cursor:pointer;">
-            <i class="fa-solid fa-paperclip"></i>
-          </button>
-          <input type="file" id="aiFileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
-
-          <button type="button" onclick="processArelAI()" style="flex:1; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; cursor:pointer; color:#000; font-weight:800;">
-            <i class="fa-solid fa-paper-plane"></i> Gönder & Sor
-          </button>
-        </div>
+        <button type="button" onclick="processArelAI()" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; cursor:pointer; color:#000; font-weight:800;">
+          <i class="fa-solid fa-paper-plane"></i> Gönder & Sor
+        </button>
       </div>
     </div>
   </div>
@@ -572,19 +539,36 @@
     </div>
   </div>
 
-  <!-- TAMAMLANMIŞ JAVASCRIPT KODLARI -->
+  <!-- JAVASCRIPT: LOCALSTORAGE KALICI VERİ DESTEKLİ -->
   <script>
-    let listings = [
+    // Varsayılan İlk İlanlar
+    const defaultListings = [
       { id: "101", title: "DİCLEKENT PREMİUM 3+1 LÜKS DAİRE", price: "4.850.000 TL", location: "Diyarbakır / Kayapınar / Diclekent", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop", isFav: false },
       { id: "102", title: "MEZOPOTAMYA SİTE İÇİ 4+1 REZİDANS", price: "6.200.000 TL", location: "Diyarbakır / Kayapınar / Mezopotamya", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop", isFav: false },
       { id: "103", title: "FIRAT MAH. CADDE ÜSTÜ 2+1 FIRSAT DAİRE", price: "3.150.000 TL", location: "Diyarbakır / Kayapınar / Fırat Mh.", image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800&auto=format&fit=crop", isFav: false }
     ];
+
+    // Sayfa Yüklenirken Hafızadaki Verileri Çek
+    let listings = [];
+    const savedListings = localStorage.getItem('arel_listings');
+    
+    if (savedListings) {
+      listings = JSON.parse(savedListings);
+    } else {
+      listings = defaultListings;
+      localStorage.setItem('arel_listings', JSON.stringify(listings));
+    }
 
     let currentTab = 'home';
 
     window.onload = function() {
       renderListings();
     };
+
+    // Değişiklikleri Hafızaya Kaydetme Fonksiyonu
+    function saveListingsToStorage() {
+      localStorage.setItem('arel_listings', JSON.stringify(listings));
+    }
 
     function renderListings() {
       const grid = document.getElementById('listingList');
@@ -632,6 +616,7 @@
       let item = listings.find(x => x.id === id);
       if (item) {
         item.isFav = !item.isFav;
+        saveListingsToStorage();
         renderListings();
       }
     }
@@ -662,9 +647,11 @@
       if (!item) return;
 
       document.getElementById('detHeaderLocation').innerText = item.location;
+      document.getElementById('detTitle').innerText = item.title;
+      document.getElementById('detPrice').innerText = item.price;
+      document.getElementById('detLocation').innerText = item.location;
       document.getElementById('detMainImg').src = item.image;
       document.getElementById('detId').innerText = "#AREL-" + item.id;
-      document.getElementById('detDate').innerText = new Date().toLocaleDateString('tr-TR');
       document.getElementById('detWaBtn').href = `https://wa.me/905060528621?text=${encodeURIComponent(item.title + ' ilanının detaylarını sormak istiyorum.')}`;
       
       openModal('propertyDetailModal');
@@ -696,6 +683,7 @@
 
     function deleteListing(id) {
       listings = listings.filter(x => x.id !== id);
+      saveListingsToStorage();
       renderAdminListings();
       renderListings();
     }
@@ -710,11 +698,20 @@
         image: document.getElementById('admImage').value,
         isFav: false
       };
+      
       listings.unshift(newProp);
+      saveListingsToStorage(); // Kalıcı olarak tarayıcı hafızasına ekler
+      
       renderAdminListings();
       renderListings();
       closeModal('adminModal');
-      alert("Yeni ilan canlıya alındı!");
+      
+      // Form alanlarını sıfırla
+      document.getElementById('admTitle').value = '';
+      document.getElementById('admPrice').value = '';
+      document.getElementById('admLocation').value = '';
+      
+      alert("Yeni ilan başarıyla canlıya alındı ve kalıcı olarak kaydedildi!");
     }
 
     function submitAppointment(e) {
@@ -809,6 +806,5 @@
   </script>
 </body>
 </html>  
-  
   
   
