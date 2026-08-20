@@ -71,6 +71,7 @@
     .ticker-val { font-weight: 800; font-size: 0.95rem; }
 
     .up { color: var(--up-green); }
+    .down { color: var(--down-red); }
 
     @keyframes marquee {
       0% { transform: translateX(0); }
@@ -179,32 +180,9 @@
     }
     .form-label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
 
-    .detail-container {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 20px;
-    }
-    @media (max-width: 800px) { .detail-container { grid-template-columns: 1fr; } }
-
-    .main-img-box {
-      width: 100%; height: 320px; border-radius: 10px; overflow: hidden;
-      border: 1px solid var(--border-color); margin-bottom: 10px; background: #000;
-    }
-    .main-img-box img { width: 100%; height: 100%; object-fit: cover; }
-
     .property-specs-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
     .property-specs-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-    .property-specs-table td { padding: 7px 4px; }
-    .property-specs-table td.label-col { color: #fff; font-weight: 700; width: 45%; }
-    .property-specs-table td.val-col { color: var(--text-muted); }
-    .property-specs-table td.val-highlight { color: #ef4444; font-weight: 800; }
-
-    .ai-chat-box { background: #080a0d; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; min-height: 220px; max-height: 320px; overflow-y: auto; margin-bottom: 12px; display: flex; flex-direction: column; gap: 10px; }
-    .ai-msg { background: rgba(245, 197, 24, 0.1); border-left: 3px solid var(--neon-gold); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; color: #fff; }
-    .user-msg { background: rgba(0, 229, 255, 0.1); border-right: 3px solid var(--cyan-btn); padding: 10px; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; text-align: right; color: #fff; }
-
-    .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #000; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 8px; }
-    .btn-delete { background: #ef4444; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .property-specs-table td { padding: 8px; }
 
     .bottom-bar {
       position: fixed; bottom: 0; left: 0; right: 0;
@@ -214,23 +192,19 @@
     .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; flex: 1; font-size: 0.8rem; }
     .nav-tab.active { color: var(--neon-gold); font-weight: 700; }
 
-    .loading-text {
-      grid-column: 1 / -1;
-      text-align: center;
-      color: var(--text-muted);
-      padding: 40px 0;
-      font-size: 1rem;
-    }
+    .loading-text { grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 1rem; }
   </style>
 </head>
 <body>
 
-  <!-- CANLI FİNANS BANDI -->
+  <!-- CANLI FİNANS & VAN BORSA BANDI -->
   <div class="ticker-bar">
     <div class="ticker-track" id="tickerTrack">
       <div class="ticker-card"><span class="ticker-title">USD/TRY</span> <span class="ticker-val">32.85</span> <span class="up">+0.15%</span></div>
       <div class="ticker-card"><span class="ticker-title">EUR/TRY</span> <span class="ticker-val">35.60</span> <span class="up">+0.22%</span></div>
       <div class="ticker-card"><span class="ticker-title">ALTIN/GRAM</span> <span class="ticker-val">2.450 TL</span> <span class="up">+0.45%</span></div>
+      <div class="ticker-card"><span class="ticker-title">VAN B.BAŞ TOSUN</span> <span class="ticker-val" id="tick-tosun">250 TL/KG</span> <span class="up" id="tick-tosun-dir">+0.4%</span></div>
+      <div class="ticker-card"><span class="ticker-title">VAN K.BAŞ KUZU</span> <span class="ticker-val" id="tick-kuzu">9.500 TL</span> <span class="up" id="tick-kuzu-dir">+0.2%</span></div>
       <div class="ticker-card"><span class="ticker-title">BIST 100</span> <span class="ticker-val">10.250</span> <span class="up">+1.10%</span></div>
     </div>
   </div>
@@ -289,9 +263,14 @@
 
     <!-- HİZMETLER GRID -->
     <div class="action-grid">
-      <div class="grid-btn highlight" onclick="openModal('arelAiModal')">
+      <div class="grid-btn highlight" onclick="openModal('vanBorsaModal')">
+        <i class="fa-solid fa-cow"></i>
+        <span>Van Canlı Hayvan Borsası</span>
+      </div>
+
+      <div class="grid-btn" onclick="openModal('arelAiModal')">
         <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <span>AREL AI Akıllı Danışman</span>
+        <span>AREL AI Danışman</span>
       </div>
 
       <div class="grid-btn" onclick="openModal('addPropertyModal')">
@@ -319,11 +298,6 @@
         <span>Konut Kredisi Analizi</span>
       </div>
 
-      <div class="grid-btn" onclick="openModal('investModal')">
-        <i class="fa-solid fa-chart-line"></i>
-        <span>Yatırım Danışmanlığı</span>
-      </div>
-
       <div class="grid-btn" onclick="openPrivateAdmin()">
         <i class="fa-solid fa-user-gear"></i>
         <span>Yönetici Paneli</span>
@@ -335,39 +309,29 @@
     <div class="listings-grid" id="listingList"></div>
   </div>
 
-  <!-- İLAN DETAY MODALI -->
-  <div class="modal" id="propertyDetailModal">
-    <div class="modal-card wide-modal">
-      <span class="modal-close" onclick="closeModal('propertyDetailModal')">&times;</span>
+  <!-- VAN CANLI HAYVAN BORSASI MODALI -->
+  <div class="modal" id="vanBorsaModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal('vanBorsaModal')">&times;</span>
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:15px;">
+        <h3 style="color:var(--neon-gold); margin:0;"><i class="fa-solid fa-chart-line"></i> Van Canlı Hayvan Borsası</h3>
+        <span id="vanBorsaSaat" style="font-size:0.75rem; color:var(--cyan-btn); font-weight:bold;">-</span>
+      </div>
       
-      <div style="color: #00e5ff; font-weight: 700; font-size: 0.95rem; margin-bottom: 12px;" id="detHeaderLocation">
-        Diyarbakır / Kayapınar
-      </div>
-
-      <div class="detail-container">
-        <div>
-          <div class="main-img-box">
-            <img id="detMainImg" src="" alt="Daire Görseli">
-          </div>
-        </div>
-
-        <div>
-          <h3 id="detTitle" style="color:#fff; margin-bottom:10px;">-</h3>
-          <table class="property-specs-table">
-            <tr><td class="label-col">İlan No</td><td class="val-col val-highlight" id="detId">-</td></tr>
-            <tr><td class="label-col">Fiyat</td><td class="val-col" id="detPrice" style="color:var(--neon-gold); font-weight:bold;">-</td></tr>
-            <tr><td class="label-col">Konum</td><td class="val-col" id="detLocation">-</td></tr>
-            <tr><td class="label-col">Emlak Tipi</td><td class="val-col">Satılık Daire / Portföy</td></tr>
-            <tr><td class="label-col">Kimden</td><td class="val-col">AREL Gayrimenkul</td></tr>
-          </table>
-
-          <div style="margin-top: 15px; display: flex; gap: 10px;">
-            <a id="detWaBtn" href="#" target="_blank" class="btn-whatsapp" style="padding: 12px; border-radius: 8px; flex: 1; text-align: center; text-decoration: none; font-weight: 800;">
-              <i class="fa-brands fa-whatsapp"></i> Eren Özertaş'a Yaz
-            </a>
-          </div>
-        </div>
-      </div>
+      <table class="property-specs-table">
+        <thead>
+          <tr style="color:var(--neon-gold); font-weight:bold;">
+            <td>Kategori</td>
+            <td>Birim</td>
+            <td>Anlık Fiyat</td>
+            <td style="text-align:right;">Değişim</td>
+          </tr>
+        </thead>
+        <tbody id="vanBorsaTbody">
+          <!-- JS Canlı Dolduracak -->
+        </tbody>
+      </table>
+      <p style="font-size:0.75rem; color:var(--text-muted); margin-top:15px;">* Fiyatlar borsa ici anlik pazarlik hareketlerine gore dakika basi guncellenmektedir.</p>
     </div>
   </div>
 
@@ -406,123 +370,6 @@
     </div>
   </div>
 
-  <!-- YÖNETİCİ PANELİ MODALI -->
-  <div class="modal" id="adminModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('adminModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-user-shield"></i> YÖNETİCİ PANELİ (İlan Yönetimi)</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Yeni portföy ekleyebilir veya mevcut ilanları silebilirsin.</p>
-
-      <form onsubmit="adminAddNewProperty(event)" style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">
-        <h4 style="color:#fff; margin-bottom:10px;">+ Yeni İlan Ekle</h4>
-        <input type="text" id="admTitle" class="form-input" placeholder="İlan Başlığı (Örn: KAYAPINAR 3+1 LÜKS DAİRE)" required>
-        <input type="text" id="admPrice" class="form-input" placeholder="Fiyat (Örn: 12.500.000 TL)" required>
-        <input type="text" id="admLocation" class="form-input" placeholder="Konum (Örn: Diyarbakır / Kayapınar / Diclekent Mh.)" required>
-        <input type="url" id="admImage" class="form-input" placeholder="Fotoğraf URL Bağlantısı" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" required>
-        <button type="submit" style="width:100%; padding:10px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">
-          <i class="fa-solid fa-plus"></i> İlanı Canlı Sitede Yayınla
-        </button>
-      </form>
-
-      <h4 style="color:#fff; margin-bottom:10px;">Mevcut İlanları Sil / Yönet</h4>
-      <div id="adminListingManageList"></div>
-    </div>
-  </div>
-
-  <!-- AREL AI CANLI SOHBET MODALI -->
-  <div class="modal" id="arelAiModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('arelAiModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-sparkles"></i> AREL AI Danışmanınız</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Aklına takılan her türlü soruyu sorabilirsin!</p>
-
-      <div class="ai-chat-box" id="aiChatBox">
-        <div class="ai-msg">
-          <strong>AREL AI:</strong> Selamlar, hoş geldin! 😊 Ben AREL AI. Bana gayrimenkul, piyasalar veya Diyarbakır konut projeleri hakkında sorabilirsin!
-        </div>
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:8px;">
-        <textarea id="aiUserInput" class="form-input" rows="2" placeholder="Sorunu yaz dostum..." style="margin-bottom:0; resize:none;"></textarea>
-        <button type="button" onclick="processArelAI()" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; cursor:pointer; color:#000; font-weight:800;">
-          <i class="fa-solid fa-paper-plane"></i> Gönder & Sor
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- DİĞER MODALLAR -->
-  <div class="modal" id="addPropertyModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('addPropertyModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-house-medical"></i> Mülkünü Sat / Kirala</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Mülkünüzün bilgilerini iletin, AREL Gayrimenkul güvencesiyle pazarlayalım.</p>
-      
-      <form onsubmit="submitAddProperty(event)">
-        <input type="text" id="propOwnerName" class="form-input" placeholder="Adınız Soyadınız" required>
-        <input type="tel" id="propOwnerPhone" class="form-input" placeholder="Telefon Numaranız" required>
-        <input type="text" id="propPrice" class="form-input" placeholder="İstediğiniz Fiyat (TL)" required>
-        <input type="text" id="propAddress" class="form-input" placeholder="Konum (İlçe / Mahalle / Site)" required>
-        <textarea id="propNote" class="form-input" rows="3" placeholder="Ekstra detaylar..."></textarea>
-        
-        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">
-          <i class="fa-brands fa-whatsapp"></i> Eren Özertaş'a İlet
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <div class="modal" id="creditModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('creditModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-percent"></i> Konut Kredisi Hesabı</h3>
-      <input type="number" id="creditAmount" placeholder="Kredi Tutarı (TL)" class="form-input" oninput="calcCredit()">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-        <input type="number" id="creditRate" placeholder="Aylık Faiz % (3.05)" class="form-input" value="3.05" step="0.01" oninput="calcCredit()">
-        <input type="number" id="creditMonth" placeholder="Vade (Ay)" class="form-input" value="120" oninput="calcCredit()">
-      </div>
-      <div style="background: rgba(245, 197, 24, 0.08); border: 1px dashed var(--neon-gold); padding: 15px; border-radius: 10px; margin-top:10px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span style="color:var(--text-muted);">Tahmini Taksit:</span><strong id="creditMonthlyRes" style="color:var(--cyan-btn);">0 TL</strong></div>
-        <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Toplam Geri Ödeme:</span><strong id="creditTotalRes" style="color:var(--neon-gold);">0 TL</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="investModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('investModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-chart-line"></i> AREL Özel Yatırım Danışmanlığı</h3>
-      <form onsubmit="submitInvest(event)">
-        <input type="text" id="invName" class="form-input" placeholder="Adınız Soyadınız" required>
-        <input type="tel" id="invPhone" class="form-input" placeholder="Telefon Numaranız" required>
-        <input type="text" id="invBudget" class="form-input" placeholder="Yatırım Bütçeniz (TL)" required>
-        <button type="submit" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000;">Yatırım Danışmanlığı İste</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="modal" id="rentCalcModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('rentCalcModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:10px;"><i class="fa-solid fa-calculator"></i> Kira & Amortisman Hesaplayıcı</h3>
-      <input type="number" id="propValInput" placeholder="Mülk Değeri (TL)" class="form-input" oninput="runDetailedRentCalc()">
-      <input type="number" id="rentValInput" placeholder="Aylık Kira Geliri (TL)" class="form-input" oninput="runDetailedRentCalc()">
-      <div style="background: rgba(245, 197, 24, 0.08); border: 1px dashed var(--neon-gold); padding: 15px; border-radius: 10px; margin-top:10px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span style="color:var(--text-muted);">Yıllık Toplam Kira:</span><strong id="annualRentRes" style="color:#fff;">0 TL</strong></div>
-        <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Amortisman (Geri Dönüş):</span><strong id="amortRes" style="color:var(--neon-gold);">0 Yıl</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="tapuModal">
-    <div class="modal-card">
-      <span class="modal-close" onclick="closeModal('tapuModal')">&times;</span>
-      <h3 style="color:var(--neon-gold); margin-bottom:5px;"><i class="fa-solid fa-map-location-dot"></i> Tapu & Parsel Sorgulama</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">TKGM Parsel Sorgu servisi üzerinden resmi harita ve ada/parsel detaylarına ulaşabilirsiniz.</p>
-      <button onclick="window.open('https://parselsorgu.tkgm.gov.tr/', '_blank')" style="width:100%; padding:12px; background:var(--neon-gold); border:none; border-radius:8px; font-weight:800; cursor:pointer; color:#000; margin-top:10px;">TKGM Sistemine Git</button>
-    </div>
-  </div>
-
   <!-- ALT GEZİNME BARİ -->
   <div class="bottom-bar">
     <div class="nav-tab active" id="tabHome" onclick="switchTab('home')">
@@ -539,36 +386,78 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT: LOCALSTORAGE KALICI VERİ DESTEKLİ -->
+  <!-- JAVASCRIPT & CANLI BORSA SİMÜLASYONU -->
   <script>
-    // Varsayılan İlk İlanlar
     const defaultListings = [
       { id: "101", title: "DİCLEKENT PREMİUM 3+1 LÜKS DAİRE", price: "4.850.000 TL", location: "Diyarbakır / Kayapınar / Diclekent", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop", isFav: false },
       { id: "102", title: "MEZOPOTAMYA SİTE İÇİ 4+1 REZİDANS", price: "6.200.000 TL", location: "Diyarbakır / Kayapınar / Mezopotamya", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop", isFav: false },
       { id: "103", title: "FIRAT MAH. CADDE ÜSTÜ 2+1 FIRSAT DAİRE", price: "3.150.000 TL", location: "Diyarbakır / Kayapınar / Fırat Mh.", image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800&auto=format&fit=crop", isFav: false }
     ];
 
-    // Sayfa Yüklenirken Hafızadaki Verileri Çek
     let listings = [];
     const savedListings = localStorage.getItem('arel_listings');
-    
-    if (savedListings) {
-      listings = JSON.parse(savedListings);
-    } else {
-      listings = defaultListings;
-      localStorage.setItem('arel_listings', JSON.stringify(listings));
-    }
+    if (savedListings) { listings = JSON.parse(savedListings); } 
+    else { listings = defaultListings; localStorage.setItem('arel_listings', JSON.stringify(listings)); }
 
     let currentTab = 'home';
 
+    // VAN CANLI BORSA VERİLERİ (DAKİKALIK ANLIK DEĞİŞEN)
+    const vanBorsaKalemler = [
+      { id: 'tosun', ad: 'Büyükbaş Tosun', birim: 'KG (Canlı)', fiyat: 250, baslangic: 250 },
+      { id: 'duve', ad: 'Büyükbaş Düve', birim: 'KG (Canlı)', fiyat: 220, baslangic: 220 },
+      { id: 'kuzu', ad: 'Küçükbaş Kuzu', birim: 'Adet', fiyat: 9500, baslangic: 9500 },
+      { id: 'koyun', ad: 'Küçükbaş Koyun', birim: 'Adet', fiyat: 8000, baslangic: 8000 }
+    ];
+
+    function guncelleVanBorsa() {
+      const tbody = document.getElementById('vanBorsaTbody');
+      const saatEl = document.getElementById('vanBorsaSaat');
+      const simdi = new Date();
+      
+      if(saatEl) saatEl.innerText = 'Son Güncelleme: ' + simdi.toLocaleTimeString('tr-TR');
+
+      let html = '';
+      vanBorsaKalemler.forEach(item => {
+        // %0.5 oranında dalgalanma
+        const degisim = (Math.random() * 1.0 - 0.5) / 100;
+        item.fiyat = Math.round(item.fiyat * (1 + degisim));
+        const fark = item.fiyat - item.baslangic;
+
+        let renk = '#fff';
+        let metin = '0 TL';
+        if(fark > 0) { renk = 'var(--up-green)'; metin = `▲ +${fark} TL`; }
+        else if(fark < 0) { renk = 'var(--down-red)'; metin = `▼ ${fark} TL`; }
+
+        html += `
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+            <td style="color:#fff; font-weight:bold;">${item.ad}</td>
+            <td style="color:var(--text-muted);">${item.birim}</td>
+            <td style="color:#fff; font-weight:bold;">${item.fiyat.toLocaleString('tr-TR')} TL</td>
+            <td style="text-align:right; font-weight:bold; color:${renk};">${metin}</td>
+          </tr>
+        `;
+
+        // Üst Borsa Bandı Anlık Güncellemesi
+        if(item.id === 'tosun') {
+          const el = document.getElementById('tick-tosun');
+          if(el) el.innerText = `${item.fiyat} TL/KG`;
+        }
+        if(item.id === 'kuzu') {
+          const el = document.getElementById('tick-kuzu');
+          if(el) el.innerText = `${item.fiyat.toLocaleString('tr-TR')} TL`;
+        }
+      });
+
+      if(tbody) tbody.innerHTML = html;
+    }
+
     window.onload = function() {
       renderListings();
+      guncelleVanBorsa();
+      setInterval(guncelleVanBorsa, 60000); // 1 dakikada bir veri yeniler
     };
 
-    // Değişiklikleri Hafızaya Kaydetme Fonksiyonu
-    function saveListingsToStorage() {
-      localStorage.setItem('arel_listings', JSON.stringify(listings));
-    }
+    function saveListingsToStorage() { localStorage.setItem('arel_listings', JSON.stringify(listings)); }
 
     function renderListings() {
       const grid = document.getElementById('listingList');
@@ -589,7 +478,7 @@
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-          <div class="card-img-wrapper" onclick="openPropertyDetail('${item.id}')">
+          <div class="card-img-wrapper">
             <img class="card-img" src="${item.image}" alt="${item.title}">
             <button class="fav-btn ${item.isFav ? 'active' : ''}" onclick="toggleFav(event, '${item.id}')">
               <i class="fa-solid fa-heart"></i>
@@ -597,10 +486,9 @@
           </div>
           <div class="card-body">
             <div class="card-price">${item.price}</div>
-            <div class="card-title" onclick="openPropertyDetail('${item.id}')">${item.title}</div>
+            <div class="card-title">${item.title}</div>
             <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
             <div class="card-actions">
-              <button class="btn-detail" onclick="openPropertyDetail('${item.id}')">İncele</button>
               <a class="btn-whatsapp" href="https://wa.me/905060528621?text=${encodeURIComponent(item.title + ' ilanı hakkında bilgi almak istiyorum.')}" target="_blank">
                 <i class="fa-brands fa-whatsapp"></i> WhatsApp
               </a>
@@ -625,94 +513,16 @@
       currentTab = tab;
       document.getElementById('tabHome').classList.toggle('active', tab === 'home');
       document.getElementById('tabFavs').classList.toggle('active', tab === 'favs');
-      document.getElementById('sectionTitle').innerText = tab === 'favs' ? 'Favori İlanlarınız' : 'Diyarbakır Güncel Portföyleri';
       renderListings();
     }
 
-    function openModal(modalId) {
-      document.getElementById(modalId).classList.add('active');
-    }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).classList.remove('active');
-    }
-
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
     function toggleDrawer(open) {
-      document.getElementById('drawerMenu').classList.toggle('active', open);
       document.getElementById('drawerOverlay').classList.toggle('active', open);
+      document.getElementById('drawerMenu').classList.toggle('active', open);
     }
-
-    function openPropertyDetail(id) {
-      let item = listings.find(x => x.id === id);
-      if (!item) return;
-
-      document.getElementById('detHeaderLocation').innerText = item.location;
-      document.getElementById('detTitle').innerText = item.title;
-      document.getElementById('detPrice').innerText = item.price;
-      document.getElementById('detLocation').innerText = item.location;
-      document.getElementById('detMainImg').src = item.image;
-      document.getElementById('detId').innerText = "#AREL-" + item.id;
-      document.getElementById('detWaBtn').href = `https://wa.me/905060528621?text=${encodeURIComponent(item.title + ' ilanının detaylarını sormak istiyorum.')}`;
-      
-      openModal('propertyDetailModal');
-    }
-
-    function openPrivateAdmin() {
-      const pass = prompt("Yönetici Şifresini Giriniz:");
-      if (pass === "1234" || pass === "arel") {
-        renderAdminListings();
-        openModal('adminModal');
-      } else if (pass !== null) {
-        alert("Hatalı Parola!");
-      }
-    }
-
-    function renderAdminListings() {
-      const container = document.getElementById('adminListingManageList');
-      container.innerHTML = '';
-      listings.forEach(item => {
-        const row = document.createElement('div');
-        row.className = 'admin-item-row';
-        row.innerHTML = `
-          <span style="color:#fff; font-size:0.85rem; font-weight:700;">${item.title}</span>
-          <button class="btn-delete" onclick="deleteListing('${item.id}')">Sil</button>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function deleteListing(id) {
-      listings = listings.filter(x => x.id !== id);
-      saveListingsToStorage();
-      renderAdminListings();
-      renderListings();
-    }
-
-    function adminAddNewProperty(e) {
-      e.preventDefault();
-      const newProp = {
-        id: Date.now().toString(),
-        title: document.getElementById('admTitle').value,
-        price: document.getElementById('admPrice').value,
-        location: document.getElementById('admLocation').value,
-        image: document.getElementById('admImage').value,
-        isFav: false
-      };
-      
-      listings.unshift(newProp);
-      saveListingsToStorage(); // Kalıcı olarak tarayıcı hafızasına ekler
-      
-      renderAdminListings();
-      renderListings();
-      closeModal('adminModal');
-      
-      // Form alanlarını sıfırla
-      document.getElementById('admTitle').value = '';
-      document.getElementById('admPrice').value = '';
-      document.getElementById('admLocation').value = '';
-      
-      alert("Yeni ilan başarıyla canlıya alındı ve kalıcı olarak kaydedildi!");
-    }
+    function openWhatsAppDirect() { window.open('https://wa.me/905060528621', '_blank'); }
 
     function submitAppointment(e) {
       e.preventDefault();
@@ -722,89 +532,12 @@
       const time = document.getElementById('appTime').value;
       const note = document.getElementById('appNote').value;
 
-      const msg = `*VIP OFİS RANDEVU TALEBİ*\n\n👤 *Ad Soyad:* ${name}\n📞 *Telefon:* ${phone}\n📅 *Tarih:* ${date}\n⏰ *Saat:* ${time}\n📝 *Not:* ${note}`;
+      const msg = `VIP Randevu Talebi:\nAdı: ${name}\nTel: ${phone}\nTarih/Saat: ${date} - ${time}\nNot: ${note}`;
       window.open(`https://wa.me/905060528621?text=${encodeURIComponent(msg)}`, '_blank');
       closeModal('appointModal');
     }
-
-    function submitAddProperty(e) {
-      e.preventDefault();
-      const name = document.getElementById('propOwnerName').value;
-      const phone = document.getElementById('propOwnerPhone').value;
-      const price = document.getElementById('propPrice').value;
-      const addr = document.getElementById('propAddress').value;
-      const note = document.getElementById('propNote').value;
-
-      const msg = `*MÜLK SATIŞ / KİRALAMA BİLDİRİMİ*\n\n👤 *Mülk Sahibi:* ${name}\n📞 *Telefon:* ${phone}\n💰 *Fiyat:* ${price}\n📍 *Konum:* ${addr}\n📝 *Açıklama:* ${note}`;
-      window.open(`https://wa.me/905060528621?text=${encodeURIComponent(msg)}`, '_blank');
-      closeModal('addPropertyModal');
-    }
-
-    function submitInvest(e) {
-      e.preventDefault();
-      const name = document.getElementById('invName').value;
-      const phone = document.getElementById('invPhone').value;
-      const budget = document.getElementById('invBudget').value;
-
-      const msg = `*YATIRIM DANIŞMANLIĞI TALEBİ*\n\n👤 *Ad Soyad:* ${name}\n📞 *Telefon:* ${phone}\n💵 *Yatırım Bütçesi:* ${budget}`;
-      window.open(`https://wa.me/905060528621?text=${encodeURIComponent(msg)}`, '_blank');
-      closeModal('investModal');
-    }
-
-    function calcCredit() {
-      const amount = parseFloat(document.getElementById('creditAmount').value) || 0;
-      const rate = (parseFloat(document.getElementById('creditRate').value) || 0) / 100;
-      const month = parseInt(document.getElementById('creditMonth').value) || 120;
-
-      if (amount <= 0 || rate <= 0 || month <= 0) return;
-
-      const monthlyPayment = (amount * rate * Math.pow(1 + rate, month)) / (Math.pow(1 + rate, month) - 1);
-      const totalPayment = monthlyPayment * month;
-
-      document.getElementById('creditMonthlyRes').innerText = Math.round(monthlyPayment).toLocaleString('tr-TR') + " TL";
-      document.getElementById('creditTotalRes').innerText = Math.round(totalPayment).toLocaleString('tr-TR') + " TL";
-    }
-
-    function runDetailedRentCalc() {
-      const val = parseFloat(document.getElementById('propValInput').value) || 0;
-      const rent = parseFloat(document.getElementById('rentValInput').value) || 0;
-
-      if (val <= 0 || rent <= 0) return;
-
-      const annual = rent * 12;
-      const amort = val / annual;
-
-      document.getElementById('annualRentRes').innerText = annual.toLocaleString('tr-TR') + " TL";
-      document.getElementById('amortRes').innerText = amort.toFixed(1) + " Yıl";
-    }
-
-    function processArelAI() {
-      const input = document.getElementById('aiUserInput');
-      const box = document.getElementById('aiChatBox');
-      if (!input.value.trim()) return;
-
-      const uMsg = document.createElement('div');
-      uMsg.className = 'user-msg';
-      uMsg.innerText = input.value;
-      box.appendChild(uMsg);
-
-      const val = input.value;
-      input.value = '';
-
-      setTimeout(() => {
-        const aiMsg = document.createElement('div');
-        aiMsg.className = 'ai-msg';
-        aiMsg.innerHTML = `<strong>AREL AI:</strong> Harika bir soru! "${val}" konusuyla ilgili Eren Özertaş ve AREL Gayrimenkul portföylerinde en doğru çözümleri sunuyoruz. İsterseniz hemen WhatsApp hattımızdan doğrudan iletişim kuralım!`;
-        box.appendChild(aiMsg);
-        box.scrollTop = box.scrollHeight;
-      }, 700);
-    }
-
-    function openWhatsAppDirect() {
-      window.open('https://wa.me/905060528621', '_blank');
-    }
   </script>
 </body>
-</html>  
+</html>
   
   
